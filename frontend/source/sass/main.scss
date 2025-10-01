@@ -1,0 +1,44 @@
+// Конфигурация
+@import "_config";
+@import "_mixins";
+@import "vendor/_normalize";
+@import "vendor/aos/aos";
+@import "_ui";
+
+// Основные
+@import "_fonts";
+@import "_icons";
+@import "_html";
+@import "_utilities";
+@import "_buttons";
+@import "_forms";
+@import "_table";
+@import "_paginator";
+@import "_calendar";
+@import "_error";
+@import "_animations";
+
+//
+@import "layout/_header";
+@import "layout/_mobile";
+@import "layout/_footer";
+
+// Блоки
+@import "blocks/_index";
+@import "blocks/_auth";
+@import "blocks/_cart";
+@import "blocks/_pagination";
+@import "blocks/_cookie";
+
+@import "blocks/_screen";
+@import "blocks/_order";
+
+@import "modals/_index";
+@import "modals/_confirm";
+@import "modals/_transaction-new";
+@import "modals/_chat";
+@import "modals/_notify";
+@import "modals/_accumulations";
+
+// Модификаторы
+@import "_modificator";

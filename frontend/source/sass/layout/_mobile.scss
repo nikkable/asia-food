@@ -1,0 +1,58 @@
+.mobile {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 100%;
+  background: $color-black;
+  z-index: 10;
+  box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.25);
+  visibility: hidden;
+  transform: translateX(110%);
+  transition: all 0.3s linear;
+  @media(max-width: #{$break-max-xxl}) {
+    display: block;
+  }
+  &.mobile-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+  &-main {
+    padding: 3rem;
+  }
+
+  &-close {
+    position: absolute;
+    top: 10px;
+    left: -50px;
+    padding: 5px 10px;
+  }
+  &-menu {
+    margin: 0;
+    padding: 0;
+    li {
+      list-style: none;
+      margin-bottom: 1rem;
+      a {
+        color: $color-white;
+      }
+    }
+  }
+
+  .lang {
+    &-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 5px;
+    }
+    &-box {
+      &-left {
+        min-height: 40px;
+        padding: 0.5rem 1rem;
+        border-radius: 15px;
+      }
+    }
+  }
+}

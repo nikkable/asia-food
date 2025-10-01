@@ -1,0 +1,138 @@
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0.5rem 2rem;
+  border: none;
+  box-shadow: none;
+  background: none;
+  text-shadow: none;
+  font-size: 1.8rem;
+  line-height: 1;
+  font-weight: 500;
+  color: $color-black;
+  cursor: pointer;
+  border-radius: 16px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+  &:hover, &:focus {
+    text-decoration: inherit;
+    color: inherit;
+  }
+  &-primary {
+    color: $color-white;
+    background: $color-green;
+    &:hover, &:focus {
+      background: rgba($color-green, 0.8);
+      color: $color-white;
+    }
+    &:hover {
+      background: rgba($color-green, 0.8);
+    }
+    &:active {
+      background: $color-green;
+    }
+    &:disabled, &.disabled {
+      background: $color-grey-light;
+      color: $color-grey-3;
+      cursor: default;
+    }
+  }
+  &-secondary {
+    background: $color-grey;
+    &:hover, &:focus {
+      background: $color-grey;
+      color: $color-black;
+    }
+    &:hover {
+      background: $color-grey;
+      color: $color-black;
+    }
+    &:active {
+      background: $color-grey;
+      color: $color-black;
+    }
+    &:disabled, &.disabled {
+      color: $color-grey-3;
+      cursor: default;
+    }
+  }
+  &-three {
+    color: $color-white;
+    background: #6A00EB;
+    &:hover, &:focus {
+      background: #6A00EB;
+      color: $color-white;
+    }
+    &:hover {
+      background: #6A00EB;
+      color: $color-white;
+    }
+    &:active {
+      background: #6A00EB;
+      color: $color-white;
+    }
+    &:disabled, &.disabled {
+      color: $color-grey-3;
+      cursor: default;
+    }
+  }
+  &-foo {
+    background: $color-black;
+    color: $color-white;
+    &:hover, &:focus {
+      background: rgba($color-black, 0.8);
+      color: $color-white;
+    }
+    &:hover {
+      background: rgba($color-black, 0.8);
+      color: $color-white;
+    }
+    &:active {
+      background: $color-black;
+      color: $color-white;
+    }
+    &:disabled, &.disabled {
+      color: $color-grey-light;
+      cursor: default;
+    }
+  }
+  &-five {
+    background: rgba($color-black, 0.8);
+    color: $color-white;
+    &:hover, &:focus {
+      background: rgba($color-black, 0.8);
+      color: $color-white;
+    }
+    &:hover {
+      background: rgba($color-black, 0.8);
+      color: $color-white;
+    }
+    &:active {
+      background: $color-black;
+      color: $color-white;
+    }
+    &:disabled, &.disabled {
+      color: $color-grey-light;
+      cursor: default;
+    }
+  }
+
+
+
+  &-small {
+    min-height: 30px;
+  }
+
+  &-prev {
+    padding: 0;
+    min-height: 30px;
+    color: $color-black;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

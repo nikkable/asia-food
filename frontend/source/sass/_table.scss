@@ -1,0 +1,226 @@
+// table
+.table {
+  font-size: 1.2rem;
+  .table-head {
+    margin-bottom: 1.2rem;
+  }
+
+  &-container {
+    overflow-x: auto;
+  }
+
+  &-head {
+    .table-col {
+      color: $color-grey;
+    }
+  }
+  &-main {
+    border-radius: 15px;
+    .table-row {
+      min-height: 4.8rem;
+      &:first-child {
+        .table-col {
+          border-top: 1px solid $color-white-dark;
+          &:first-child {
+            border-radius: 15px 0 0 0;
+          }
+          &:last-child {
+            border-radius: 0 15px 0 0;
+          }
+        }
+      }
+      &:last-child {
+        .table-col {
+          &:first-child {
+            border-radius: 0 0 0 15px;
+          }
+          &:last-child {
+            border-radius: 0 0 15px 0;
+          }
+        }
+      }
+    }
+    .table-col {
+      border-bottom: 1px solid $color-white-dark;
+      background: $color-white;
+      &:first-child {
+        border-left: 1px solid $color-white-dark;
+      }
+      &:last-child {
+        border-right: 1px solid $color-white-dark;
+      }
+    }
+  }
+
+  &-row {
+    position: relative;
+    display: flex;
+  }
+
+  &-col {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0 10px;
+    padding: 10px 15px;
+    width: 100%;
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+    min-width: 150px;
+    &--center {
+      text-align: center;
+      justify-content: center;
+    }
+    &--right {
+      text-align: right;
+      justify-content: flex-end;
+    }
+    &--sort {
+      cursor: pointer;
+    }
+
+    &-name {
+
+    }
+  }
+
+  &-sort {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    &--desc {
+      svg path {
+        fill: $color-grey;
+      }
+    }
+    &--asc {
+      transform: scale(1, -1);
+      svg path {
+        fill: $color-grey;
+      }
+    }
+  }
+  &-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
+    border: none;
+    background: none;
+    border-radius: 0;
+    padding: 3px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+// table-mobile
+.table-mobile {
+  &-container {
+    .table-mobile-card {
+      margin-bottom: 1.2rem;
+    }
+  }
+
+  &-card {
+    border: 1px solid $color-white-middle;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    &--hidden {
+      .table-mobile-card-more {
+        svg {
+          transform: rotate(0);
+        }
+      }
+      .table-mobile-card-main {
+        display: none;
+      }
+    }
+
+    &-head {
+      padding: 1.6rem;
+      border-bottom: 1px solid $color-white-middle;
+      .table-mobile-card-row {
+
+      }
+    }
+    &-main {
+      padding: 1.6rem;
+      .table-mobile-card-row {
+        margin-bottom: 1.2rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    &-foot {
+      padding: 1.6rem;
+    }
+
+    &-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      .table-mobile-card-col {
+        &:first-child {
+          color: $color-grey;
+          flex-grow: 1;
+        }
+        &:last-child {
+
+        }
+      }
+    }
+
+    &-col {
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+    }
+
+    &-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 0 8px;
+      line-height: 1;
+      color: $color-blue;
+      svg {
+        transform: rotate(90deg);
+        path {
+          stroke: $color-blue;
+        }
+      }
+    }
+  }
+}
+
+// table-copy
+.table-copy {
+  display: flex;
+  align-items: center;
+  gap: 0 12px;
+  &-value {
+
+  }
+  &-icon {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    color: $color-blue;
+    font-weight: 400;
+  }
+  &:hover {
+    cursor: pointer;
+    .table-copy-icon {
+      display: inline-flex;
+    }
+  }
+  &--copied {
+    .table-copy-icon {
+      display: inline-flex;
+    }
+  }
+}

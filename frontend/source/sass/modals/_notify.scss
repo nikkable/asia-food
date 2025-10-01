@@ -1,0 +1,30 @@
+.modal-notify {
+  .modal-dialog {
+    max-width: 400px;
+    @media(max-width: #{$break-max-md}) {
+      max-width: unset;
+    }
+  }
+
+  &-icon {
+    display: flex;
+    justify-content: center;
+  }
+  &-title {
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: $color-black-light;
+    text-align: center;
+  }
+  &-desc {
+    font-size: 1.4rem;
+    color: $color-black-light;
+    text-align: center;
+  }
+  &-buts {
+    .btn {
+      width: 100%;
+
+    }
+  }
+}

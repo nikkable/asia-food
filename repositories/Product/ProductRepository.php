@@ -8,6 +8,11 @@ use repositories\Category\models\Category;
 
 class ProductRepository implements ProductRepositoryInterface
 {
+    public function findById(int $id): ?Product
+    {
+        return Product::find()->where(['id' => $id, 'status' => 1])->one();
+    }
+
     public function findBySlug(string $slug): ?Product
     {
         return Product::find()->where(['slug' => $slug, 'status' => 1])->one();

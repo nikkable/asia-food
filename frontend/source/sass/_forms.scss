@@ -1,0 +1,584 @@
+.form-group {
+  margin-bottom: 2rem;
+  &-relate {
+    position: relative;
+  }
+  label {
+    display: inline-block;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+}
+
+.field {
+  &-text, &-textarea, &-selected {
+    width: 100%;
+    height: 60px;
+    border: 1px solid $color-grey;
+    background-color: $color-grey;
+    border-radius: 16px;
+    font-size: 1.8rem;
+    padding: 0 2rem;
+    &-button {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: 0;
+      right: 16px;
+      bottom: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+      background: none;
+      box-shadow: none;
+      border: none;
+      padding: 0;
+    }
+    &:valid, &.valid, &.filled {
+      border-color: $color-white;
+    }
+    &:invalid, &.field-error {
+      border-color: $color-red;
+    }
+    &:hover {
+      border-color: $color-black;
+    }
+    &:focus {
+      border: 1px solid $color-blue;
+      outline: 1px solid $color-blue;
+    }
+    &:disabled, &.disabled {
+      border-color: $color-grey-light;
+      color: $color-grey-dark;
+    }
+  }
+  &-textarea {
+    height: unset;
+    padding: 1.8rem;
+    max-width: 100%;
+  }
+  &-selected {
+    appearance: none;
+    &-wrap {
+      position: relative;
+      &:after {
+        content: "";
+        display: block;
+        pointer-events: none;
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 16px;
+        height: 16px;
+        background: url("../images/arrow.svg") center center no-repeat;
+      }
+    }
+  }
+  &-dropdown {
+    position: relative;
+    &-selected {
+      svg {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 16px;
+        margin: auto 0;
+        transition: all 0.3s linear;
+      }
+      &--disable {
+
+      }
+
+      .field-text {
+        &:disabled {
+          background-color: $color-white;
+          color: $color-black;
+          &:hover {
+            border-color: $color-grey-middle;
+          }
+        }
+      }
+    }
+    .field-dropdown-options {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      margin-top: 2px;
+      z-index: 10;
+      &:before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+      }
+    }
+    &--show {
+      .field-dropdown-selected {
+        svg {
+          transform: scale(1, -1);
+        }
+      }
+      .field-dropdown-options {
+        display: block;
+      }
+    }
+    &:not(.field-dropdown--nohover) {
+      &:hover {
+        .field-dropdown-selected {
+          svg {
+            transform: scale(1, -1);
+          }
+        }
+        .field-dropdown-options {
+          display: block;
+        }
+      }
+    }
+    &--show {
+      display: block;
+    }
+    &-options {
+      width: 100%;
+      padding: 1.2rem 1.6rem;
+      background: $color-white;
+      border: 1px solid $color-white-middle;
+      border-radius: 4px;
+      box-shadow: 0 7px 7px rgba($color-black, 0.04);
+    }
+    &-option {
+      display: flex;
+      align-items: center;
+      gap: 0 10px;
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 4px;
+      border: none;
+      box-shadow: none;
+      background: $color-white;
+      text-align: left;
+      font-size: 1.6rem;
+      font-weight: 500;
+      margin-bottom: 1px;
+      &--radius {
+        border-radius: 15px;
+      }
+      &--button {
+        display: flex;
+        align-items: center;
+        gap: 0 8px;
+        color: $color-blue;
+        font-weight: 400;
+      }
+      &:hover {
+        background: $color-white-middle;
+        cursor: pointer;
+      }
+    }
+    &-checkbox {
+      margin-bottom: 0.4rem;
+      &.field-checkbox {
+        input[type="checkbox"] {
+          & + label {
+            padding: 0.8rem;
+            border-radius: 15px;
+            width: 100%;
+            font-size: 1.6rem;
+            font-weight: 500;
+          }
+          &:checked {
+            & + label {
+              background: $color-white-middle;
+              &:before {
+
+              }
+            }
+          }
+        }
+      }
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &--search {
+      &--show {
+        .field-dropdown-selected {
+          svg {
+            transform: scale(1, 1);
+          }
+        }
+      }
+      &:not(.field-dropdown--nohover) {
+        &:hover {
+          .field-dropdown-selected {
+            svg {
+              transform: scale(1, 1);
+            }
+          }
+        }
+      }
+      .field-dropdown {
+        &-checkbox {
+          &.field-checkbox {
+            input[type="checkbox"] {
+              & + label {
+                border-radius: 4px;
+                font-weight: 400;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  &-login {
+    position: relative;
+    &-icon {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      bottom: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+    }
+    .field-text {
+      padding-left: 4.6rem;
+    }
+  }
+  &-password {
+    position: relative;
+    &-icon {
+      position: absolute;
+      top: 0;
+      left: 16px;
+      bottom: 0;
+      margin: auto;
+      width: 20px;
+      height: 20px;
+    }
+    .field-text {
+      padding-left: 4.6rem;
+      padding-right: 4.6rem;
+    }
+  }
+  &-checkbox {
+    display: flex;
+    font-size: 14px;
+    text-align: left;
+    input[type="checkbox"] {
+      position: relative;
+      z-index: -1;
+      opacity: 0;
+      visibility: hidden;
+      height: 1px;
+      width: 1px;
+      & + label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0 8px;
+        &:before {
+          content: '';
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+          flex-grow: 0;
+          border: 1px solid $color-grey-light;
+          border-radius: 0.25em;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 100% 100%;
+        }
+        &:hover {
+          &:before {
+            border-color: $color-grey-middle;
+          }
+        }
+      }
+      &:checked {
+        & + label {
+          &:before {
+            border-color: $color-blue;
+            background-color: $color-blue;
+            background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7.41747 11.6041L7.39985 11.6217L3 7.22185L4.43268 5.78917L7.41752 8.77402L12.1915 4L13.6242 5.43268L7.43514 11.6218L7.41747 11.6041Z' fill='white'/%3E%3C/svg%3E");
+          }
+        }
+      }
+      &:disabled + label {
+        color: $color-grey-light;
+        &:before {
+          background-color: $color-grey-light;
+          border-color: $color-grey-light;
+        }
+      }
+    }
+    label {
+
+    }
+  }
+  &-radio {
+    display: flex;
+    font-size: 14px;
+    text-align: left;
+    input[type="radio"] {
+      position: relative;
+      z-index: -1;
+      opacity: 0;
+      visibility: hidden;
+      height: 1px;
+      width: 1px;
+      & + label {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 0 8px;
+        &:before {
+          content: '';
+          display: inline-block;
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+          flex-grow: 0;
+          border: 1px solid $color-white-middle;
+          border-radius: 50%;
+          background-color: $color-white;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 100% 100%;
+        }
+        &:after {
+          content: '';
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: transparent;
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          z-index: 2;
+        }
+        &:hover {
+          &:before {
+            border-color: $color-blue;
+          }
+        }
+      }
+      &:checked {
+        & + label {
+          &:before {
+            border-color: $color-blue;
+          }
+          &:after {
+            background: $color-blue;
+          }
+        }
+        &:disabled + label {
+          &:after {
+            background: transparent;
+          }
+        }
+      }
+      &:disabled + label {
+        color: $color-grey-light;
+        &:before {
+          background-color: $color-grey-light;
+          border-color: $color-grey-light;
+        }
+        &:after {
+          background: $color-grey-middle;
+        }
+      }
+    }
+    label {
+
+    }
+  }
+  &-file {
+    input[type="file"] {
+      position: absolute;
+      left: -9999px;
+    }
+    &-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0 10px;
+      padding: 3rem;
+      background: rgba($color-blue, 0.05);
+      color: $color-blue;
+      border-radius: 4px;
+      &--added {
+        display: inline-flex;
+        background: none;
+        padding: 0;
+      }
+    }
+    &-items {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 1.6rem;
+      .field-file-item {
+
+      }
+    }
+    &-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 0 8px;
+      min-height: 28px;
+      font-size: 1.4rem;
+      background: $color-white-middle;
+      border-radius: 4px;
+      padding: 0 8px;
+      .btn {
+        padding: 0;
+        min-height: unset;
+      }
+    }
+  }
+  &-error-text {
+    font-size: 1rem;
+    color: $color-red;
+    text-align: right;
+    margin-top: 2px;
+  }
+}
+
+// field label animation
+.form-group-transform {
+  position: relative;
+  .field-text {
+    & ~ .field-label {
+      color: $color-black;
+      left: 1.6rem;
+      line-height: 14px;
+      pointer-events: none;
+      position: absolute;
+      transform-origin: 0 50%;
+      transition: transform 200ms, color 200ms;
+      top: 15px;
+    }
+
+    &:focus, &:not(:placeholder-shown) {
+      padding-top: 10px;
+      &~.field-label {
+        color: $color-grey;
+        text-transform: uppercase;
+        transform: translateY(-10px) translateX(0) scale(0.65);
+      }
+    }
+  }
+}
+
+// ------------------------------------------------------------
+// Multi-select checkbox dropdown (profile form)
+// ------------------------------------------------------------
+.multi-select {
+  position: relative;
+  &-toggle {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    text-align: left;
+    @extend .field-text;
+    height: auto;
+    padding: 0.8rem 1.6rem;
+    position: relative;
+
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 16px;
+      margin: auto 0;
+      width: 16px;
+      height: 16px;
+      background: url("../images/arrow.svg") center center no-repeat;
+      opacity: .8;
+    }
+  }
+
+  &-menu {
+    display: none;
+    position: absolute;
+    z-index: 1000;
+    background: $color-white;
+    border: 1px solid $color-white-middle;
+    border-radius: 10px;
+    width: 100%;
+    max-height: 260px;
+    overflow: auto;
+    box-shadow: 0 7px 7px rgba($color-black, 0.04);
+    margin-top: 4px;
+  }
+
+  &--open {
+    .multi-select-menu { display: block; }
+  }
+
+  &-search {
+    padding: 8px;
+    border-bottom: 1px solid $color-white-middle;
+    border-radius: 10px;
+  }
+  &-search-input {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid $color-grey-dark;
+    border-radius: 4px;
+  }
+
+  &-actions {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    border-bottom: 1px solid $color-white-middle;
+  }
+  &-action {
+    background: transparent;
+    border: none;
+    color: $color-violet;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1.4rem;
+  }
+
+  &-options {
+    padding: 8px;
+    max-height: 200px;
+    overflow: auto;
+  }
+  &-option {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    padding: 6px 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    &:hover { background: $color-white-middle; }
+
+    input[type="checkbox"] { margin: 0; }
+  }
+  &-label {
+    display: inline-block;
+    max-width: 92%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+
+
+
+

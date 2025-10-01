@@ -1,0 +1,60 @@
+.color-ui-box {
+  border-radius: 10px;
+  height: 35px;
+  width: 35px;
+  &-1 {
+    background: $color-black;
+  }
+  &-2 {
+    background: $color-black-middle;
+  }
+  &-3 {
+    background: $color-black-light;
+  }
+  &-4 {
+    background: $color-grey;
+  }
+  &-5 {
+    background: $color-grey-middle;
+  }
+  &-6 {
+    background: $color-grey-light;
+  }
+  &-7 {
+    background: $color-white-dark;
+  }
+  &-8 {
+    background: $color-white-middle;
+  }
+  &-9 {
+    background: $color-white;
+    border: 1px solid $color-white-dark;
+  }
+  &-10 {
+    background: $color-green;
+  }
+  &-11 {
+    background: $color-green-middle;
+  }
+  &-12 {
+    background: $color-green-dark;
+  }
+  &-13 {
+    background: $color-blue;
+  }
+  &-14 {
+    background: $color-blue-middle;
+  }
+  &-15 {
+    background: $color-blue-dark;
+  }
+  &-16 {
+    background: $color-yellow;
+  }
+  &-17 {
+    background: $color-red;
+  }
+  &-18 {
+    background: $color-violet;
+  }
+}

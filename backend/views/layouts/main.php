@@ -40,6 +40,7 @@ AppAsset::register($this);
     } else {
         $menuItems[] = ['label' => 'Home', 'url' => ['/site/index']];
         if (Yii::$app->user->can('manager')) {
+            $menuItems[] = ['label' => 'Заказы', 'url' => ['/order/index']];
             $menuItems[] = ['label' => 'Категории', 'url' => ['/category/index']];
             $menuItems[] = ['label' => 'Товары', 'url' => ['/product/index']];
         }

@@ -15,6 +15,11 @@ class ProductService extends AbstractService implements ProductServiceInterface
     ) {
     }
 
+    public function findById(int $id): ?Product
+    {
+        return $this->productRepository->findById($id);
+    }
+
     public function findBySlug(string $slug): ?Product
     {
         return $this->productRepository->findBySlug($slug);

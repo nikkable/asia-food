@@ -1,0 +1,29 @@
+// Медиа запрос Desktop first
+@mixin media($max-width) {
+  @media(max-width: $max-width){
+    @content;
+  }
+}
+
+// Плавная поочередная анимация для мобильного меню
+@mixin transition {
+  @for $i from 1 through 50 {
+    &:nth-child(#{$i}) {
+      transition: transform 1s #{$i * .08}s cubic-bezier(.29,1.4,.44,.96);
+    }
+  }
+}
+
+// Подключение шрифтов
+@mixin font-face($font-family, $file-path, $weight: 400, $style: normal) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+    src: url('#{$file-path}.eot');
+    src: url('#{$file-path}.eot?#iefix') format('embedded-opentype'),
+    url('#{$file-path}.woff') format('woff'),
+    url('#{$file-path}.ttf') format('truetype'),
+    url('#{$file-path}.otf') format('opentype');
+  }
+}

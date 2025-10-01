@@ -1,0 +1,117 @@
+.calendar {
+  width: 100%;
+  max-width: 307px;
+  background: $color-white;
+  border: 1px solid $color-white-middle;
+  border-radius: 4px;
+  padding: 2.4rem;
+  .calendar-head {
+    margin-bottom: 2.4rem;
+  }
+  .calendar-main {
+    margin-bottom: 1.6rem;
+  }
+  &-head {
+    display: flex;
+    align-items: center;
+    gap: 0 10px;
+    .calendar-title {
+      flex-grow: 1;
+    }
+  }
+  &-main {
+
+  }
+  &-foot {
+    .btn {
+      width: 100%;
+    }
+  }
+
+  &-title {
+    font-size: 1.6rem;
+    font-weight: 500;
+  }
+
+  &-arrows {
+
+  }
+  &-arrow {
+    box-shadow: none;
+    border: none;
+    background: none;
+    &:hover {
+      cursor: pointer;
+    }
+    &.disabled {
+      opacity: 0.5;
+    }
+  }
+
+  &-days-name {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -3px;
+    margin-bottom: 1.2rem;
+    .calendar-day-name {
+      width: calc(100% / 7 - 6px);
+      margin: 0 3px 3px 3px;
+    }
+  }
+  &-day-name {
+    font-size: 1.2rem;
+    width: 32px;
+    max-width: 32px;
+    text-align: center;
+  }
+
+  &-days {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -3px;
+    .calendar-day {
+      width: calc(100% / 7 - 6px);
+      margin: 0 3px 3px 3px;
+    }
+  }
+  &-day {
+    font-size: 1.4rem;
+    width: 32px;
+    max-width: 32px ;
+    height: 32px;
+    border-radius: 50%;
+    padding: 0;
+    background: none;
+    border: 1px solid transparent;
+    text-align: center;
+    &:hover {
+      cursor: pointer;
+      background: rgba($color-blue, 0.1);
+    }
+    &--done {
+      background: rgba($color-blue, 0.1);
+    }
+    &--start {
+      background: $color-blue;
+      color: $color-white;
+      &:hover {
+        background: $color-blue;
+      }
+    }
+    &--end {
+      background: $color-blue;
+      color: $color-white;
+      &:hover {
+        background: $color-blue;
+      }
+    }
+    &--today {
+      border-color: $color-blue;
+    }
+    &--disabled {
+      color: $color-grey-light;
+      pointer-events: none;
+      user-select: none;
+    }
+  }
+}

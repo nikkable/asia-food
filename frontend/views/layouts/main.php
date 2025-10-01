@@ -25,6 +25,31 @@ AppAsset::register($this);
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
+<header class="header">
+    <div class="container">
+        <div class="header-main">
+            <a href="/" class="header-logo"><img src="/images/logo.png"></a>
+            <div class="header-menu">
+                <ul>
+                    <li><a href="<?= \yii\helpers\Url::to(['/catalog/index']) ?>">Каталог</a></li>
+                    <li><a href="#">О доставке</a></li>
+                    <li><a href="#">Сотрудничество</a></li>
+                    <li><a href="#">Контакты</a></li>
+                </ul>
+            </div>
+            <div class="header-work">
+                <p>Режим работы:</p>
+                <p>Пн-Сб 09:00-18:00</p>
+                <p>Вс 09:00-15:00</p>
+            </div>
+            <div class="header-buttons">
+                <button class="btn btn-primary">Войти</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!--
 <header>
     <?php
     NavBar::begin([
@@ -48,6 +73,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav me-auto mb-2 mb-md-0'],
         'items' => $menuItems,
     ]);
+    echo \frontend\widgets\CartWidget::widget();
     if (Yii::$app->user->isGuest) {
         echo Html::tag('div',Html::a('Login',['/site/login'],['class' => ['btn btn-link login text-decoration-none']]),['class' => ['d-flex']]);
     } else {
@@ -61,6 +87,7 @@ AppAsset::register($this);
     NavBar::end();
     ?>
 </header>
+-->
 
 <main role="main" class="flex-shrink-0">
     <div class="container">
@@ -72,12 +99,14 @@ AppAsset::register($this);
     </div>
 </main>
 
+<!--
 <footer class="footer mt-auto py-3 text-muted">
     <div class="container">
         <p class="float-start">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
         <p class="float-end"><?= Yii::powered() ?></p>
     </div>
 </footer>
+-->
 
 <?php $this->endBody() ?>
 </body>

@@ -1,0 +1,47 @@
+.paginator {
+  margin: 1.6rem 0;
+  &-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 8px;
+    .paginator-link {
+
+    }
+  }
+
+  &-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4rem;
+    height: 4rem;
+    font-size: 1.4rem;
+    color: $color-grey;
+    border: 1px solid rgba($color-black, 0.1);
+    border-radius: 4px;
+    background: $color-white;
+    &:hover, &:focus {
+      text-decoration: none;
+      color: $color-grey;
+    }
+    &:not(.paginator-link-other):hover {
+      background: $color-white-middle;
+      cursor: pointer;
+    }
+    &-prev {
+
+    }
+    &-next {
+
+    }
+    &-other {
+      border-radius: 0;
+      border: none;
+    }
+
+    &--active {
+      background: $color-white-middle;
+    }
+  }
+}

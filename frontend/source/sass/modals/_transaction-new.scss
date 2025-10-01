@@ -1,0 +1,10 @@
+.modal {
+  &.modal-transaction-new {
+    .modal-foot {
+      .btn {
+        min-height: 48px;
+        width: 100%;
+      }
+    }
+  }
+}

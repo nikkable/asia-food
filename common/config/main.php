@@ -15,6 +15,14 @@ return [
             'repositories\Product\interfaces\ProductRepositoryInterface' => 'repositories\Product\ProductRepository',
             'context\Category\interfaces\CategoryServiceInterface' => 'context\Category\services\CategoryService',
             'repositories\Category\interfaces\CategoryRepositoryInterface' => 'repositories\Category\CategoryRepository',
+
+            // Cart
+            'context\Cart\interfaces\CartServiceInterface' => 'context\Cart\services\CartService',
+            'context\Cart\models\Cart' => 'context\Cart\models\Cart',
+
+            // Order
+            'context\Order\interfaces\OrderServiceInterface' => 'context\Order\services\OrderService',
+            'repositories\Order\interfaces\OrderRepositoryInterface' => 'repositories\Order\OrderRepository',
         ],
     ],
     'components' => [

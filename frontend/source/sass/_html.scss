@@ -1,0 +1,170 @@
+* {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 10px;
+}
+
+body {
+	position: relative;
+	font-family: $font-primary;
+	font-weight: normal;
+	font-size: 1.8rem;
+	line-height: 1.2;
+	color: $color-grey-dark;
+}
+
+// Заголовки
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+	line-height: 120%;
+	color: $color-black;
+	margin: 1.2rem 0;
+}
+
+h1 {
+	font-size: 5rem;
+	@media(max-width: #{$break-max-xxl}) {
+		font-size: 4rem;
+	}
+	@media(max-width: #{$break-max-sm}) {
+		font-size: 3rem;
+	}
+}
+
+h2 {
+	font-size: 2.8rem;
+}
+
+h3 {
+	font-size: 2.4rem;
+}
+
+h4 {
+	font-size: 2rem;
+}
+
+h5 {
+	font-size: 1.6rem;
+}
+
+// Параграфы
+p {
+	font-size: 1.8rem;
+	font-weight: normal;
+	line-height: 120%;
+	color: $color-grey-dark;
+	margin: 0.8rem 0;
+}
+
+//Все ссылки
+a {
+	font-size: inherit;
+	font-weight: inherit;
+	line-height: inherit;
+	color: $color-green;
+	text-decoration: none;
+	transition: all 0.3s ease;
+	&:hover, &:focus {
+		color: $color-green;
+		text-decoration: underline;
+	}
+	&:focus-visible {
+		outline: $color-green auto 1px;
+	}
+}
+
+// Изображения
+img {
+	max-width: 100%;
+	//height: 100%;
+	//width: 100%;
+	vertical-align: bottom;
+}
+
+// Списки
+ul {
+	//margin: 0;
+	//padding: 0;
+	//list-style: none;
+}
+
+// Элементы формы
+input, button, textarea {
+	&:focus-visible {
+		outline: $color-blue auto 1px;
+	}
+}
+
+// Встроенные текстовые элементы
+.mark, mark {
+	padding: .2em;
+	background-color: #fcf8e3;
+}
+
+.small, small {
+	font-size: .875em;
+	font-weight: 400;
+}
+
+b, strong {
+	font-weight: bolder;
+}
+
+table {
+	border-collapse: collapse;
+	tr {
+		td, th {
+			padding: 10px;
+			border: 1px solid $color-grey;
+		}
+	}
+}
+
+.content {
+	ul {
+		padding-left: 1.5rem;
+		li {
+			margin-bottom: 3rem;
+		}
+	}
+}
+
+.wrapper {
+	overflow: hidden;
+}
+
+// .file-input
+.file-input {
+	opacity: 0;
+	position: absolute;
+	left: -9999px;
+	z-index: -1;
+	&-container {
+		overflow: hidden;
+		position: relative;
+	}
+	&-label {
+		display: inline-flex !important;
+		cursor: pointer;
+	}
+}
+
+// coupon
+.coupon {
+	background: $color-white !important;
+	color: $color-black;
+	button {
+		background: none;
+		box-shadow: none;
+		border: none;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+	&-input {
+		color: $color-black;
+	}
+}
+

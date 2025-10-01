@@ -1,0 +1,74 @@
+.header {
+  position: relative;
+  margin-bottom: 6rem;
+  z-index: 2;
+  &-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0 40px;
+    padding: 2rem 0;
+    border-bottom: 1px dashed rgba($color-black, 0.2);
+    .header-menu {
+      flex-grow: 1;
+    }
+    .header-buttons {
+
+    }
+  }
+
+  &-logo {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100px;
+  }
+
+  &-langs {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    @media(max-width: #{$break-max-lg}) {
+      display: none;
+    }
+  }
+
+  &-menu {
+    @media(max-width: #{$break-max-xxl}) {
+      display: none;
+    }
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 0 40px;
+      margin: 0;
+      padding: 0;
+      li {
+        list-style: none;
+        a {
+          color: $color-black;
+        }
+      }
+    }
+  }
+  &-app {
+    display: none;
+    padding: 0 15px;
+    @media(max-width: #{$break-max-xxl}) {
+      display: inline-flex;
+    }
+  }
+  &-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    @media(max-width: #{$break-max-xxl}) {
+      justify-content: flex-end;
+    }
+    @media(max-width: #{$break-max-xl}) {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,65 @@
+// Текст
+.text {
+	&-right {
+		text-align: right;
+	}
+	&-center {
+		text-align: center;
+	}
+}
+
+// Скрытие/выключение
+.hidden{
+	display: none;
+	visibility: hidden;
+}
+
+.disabled {
+	cursor: default !important;
+	pointer-events: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+// alert
+body {
+	.alert {
+		border: none;
+		border-radius: 10px;
+		font-size: 16px;
+		color: $color-black;
+		ul {
+			padding-left: 30px;
+		}
+		p {
+			font-size: 16px;
+			color: inherit;
+		}
+	}
+
+	.help-block {
+		&.error {
+			font-size: 14px;
+			color: $color-red;
+			margin-top: 5px;
+		}
+	}
+}
+
+// bg
+.bg {
+	background: $color-grey-light;
+	border-radius: 30px;
+	padding: 6rem;
+	margin-bottom: 10rem;
+	@media(max-width: #{$break-max-xl}) {
+		padding: 4rem;
+	}
+	@media(max-width: #{$break-max-lg}) {
+		padding: 2rem;
+	}
+	@media(max-width: #{$break-max-sm}) {
+		margin-bottom: 6rem;
+	}
+}

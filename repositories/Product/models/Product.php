@@ -5,6 +5,7 @@ namespace repositories\Product\models;
 use repositories\Category\models\Category;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\behaviors\SluggableBehavior;
 
 /**
  * This is the model class for table "{{%product}}".
@@ -12,6 +13,7 @@ use yii\behaviors\TimestampBehavior;
  * @property int $id
  * @property int $category_id
  * @property string $name
+ * @property string $slug
  * @property string|null $description
  * @property string|null $image
  * @property float $price
@@ -33,13 +35,19 @@ class Product extends ActiveRecord
     {
         return [
             TimestampBehavior::class,
+            [
+                'class' => SluggableBehavior::class,
+                'attribute' => 'name',
+                'slugAttribute' => 'slug',
+                'ensureUnique' => true,
+            ],
         ];
     }
 
     public function rules()
     {
         return [
-            [['category_id', 'name', 'price'], 'required'],
+            [['category_id', 'name', 'price', 'slug'], 'required'],
             [['category_id', 'quantity', 'status', 'created_at', 'updated_at'], 'integer'],
             [['description'], 'string'],
             [['price', 'price_discount'], 'number'],

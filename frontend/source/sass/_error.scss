@@ -1,0 +1,17 @@
+.error {
+  &-title {
+    font-size: 30rem;
+    font-weight: bold;
+    color: #{$color-grey};
+    text-align: center;
+    @media(max-width: #{$break-max-lg}) {
+      font-size: 20rem;
+    }
+    @media(max-width: #{$break-max-sm}) {
+      font-size: 10rem;
+    }
+    > span {
+      color: #{$color-blue};
+    }
+  }
+}

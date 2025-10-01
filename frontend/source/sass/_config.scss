@@ -1,0 +1,52 @@
+// Цвета
+$color-green: #72C300;
+$color-green-middle: #1AB171;
+$color-green-dark: #1A7C53;
+$color-blue: #0045FF;
+$color-blue-middle: #3466A2;
+$color-blue-dark: #2B4B70;
+$color-violet: #6F46E5;
+$color-blue-middle: #3466A2;
+$color-violet-dark: #282C36;
+$color-black: #010205;
+$color-black-middle: #1B1B1B;
+$color-black-light: #E5EBED;
+$color-white: #ffffff;
+$color-white-middle: #F1F3F7;
+$color-white-dark: #E9EBEF;
+$color-grey: #EFEFEF;
+$color-grey-dark: #8B8B8B;
+$color-grey-middle: #FCFCFC;
+$color-grey-light: #F8F8F8;
+$color-grey-2: #E7F5FC;
+$color-grey-2-middle: #7E8081;
+$color-grey-2-light: #F1F1F1;
+$color-grey-3: #5F5F5F;
+$color-yellow: #FFE175;
+$color-red: #FF7575;
+//$color-violet: #757AFF;
+
+// Шрифты
+$font-primary: "SF Pro Display", Arial, sans-serif;
+$font-secondary: "SF Pro Display", Arial, sans-serif;
+
+// Сетка отступы для col
+$padding-col: '8px';
+
+// Сетка отступы для container
+$padding-container: '60px';
+
+// Точки остановы
+$break-sm: '576px';
+$break-md: '768px';
+$break-lg: '992px';
+$break-xl: '1200px';
+$break-xxl: '1440px';
+
+$break-max-sm: '575px';
+$break-max-md: '767px';
+$break-max-lg: '991px';
+$break-max-xl: '1199px';
+$break-max-xxl: '1439px';
+
+$breaks: ("sm": "576px", "md": "768px", "lg": "992px", "xl": "1200px");
