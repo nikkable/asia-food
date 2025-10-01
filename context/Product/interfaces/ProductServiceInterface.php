@@ -2,9 +2,12 @@
 
 namespace context\Product\interfaces;
 
+use repositories\Product\models\Product;
+use repositories\Category\models\Category;
+
 interface ProductServiceInterface
 {
-    // Здесь будут методы для работы с товарами, например:
-    // public function createProduct(array $data): Product;
-    // public function getProduct(int $id): Product;
+    public function findBySlug(string $slug): ?Product;
+
+    public function findAllByCategory(Category $category): array;
 }
