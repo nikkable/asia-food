@@ -266,7 +266,7 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
   //  max-width: 960px;
   //}
   @media (min-width: 1200px) {
-    max-width: 1440px;
+    max-width: 1280px;
   }
   &-sm {
     //@media (min-width: #{$break-sm}) {
@@ -279,7 +279,7 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
     //  max-width: 960px;
     //}
     @media (min-width: #{$break-xl}) {
-      max-width: 1440px;
+      max-width: 1280px;
     }
   }
   &-md {
@@ -290,7 +290,7 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
     //  max-width: 960px;
     //}
     @media (min-width: #{$break-xl}) {
-      max-width: 1440px;
+      max-width: 1280px;
     }
   }
   &-lg {
@@ -298,12 +298,12 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
     //  max-width: 960px;
     //}
     @media (min-width: #{$break-xl}) {
-      max-width: 1440px;
+      max-width: 1280px;
     }
   }
   &-xl {
     @media (min-width: #{$break-xl}) {
-      max-width: 1440px;
+      max-width: 1280px;
     }
   }
 }
@@ -817,10 +817,11 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
 
 // title
 .title {
-  font-size: 5rem;
+  font-size: 4.2rem;
   font-weight: bold;
   line-height: 120%;
   color: $color-black;
+  margin-bottom: 2rem;
   @media(max-width: #{$break-max-xxl}) {
     font-size: 4rem;
   }
@@ -839,6 +840,12 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
     gap: 10px;
     font-size: 2rem;
   }
+}
+
+.undertitle {
+  font-size: 2.6rem;
+  font-weight: 300;
+  line-height: 1.4;
 }
 
 // circle

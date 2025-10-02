@@ -12,7 +12,8 @@ body {
 	font-weight: normal;
 	font-size: 1.8rem;
 	line-height: 1.2;
-	color: $color-grey-dark;
+	color: $color-black;
+	background: rgb(247, 248, 249);
 }
 
 // Заголовки
@@ -54,7 +55,7 @@ p {
 	font-size: 1.8rem;
 	font-weight: normal;
 	line-height: 120%;
-	color: $color-grey-dark;
+	color: $color-black;
 	margin: 0.8rem 0;
 }
 
@@ -63,15 +64,15 @@ a {
 	font-size: inherit;
 	font-weight: inherit;
 	line-height: inherit;
-	color: $color-green;
+	color: $color-red;
 	text-decoration: none;
 	transition: all 0.3s ease;
 	&:hover, &:focus {
-		color: $color-green;
+		color: $color-red;
 		text-decoration: underline;
 	}
 	&:focus-visible {
-		outline: $color-green auto 1px;
+		outline: $color-red auto 1px;
 	}
 }
 
@@ -93,7 +94,7 @@ ul {
 // Элементы формы
 input, button, textarea {
 	&:focus-visible {
-		outline: $color-blue auto 1px;
+		outline: $color-red auto 1px;
 	}
 }
 

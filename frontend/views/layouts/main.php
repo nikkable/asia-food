@@ -31,7 +31,25 @@ AppAsset::register($this);
             <a href="/" class="header-logo"><img src="/images/logo.png"></a>
             <div class="header-menu">
                 <ul>
-                    <li><a href="<?= \yii\helpers\Url::to(['/catalog/index']) ?>">Каталог</a></li>
+                    <li>
+                        <a href="<?= \yii\helpers\Url::to(['/catalog/index']) ?>">Каталог</a>
+                        <ul>
+                            <li><a href="#">Рис и бобовые</a></li>
+                            <li><a href="#">Морепродукты</a></li>
+                            <li><a href="#">Специи и приправы</a></li>
+                            <li><a href="#">Соусы</a></li>
+                            <li><a href="#">Сыр</a></li>
+                            <li><a href="#">Майонез</a></li>
+                            <li><a href="#">Масло</a></li>
+                            <li><a href="#">Мясная продукция</a></li>
+                            <li><a href="#">Прочее</a></li>
+                            <li><a href="#">Товары</a></li>
+                            <li><a href="#">Материалы</a></li>
+                            <li><a href="#">Наггетсы</a></li>
+                            <li><a href="#">Картофель, картофель фри</a></li>
+                            <li><a href="#">Рис</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#">О доставке</a></li>
                     <li><a href="#">Сотрудничество</a></li>
                     <li><a href="#">Контакты</a></li>
@@ -89,15 +107,11 @@ AppAsset::register($this);
 </header>
 -->
 
-<main role="main" class="flex-shrink-0">
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
-    </div>
-</main>
+<?= Breadcrumbs::widget([
+    'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+]) ?>
+<?= Alert::widget() ?>
+<?= $content ?>
 
 <!--
 <footer class="footer mt-auto py-3 text-muted">

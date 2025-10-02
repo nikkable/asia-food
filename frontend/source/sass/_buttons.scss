@@ -3,18 +3,18 @@
   align-items: center;
   justify-content: center;
   gap: 10px;
-  min-height: 50px;
-  padding: 0.5rem 2rem;
+  min-height: 40px;
+  padding: 0.5rem 3rem;
   border: none;
   box-shadow: none;
   background: none;
   text-shadow: none;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   line-height: 1;
   font-weight: 500;
   color: $color-black;
   cursor: pointer;
-  border-radius: 16px;
+  border-radius: 30px;
   text-decoration: none;
   transition: all 0.3s ease-in-out;
   &:hover, &:focus {
@@ -22,17 +22,18 @@
     color: inherit;
   }
   &-primary {
-    color: $color-white;
-    background: $color-green;
+    background: $color-white;
     &:hover, &:focus {
-      background: rgba($color-green, 0.8);
-      color: $color-white;
+      background: rgba($color-white, 0.8);
+      color: $color-black;
     }
     &:hover {
-      background: rgba($color-green, 0.8);
+      background: rgba($color-white, 0.8);
+      color: $color-black;
     }
     &:active {
-      background: $color-green;
+      background: $color-white;
+      color: $color-black;
     }
     &:disabled, &.disabled {
       background: $color-grey-light;
@@ -41,18 +42,16 @@
     }
   }
   &-secondary {
-    background: $color-grey;
+    background: $color-white;
+    border: 1px solid $color-black;
     &:hover, &:focus {
-      background: $color-grey;
-      color: $color-black;
+      background: $color-white;
     }
     &:hover {
-      background: $color-grey;
-      color: $color-black;
+      background: $color-white;
     }
     &:active {
-      background: $color-grey;
-      color: $color-black;
+      background: $color-white;
     }
     &:disabled, &.disabled {
       color: $color-grey-3;
@@ -61,17 +60,17 @@
   }
   &-three {
     color: $color-white;
-    background: #6A00EB;
+    background: $color-red;
     &:hover, &:focus {
-      background: #6A00EB;
+      background: $color-red;
       color: $color-white;
     }
     &:hover {
-      background: #6A00EB;
+      background: $color-red;
       color: $color-white;
     }
     &:active {
-      background: #6A00EB;
+      background: $color-red;
       color: $color-white;
     }
     &:disabled, &.disabled {
@@ -124,6 +123,11 @@
 
   &-small {
     min-height: 30px;
+  }
+
+  &-big {
+    min-height: 55px;
+    padding: 0 6rem;
   }
 
   &-prev {

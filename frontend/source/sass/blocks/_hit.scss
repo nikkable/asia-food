@@ -1,0 +1,16 @@
+.hit {
+  margin-bottom: 10rem;
+  &-head {
+    margin-bottom: 4rem;
+  }
+  &-main {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+    gap: 20px 0;
+    .product {
+      width: calc(100% / 4 - 20px);
+      margin: 0 10px;
+    }
+  }
+}

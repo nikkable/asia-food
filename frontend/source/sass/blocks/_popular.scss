@@ -1,0 +1,54 @@
+.popular {
+  margin-bottom: 10rem;
+  &-main {
+    display: flex;
+    flex-wrap: wrap;
+    background: $color-white;
+    border-radius: 30px;
+    .popular-info {
+      width: 50%;
+    }
+    .popular-image {
+      width: 50%;
+    }
+  }
+
+  &-info {
+    padding: 40px;
+    .popular-title {
+
+    }
+    .popular-name {
+      margin-bottom: 3rem;
+    }
+    .popular-buttons {
+
+    }
+  }
+
+  &-title {
+    color: $color-red;
+  }
+
+  &-name {
+    font-size: 2rem;
+  }
+
+  &-buttons {
+
+  }
+
+  &-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100px 30px 30px 0px;
+    background-color: #ff4400;
+    max-height: 360px;
+    img {
+      max-width: 100%;
+      width: auto;
+      height: 100%;
+    }
+  }
+}

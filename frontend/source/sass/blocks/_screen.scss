@@ -1,98 +1,34 @@
 .screen {
-  padding-bottom: 6rem;
-  &-head {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 3rem 0;
-    margin-bottom: 6rem;
-    @media(max-width: #{$break-max-lg}) {
-      flex-wrap: wrap;
-    }
-    .screen-title {
-      width: 100%;
-      max-width: 880px;
-      @media(max-width: #{$break-max-lg}) {
-        max-width: unset;
-      }
-    }
-    .screen-desc {
-      max-width: 640px;
-      width: 100%;
-    }
-  }
+  margin-bottom: 10rem;
   &-main {
-    .screen-image {
+    .screen-item {
 
     }
   }
-  &-foot {
 
-  }
-
-  &-title-top {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0 10px;
-    font-size: 1.9rem;
-  }
-  &-title {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0 15px;
-    font-size: 7rem;
-    font-weight: bold;
-    line-height: 100%;
-    color: $color-black;
-    @media(max-width: #{$break-max-xxl}) {
-      font-size: 6rem;
-    }
-    @media(max-width: #{$break-max-lg}) {
-      font-size: 5rem;
-    }
-    @media(max-width: #{$break-max-sm}) {
-      font-size: 3.5rem;
-    }
-  }
-  &-info {
-    .screen-desc {
-      margin-bottom: 3rem;
-    }
-    .screen-buts {
-
-    }
-  }
-  &-desc {
-
-  }
-  &-desc-small {
-
-  }
-
-  &-image {
-    display: flex;
-    justify-content: center;
-    @media(max-width: #{$break-max-sm}) {
-      position: relative;
-      width: 100%;
-      margin: 0;
-      height: 280px;
-      border-radius: 20px;
-      overflow: hidden;
-    }
+  &-item {
+    position: relative;
+    border-radius: 30px;
+    width: 100%;
+    overflow: hidden;
+    min-height: 400px;
     img {
-      @media(max-width: #{$break-max-sm}) {
-        width: 450px;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    &-buttons {
+      position: absolute;
+      bottom: 40px;
+      left: 40px;
+      .btn {
+        min-height: 60px;
+        border-radius: 50px;
+        font-size: 24px;
+        padding: 0 7rem;
       }
     }
   }
