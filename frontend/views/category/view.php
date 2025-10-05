@@ -1,5 +1,6 @@
 <?php
 
+use frontend\widgets\HeaderCategoriesWidget;
 use yii\helpers\Html;
 
 /** @var yii\web\View $this */
@@ -13,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <div class="category-page">
     <div class="container">
-        <div class="category-header">
+        <div class="category-page-head">
             <h1><?= Html::encode($category->name) ?></h1>
             <?php if ($category->description): ?>
                 <div class="category-description">
@@ -21,52 +22,57 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             <?php endif; ?>
         </div>
-        
-        <?php if (!empty($products)): ?>
-            <div class="products-grid">
-                <?php foreach ($products as $product): ?>
-                    <div class="product">
-                        <?php $isInFavorites = Yii::$container->get('context\\Favorite\\interfaces\\FavoriteServiceInterface')->isInFavorites($product->id); ?>
-                        <button class="product-favorite add-to-favorite <?= $isInFavorites ? 'active' : '' ?>" 
-                                data-product-id="<?= $product->id ?>"
-                                data-product-name="<?= Html::encode($product->name) ?>">
-                            <span><?= $isInFavorites ? 'В избранном' : 'В избранное' ?></span>
-                        </button>
-                        <div class="product-image">
-                            <?php if ($product->image): ?>
-                                <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
-                            <?php else: ?>
-                                <img src="/images/products/default.png" alt="<?= Html::encode($product->name) ?>">
-                            <?php endif; ?>
-                        </div>
-                        <div class="product-info">
-                            <div class="product-price"><?= number_format($product->price, 0, ',', ' ') ?>р.</div>
-                            <div class="product-quantity">
-                                <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
+
+        <div class="category-page-main">
+            <div class="category-page-categories">
+                <ul>
+                    <?= HeaderCategoriesWidget::widget(); ?>
+                </ul>
+            </div>
+            <div class="category-page-products <?= empty($products) ? 'category-page-products--empty' : '' ?>">
+                <?php if (!empty($products)): ?>
+                    <?php foreach ($products as $product): ?>
+                        <div class="product">
+                            <?php $isInFavorites = Yii::$container->get('context\\Favorite\\interfaces\\FavoriteServiceInterface')->isInFavorites($product->id); ?>
+                            <button class="product-favorite add-to-favorite <?= $isInFavorites ? 'active' : '' ?>"
+                                    data-product-id="<?= $product->id ?>"
+                                    data-product-name="<?= Html::encode($product->name) ?>">
+                                <span><?= $isInFavorites ? 'В избранном' : 'В избранное' ?></span>
+                            </button>
+                            <div class="product-image">
+                                <?php if ($product->image): ?>
+                                    <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
+                                <?php else: ?>
+                                    <img src="/images/products/default.png" alt="<?= Html::encode($product->name) ?>">
+                                <?php endif; ?>
                             </div>
-                            <div class="product-name"><?= Html::encode($product->name) ?></div>
-                            <?php if ($product->description): ?>
-                                <div class="product-desc"><?= Html::encode($product->description) ?></div>
-                            <?php endif; ?>
+                            <div class="product-info">
+                                <div class="product-price"><?= number_format($product->price, 0, ',', ' ') ?>р.</div>
+                                <div class="product-quantity">
+                                    <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
+                                </div>
+                                <div class="product-name"><?= Html::encode($product->name) ?></div>
+                                <?php if ($product->description): ?>
+                                    <div class="product-desc"><?= Html::encode($product->description) ?></div>
+                                <?php endif; ?>
+                            </div>
+                            <div class="product-buttons">
+                                <?php if ($product->quantity > 0): ?>
+                                    <button class="btn btn-three add-to-cart-btn"
+                                            data-product-id="<?= $product->id ?>"
+                                            data-product-name="<?= Html::encode($product->name) ?>">
+                                        В корзину
+                                    </button>
+                                <?php endif; ?>
+                                <button class="btn btn-secondary">Подробнее</button>
+                            </div>
                         </div>
-                        <div class="product-buttons">
-                            <?php if ($product->quantity > 0): ?>
-                                <button class="btn btn-three add-to-cart-btn" 
-                                        data-product-id="<?= $product->id ?>"
-                                        data-product-name="<?= Html::encode($product->name) ?>">
-                                    В корзину
-                                </button>
-                            <?php endif; ?>
-                            <button class="btn btn-secondary">Подробнее</button>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>В данной категории пока нет товаров.</p>
+                <?php endif; ?>
             </div>
-        <?php else: ?>
-            <div class="empty-category">
-                <p>В данной категории пока нет товаров.</p>
-            </div>
-        <?php endif; ?>
+        </div>
     </div>
 </div>
 
