@@ -34,7 +34,7 @@ $(document).ready(function() {
     function updateFavoriteContent(response) {
         if (response.success) {
             // Обновляем счетчик избранного
-            $('.favorite-counter').text(response.favoritesCount);
+            $('.js-favorite-counter').text(response.favoritesCount);
             
             // Если это было удаление товара из модального окна
             if (response.removedProductId) {
@@ -143,7 +143,7 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         // Обновляем счетчик
-                        $('.favorite-counter').text('0');
+                        $('.js-favorite-counter').text('0');
                         
                         // Обновляем содержимое модального окна
                         refreshFavoriteModal();
@@ -186,7 +186,7 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Обновляем счетчик корзины
-                    $('.cart-counter').text(response.cartAmount);
+                    $('.js-cart-counter').text(response.cartAmount);
                     
                     // Меняем текст кнопки на успех
                     button.html('<i class="fas fa-check"></i> Добавлено').removeClass('btn-primary').addClass('btn-success');

@@ -49,7 +49,6 @@ class CartController extends Controller
 
     /**
      * @param int $id
-     * @return Response
      * @throws NotFoundHttpException
      */
     public function actionAdd($id)
@@ -82,6 +81,7 @@ class CartController extends Controller
         }
 
         $this->cartService->getCart()->add($product, 1);
+
         return $this->redirect(['index']);
     }
 

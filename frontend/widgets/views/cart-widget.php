@@ -12,11 +12,12 @@ $model = new QuickOrderForm();
 ?>
 
 <!-- Кнопка корзины -->
-<button type="button" class="btn btn-primary cart-button" data-bs-toggle="modal" data-bs-target="#cartModal">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.4 5.1 16.4H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13H17ZM9 21C9.6 21 10 21.4 10 22S9.6 23 9 23 8 22.6 8 22 8.4 21 9 21ZM20 21C20.6 21 21 21.4 21 22S20.6 23 20 23 19 22.6 19 22 19.4 21 20 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<button type="button" class="cart-button" data-bs-toggle="modal" data-bs-target="#cartModal">
+    <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+        <path fill="none" stroke-width="2" stroke-miterlimit="10" d="M44 18h10v45H10V18h10z"></path>
+        <path fill="none" stroke-width="2" stroke-miterlimit="10" d="M22 24V11c0-5.523 4.477-10 10-10s10 4.477 10 10v13"></path>
     </svg>
-    <span class="cart-counter ms-1">
+    <span class="cart-button-counter js-cart-counter">
         <?= $cart->getAmount() ?>
     </span>
 </button>

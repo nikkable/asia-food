@@ -83,7 +83,7 @@ $(document).ready(function() {
                         $(this).remove();
                         
                         // Обновляем счетчик в шапке
-                        $('.favorite-counter').text(response.favoritesCount);
+                        $('.js-favorite-counter').text(response.favoritesCount);
                         
                         // Если больше нет товаров, показываем сообщение
                         if (response.favoritesCount === 0) {
@@ -120,7 +120,7 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         // Обновляем счетчик в шапке
-                        $('.favorite-counter').text('0');
+                        $('.js-favorite-counter').text('0');
                         
                         // Очищаем содержимое и показываем сообщение
                         $('.row').html('');

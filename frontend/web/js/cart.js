@@ -36,7 +36,7 @@ $(document).ready(function() {
     function updateCartContent(response) {
         if (response.success) {
             // Обновляем счетчик товаров
-            $('.cart-counter').text(response.cartAmount);
+            $('.js-cart-counter').text(response.cartAmount);
             
             // Обновляем общую сумму
             if ($('.cart-total strong').length) {
@@ -112,7 +112,7 @@ $(document).ready(function() {
                 success: function(response) {
                     if (response.success) {
                         // Обновляем счетчик корзины
-                        $('.cart-counter').text(response.cartAmount);
+                        $('.js-cart-counter').text(response.cartAmount);
                         
                         // Обновляем модальное окно
                         refreshCartModal();
@@ -163,7 +163,7 @@ $(document).ready(function() {
 
     // Обновление корзины при добавлении товара (для обновления счетчика)
     $(document).on('cartUpdated', function(event, data) {
-        $('.cart-counter').text(data.cartAmount);
+        $('.js-cart-counter').text(data.cartAmount);
         
         // Обновляем модальное окно, если оно открыто
         refreshCartModal();

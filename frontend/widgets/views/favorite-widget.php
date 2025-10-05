@@ -1,17 +1,18 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\Url;
 
-/** @var \repositories\Favorite\models\FavoriteList $favorites */
+/** @var FavoriteList $favorites */
+
+use repositories\Favorite\models\FavoriteList;
+
 ?>
 
 <!-- Кнопка избранного -->
-<button type="button" class="btn btn-outline-danger favorite-button me-2" data-bs-toggle="modal" data-bs-target="#favoriteModal">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<button type="button" class="favorite-button" data-bs-toggle="modal" data-bs-target="#favoriteModal">
+    <svg role="img" width="41" height="35" viewBox="0 0 41 35" fill="none" xmlns="http://www.w3.org/2000/svg" class="t1002__wishlisticon-img">
+        <path d="M39.9516 11.9535C39.9516 22.5416 20.4993 33.8088 20.4993 33.8088C20.4993 33.8088 1.04688 22.5416 1.04688 11.9535C1.04688 -2.42254 20.4993 -2.2284 20.4993 10.4239C20.4993 -2.2284 39.9516 -2.03914 39.9516 11.9535Z" stroke-width="1.5" stroke-linejoin="round"></path>
     </svg>
-    <span class="favorite-counter ms-1">
+    <span class="favorite-button-counter js-favorite-counter">
         <?= $favorites->getCount() ?>
     </span>
 </button>

@@ -100,8 +100,8 @@ $(document).ready(function() {
                     button.text('Добавлено!').removeClass('btn-three').addClass('btn-success');
                     
                     // Обновляем счетчик корзины если есть
-                    if ($('.cart-counter').length) {
-                        $('.cart-counter').text(response.cartAmount);
+                    if ($('.js-cart-counter').length) {
+                        $('.js-cart-counter').text(response.cartAmount);
                     }
                     
                     // Показываем уведомление

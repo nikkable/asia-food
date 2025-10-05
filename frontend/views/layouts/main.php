@@ -22,12 +22,6 @@ AppAsset::register($this);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <style>
-        /* Исправление проблемы с дублирующимся modal-backdrop */
-        /*.modal-backdrop:nth-child(n+2) {*/
-        /*    display: none;*/
-        /*}*/
-    </style>
     <?php $this->head() ?>
 </head>
 <body class="d-flex flex-column h-100">
@@ -56,13 +50,14 @@ AppAsset::register($this);
                 <p>Вс 09:00-15:00</p>
             </div>
             <div class="header-buttons">
-                <?= FavoriteWidget::widget() ?>
-                <?= CartWidget::widget() ?>
                 <button class="btn btn-primary">Войти</button>
             </div>
         </div>
     </div>
 </header>
+
+<?= FavoriteWidget::widget() ?>
+<?= CartWidget::widget() ?>
 
 <div class="container">
     <?= Alert::widget() ?>
