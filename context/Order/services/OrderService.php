@@ -32,9 +32,19 @@ class OrderService extends AbstractService implements OrderServiceInterface
             $order->note = empty($order->note) ? $deliveryInfo : $order->note . "\n\n" . $deliveryInfo;
         }
         
+        // Устанавливаем способ оплаты
+        if (!empty($customerData['paymentMethod'])) {
+            $order->payment_method = $customerData['paymentMethod'];
+        } else {
+            $order->payment_method = Order::PAYMENT_METHOD_CASH; // По умолчанию - наличными
+        }
+        
+        // Устанавливаем статус оплаты
+        $order->payment_status = Order::PAYMENT_STATUS_PENDING;
+        
         $order->user_id = Yii::$app->user->id;
         $order->total_cost = $cart->getTotalCost();
-        $order->status = 0; // Новый заказ
+        $order->status = Order::STATUS_NEW; // Новый заказ
 
         $transaction = Yii::$app->db->beginTransaction();
         try {

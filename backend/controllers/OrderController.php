@@ -32,6 +32,9 @@ class OrderController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
+                    'cancel' => ['POST'],
+                    'update-payment-status' => ['POST'],
+                    'update-status' => ['POST'],
                 ],
             ],
         ];
@@ -120,6 +123,120 @@ class OrderController extends Controller
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
+    }
+    
+    /**
+     * Cancels an order
+     * @param int $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionCancel($id)
+    {
+        $model = $this->findModel($id);
+        
+        // Проверяем, что заказ не был уже отменен
+        if ($model->status === Order::STATUS_CANCELLED) {
+            \Yii::$app->session->setFlash('warning', 'Заказ #' . $id . ' уже отменен.');
+            return $this->redirect(['view', 'id' => $id]);
+        }
+        
+        // Меняем статус на Отменен
+        $model->status = Order::STATUS_CANCELLED;
+        
+        if ($model->save()) {
+            \Yii::$app->session->setFlash('success', 'Заказ #' . $id . ' успешно отменен.');
+        } else {
+            \Yii::$app->session->setFlash('error', 'Ошибка при отмене заказа: ' . implode(', ', $model->getFirstErrors()));
+        }
+        
+        return $this->redirect(['view', 'id' => $id]);
+    }
+    
+    /**
+     * Updates payment status of an order
+     * @param int $id Order ID
+     * @param int $status New payment status
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdatePaymentStatus($id, $status)
+    {
+        $model = $this->findModel($id);
+        
+        // Проверяем допустимость статуса
+        $allowedStatuses = [
+            Order::PAYMENT_STATUS_PENDING,
+            Order::PAYMENT_STATUS_PAID,
+            Order::PAYMENT_STATUS_FAILED
+        ];
+        
+        if (!in_array($status, $allowedStatuses)) {
+            \Yii::$app->session->setFlash('error', 'Недопустимый статус оплаты.');
+            return $this->redirect(['view', 'id' => $id]);
+        }
+        
+        // Обновляем статус оплаты
+        $model->payment_status = $status;
+        
+        if ($model->save()) {
+            $statusLabels = [
+                Order::PAYMENT_STATUS_PENDING => 'Ожидает оплаты',
+                Order::PAYMENT_STATUS_PAID => 'Оплачен',
+                Order::PAYMENT_STATUS_FAILED => 'Ошибка оплаты'
+            ];
+            
+            $statusLabel = $statusLabels[$status] ?? 'Неизвестный статус';
+            \Yii::$app->session->setFlash('success', 'Статус оплаты заказа #' . $id . ' изменен на "' . $statusLabel . '".');
+        } else {
+            \Yii::$app->session->setFlash('error', 'Ошибка при изменении статуса оплаты: ' . implode(', ', $model->getFirstErrors()));
+        }
+        
+        return $this->redirect(['view', 'id' => $id]);
+    }
+    
+    /**
+     * Updates order status
+     * @param int $id Order ID
+     * @param int $status New status
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    public function actionUpdateStatus($id, $status)
+    {
+        $model = $this->findModel($id);
+        
+        // Проверяем допустимость статуса
+        $allowedStatuses = [
+            Order::STATUS_NEW,
+            Order::STATUS_PROCESSING,
+            Order::STATUS_COMPLETED,
+            Order::STATUS_CANCELLED
+        ];
+        
+        if (!in_array($status, $allowedStatuses)) {
+            \Yii::$app->session->setFlash('error', 'Недопустимый статус заказа.');
+            return $this->redirect(['view', 'id' => $id]);
+        }
+        
+        // Обновляем статус заказа
+        $model->status = $status;
+        
+        if ($model->save()) {
+            $statusLabels = [
+                Order::STATUS_NEW => 'Новый',
+                Order::STATUS_PROCESSING => 'В обработке',
+                Order::STATUS_COMPLETED => 'Выполнен',
+                Order::STATUS_CANCELLED => 'Отменен'
+            ];
+            
+            $statusLabel = $statusLabels[$status] ?? 'Неизвестный статус';
+            \Yii::$app->session->setFlash('success', 'Статус заказа #' . $id . ' изменен на "' . $statusLabel . '".');
+        } else {
+            \Yii::$app->session->setFlash('error', 'Ошибка при изменении статуса заказа: ' . implode(', ', $model->getFirstErrors()));
+        }
+        
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     /**

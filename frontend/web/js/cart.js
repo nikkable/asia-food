@@ -135,6 +135,10 @@ $(document).ready(function() {
 
         var form = $(this);
         var formData = form.serialize();
+        var submitButton = form.find('button[type="submit"]');
+        
+        // Блокируем кнопку на время обработки
+        submitButton.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Обработка...');
 
         $.ajax({
             url: form.attr('action'),
@@ -145,15 +149,37 @@ $(document).ready(function() {
                 if (response.success) {
                     // Закрываем модалку
                     $('#cartModal').modal('hide');
-                    // Показываем уведомление об успехе
-                    showNotification('success', 'Заказ успешно оформлен!');
-                    // Очищаем корзину и перезагружаем страницу
-                    location.reload();
+                    
+                    // Проверяем, требуется ли перенаправление на страницу оплаты
+                    if (response.requiresRedirect && response.paymentUrl) {
+                        // Показываем уведомление о перенаправлении
+                        showNotification('info', 'Перенаправление на страницу оплаты...');
+                        
+                        // Перенаправляем на страницу оплаты
+                        setTimeout(function() {
+                            window.location.href = response.paymentUrl;
+                        }, 1500);
+                    } else {
+                        // Показываем уведомление об успехе
+                        showNotification('success', 'Заказ успешно оформлен!');
+                        
+                        // Очищаем корзину и перезагружаем страницу
+                        setTimeout(function() {
+                            location.reload();
+                        }, 1500);
+                    }
                 } else {
+                    // Разблокируем кнопку
+                    submitButton.prop('disabled', false).text('Оформить заказ');
+                    
+                    // Показываем ошибку
                     showNotification('error', 'Ошибка при оформлении заказа: ' + (response.message || 'Неизвестная ошибка'));
                 }
             },
             error: function() {
+                // Разблокируем кнопку
+                submitButton.prop('disabled', false).text('Оформить заказ');
+                
                 showNotification('error', 'Произошла ошибка при оформлении заказа');
             }
         });

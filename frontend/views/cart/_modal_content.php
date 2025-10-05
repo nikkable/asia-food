@@ -116,6 +116,23 @@ $model = new QuickOrderForm();
                 ]
             ])->label('Адрес доставки') ?>
         </div>
+        
+        <div class="col-12">
+            <?= $form->field($model, 'paymentMethod')->radioList(
+                $model->getPaymentMethodOptions(),
+                [
+                    'item' => function($index, $label, $name, $checked, $value) {
+                        $checked = $checked ? 'checked' : '';
+                        $return = '<div class="form-check mb-2">';
+                        $return .= '<input class="form-check-input" type="radio" name="' . $name . '" value="' . $value . '" id="' . $value . '" ' . $checked . '>';
+                        $return .= '<label class="form-check-label" for="' . $value . '">' . $label . '</label>';
+                        $return .= '</div>';
+                        return $return;
+                    },
+                    'unselect' => null,
+                ]
+            ) ?>
+        </div>
 
         <div class="col-12">
             <?= $form->field($model, 'orderComment', [

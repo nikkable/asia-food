@@ -4,7 +4,9 @@ namespace frontend\controllers;
 
 use context\Cart\interfaces\CartServiceInterface;
 use context\Order\interfaces\OrderServiceInterface;
+use context\Payment\interfaces\PaymentServiceInterface;
 use frontend\models\QuickOrderForm;
+use repositories\Order\models\Order;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -16,11 +18,19 @@ class OrderController extends Controller
 {
     private $cartService;
     private $orderService;
+    private $paymentService;
 
-    public function __construct($id, $module, CartServiceInterface $cartService, OrderServiceInterface $orderService, $config = [])
-    {
+    public function __construct(
+        $id, 
+        $module, 
+        CartServiceInterface $cartService, 
+        OrderServiceInterface $orderService, 
+        PaymentServiceInterface $paymentService, 
+        $config = []
+    ) {
         $this->cartService = $cartService;
         $this->orderService = $orderService;
+        $this->paymentService = $paymentService;
         parent::__construct($id, $module, $config);
     }
 
@@ -57,17 +67,39 @@ class OrderController extends Controller
                 // Очищаем корзину после успешного оформления заказа
                 $cart->clear();
                 
-                if (Yii::$app->request->isAjax) {
-                    Yii::$app->response->format = Response::FORMAT_JSON;
-                    return [
-                        'success' => true,
-                        'message' => 'Заказ успешно оформлен',
-                        'orderId' => $order->id
-                    ];
+                // Проверяем способ оплаты
+                if ($model->paymentMethod === QuickOrderForm::PAYMENT_METHOD_CARD) {
+                    // Инициализируем платеж через эквайринг
+                    $paymentResult = $this->paymentService->initPayment($order);
+                    
+                    if (Yii::$app->request->isAjax) {
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return [
+                            'success' => true,
+                            'message' => 'Заказ создан, перенаправление на страницу оплаты',
+                            'orderId' => $order->id,
+                            'paymentUrl' => $paymentResult['payment_url'],
+                            'requiresRedirect' => true
+                        ];
+                    }
+                    
+                    // Для обычного запроса перенаправляем на страницу оплаты
+                    return $this->redirect($paymentResult['payment_url']);
+                } else {
+                    // Для оплаты наличными просто показываем сообщение об успехе
+                    if (Yii::$app->request->isAjax) {
+                        Yii::$app->response->format = Response::FORMAT_JSON;
+                        return [
+                            'success' => true,
+                            'message' => 'Заказ успешно оформлен',
+                            'orderId' => $order->id,
+                            'requiresRedirect' => false
+                        ];
+                    }
+                    
+                    Yii::$app->session->setFlash('success', 'Ваш заказ #' . $order->id . ' успешно создан.');
+                    return $this->redirect(['/catalog/index']);
                 }
-                
-                Yii::$app->session->setFlash('success', 'Ваш заказ #' . $order->id . ' успешно создан.');
-                return $this->redirect(['/catalog/index']);
             } catch (\Exception $e) {
                 // Детальное логирование ошибки
                 Yii::error('Order creation error: ' . $e->getMessage() . '\nTrace: ' . $e->getTraceAsString(), 'order');

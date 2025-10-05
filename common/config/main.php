@@ -1,4 +1,8 @@
 <?php
+
+use IntlDateFormatter;
+use NumberFormatter;
+
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -36,6 +40,24 @@ return [
             'class' => 'yii\rbac\DbManager',
             // uncomment if you want to cache RBAC items (`yii cache/flush` to clear cache)
             // 'cache' => 'cache',
+        ],
+        'formatter' => [
+            'class' => 'yii\i18n\Formatter',
+            'locale' => 'ru-RU',
+            'defaultTimeZone' => 'Europe/Moscow',
+            'currencyCode' => 'RUB',
+            'numberFormatterSymbols' => [
+                NumberFormatter::CURRENCY_SYMBOL => '₽',
+            ],
+            'numberFormatterOptions' => [
+                NumberFormatter::MIN_FRACTION_DIGITS => 0,
+                NumberFormatter::MAX_FRACTION_DIGITS => 0,
+            ],
+            'datetimeFormat' => 'php:d.m.Y H:i',
+            'dateFormat' => 'php:d.m.Y',
+            'timeFormat' => 'php:H:i',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
         ],
     ],
 ];

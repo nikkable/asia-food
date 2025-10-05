@@ -14,6 +14,11 @@ class QuickOrderForm extends Model
     public $customerEmail;
     public $deliveryAddress;
     public $orderComment;
+    public $paymentMethod;
+    
+    // Способы оплаты
+    const PAYMENT_METHOD_CASH = 'cash';
+    const PAYMENT_METHOD_CARD = 'card';
 
     /**
      * @return array the validation rules.
@@ -21,13 +26,14 @@ class QuickOrderForm extends Model
     public function rules()
     {
         return [
-            [['customerName', 'customerPhone'], 'required'],
+            [['customerName', 'customerPhone', 'paymentMethod'], 'required'],
             [['customerName'], 'string', 'max' => 100],
             [['customerPhone'], 'string', 'max' => 20],
             [['customerEmail'], 'email'],
             [['customerEmail'], 'string', 'max' => 100],
             [['deliveryAddress'], 'string', 'max' => 255],
             [['orderComment'], 'string', 'max' => 1000],
+            ['paymentMethod', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD]],
         ];
     }
 
@@ -42,6 +48,19 @@ class QuickOrderForm extends Model
             'customerEmail' => 'Email',
             'deliveryAddress' => 'Адрес доставки',
             'orderComment' => 'Комментарий',
+            'paymentMethod' => 'Способ оплаты',
+        ];
+    }
+    
+    /**
+     * Список доступных способов оплаты
+     * @return array
+     */
+    public function getPaymentMethodOptions()
+    {
+        return [
+            self::PAYMENT_METHOD_CASH => 'Наличными при получении',
+            self::PAYMENT_METHOD_CARD => 'Оплата картой онлайн',
         ];
     }
 }

@@ -17,8 +17,8 @@ class OrderSearch extends Order
     public function rules()
     {
         return [
-            [['id', 'user_id', 'status', 'created_at', 'updated_at'], 'integer'],
-            [['customer_name', 'customer_email', 'customer_phone', 'note'], 'safe'],
+            [['id', 'user_id', 'status', 'payment_status', 'created_at', 'updated_at'], 'integer'],
+            [['customer_name', 'customer_email', 'customer_phone', 'note', 'payment_method', 'payment_transaction_id'], 'safe'],
             [['total_cost'], 'number'],
         ];
     }
@@ -64,6 +64,7 @@ class OrderSearch extends Order
             'user_id' => $this->user_id,
             'total_cost' => $this->total_cost,
             'status' => $this->status,
+            'payment_status' => $this->payment_status,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
@@ -71,7 +72,9 @@ class OrderSearch extends Order
         $query->andFilterWhere(['like', 'customer_name', $this->customer_name])
             ->andFilterWhere(['like', 'customer_email', $this->customer_email])
             ->andFilterWhere(['like', 'customer_phone', $this->customer_phone])
-            ->andFilterWhere(['like', 'note', $this->note]);
+            ->andFilterWhere(['like', 'note', $this->note])
+            ->andFilterWhere(['like', 'payment_method', $this->payment_method])
+            ->andFilterWhere(['like', 'payment_transaction_id', $this->payment_transaction_id]);
 
         return $dataProvider;
     }
