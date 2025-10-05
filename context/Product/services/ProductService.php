@@ -25,8 +25,23 @@ class ProductService extends AbstractService implements ProductServiceInterface
         return $this->productRepository->findBySlug($slug);
     }
 
-    public function findAllByCategory(Category $category): array
+    public function findAll(int $limit = null, int $offset = null): array
     {
-        return $this->productRepository->findAllByCategory($category);
+        return $this->productRepository->findAll($limit, $offset);
+    }
+    
+    public function findAllByCategory(Category $category, int $limit = null, int $offset = null): array
+    {
+        return $this->productRepository->findAllByCategory($category, $limit, $offset);
+    }
+    
+    public function countAll(): int
+    {
+        return $this->productRepository->countAll();
+    }
+    
+    public function countByCategory(Category $category): int
+    {
+        return $this->productRepository->countByCategory($category);
     }
 }

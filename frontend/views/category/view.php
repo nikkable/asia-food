@@ -2,10 +2,15 @@
 
 use frontend\widgets\HeaderCategoriesWidget;
 use yii\helpers\Html;
+use yii\widgets\LinkPager;
 
 /** @var yii\web\View $this */
 /** @var repositories\Category\models\Category $category */
 /** @var repositories\Product\models\Product[] $products */
+/** @var int $currentPage */
+/** @var int $totalPages */
+/** @var int $pageSize */
+/** @var int $totalProducts */
 
 $this->title = $category->name;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['/catalog/index']];
@@ -68,6 +73,24 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                         </div>
                     <?php endforeach; ?>
+                    
+                    <!-- Пагинация -->
+                    <div class="pagination-container">
+                        <?= LinkPager::widget([
+                            'pagination' => new \yii\data\Pagination([
+                                'totalCount' => $totalProducts,
+                                'pageSize' => $pageSize,
+                                'page' => $currentPage - 1,
+                                'pageSizeParam' => false,
+                            ]),
+                            'options' => ['class' => 'pagination'],
+                            'linkOptions' => ['class' => 'page-link'],
+                            'activePageCssClass' => 'active',
+                            'disabledPageCssClass' => 'disabled',
+                            'prevPageLabel' => '&laquo;',
+                            'nextPageLabel' => '&raquo;',
+                        ]) ?>
+                    </div>
                 <?php else: ?>
                     <p>В данной категории пока нет товаров.</p>
                 <?php endif; ?>

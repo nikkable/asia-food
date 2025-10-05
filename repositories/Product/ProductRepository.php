@@ -18,8 +18,43 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::find()->where(['slug' => $slug, 'status' => 1])->one();
     }
 
-    public function findAllByCategory(Category $category): array
+    public function findAll(int $limit = null, int $offset = null): array
     {
-        return Product::find()->where(['category_id' => $category->id, 'status' => 1])->all();
+        $query = Product::find()->where(['status' => 1])->orderBy(['id' => SORT_DESC]);
+        
+        if ($limit !== null) {
+            $query->limit($limit);
+        }
+        
+        if ($offset !== null) {
+            $query->offset($offset);
+        }
+        
+        return $query->all();
+    }
+    
+    public function findAllByCategory(Category $category, int $limit = null, int $offset = null): array
+    {
+        $query = Product::find()->where(['category_id' => $category->id, 'status' => 1])->orderBy(['id' => SORT_DESC]);
+        
+        if ($limit !== null) {
+            $query->limit($limit);
+        }
+        
+        if ($offset !== null) {
+            $query->offset($offset);
+        }
+        
+        return $query->all();
+    }
+    
+    public function countAll(): int
+    {
+        return Product::find()->where(['status' => 1])->count();
+    }
+    
+    public function countByCategory(Category $category): int
+    {
+        return Product::find()->where(['category_id' => $category->id, 'status' => 1])->count();
     }
 }

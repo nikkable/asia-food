@@ -15,6 +15,8 @@ class AppAsset extends AssetBundle
 //        'css/site.css',
         'css/style.min.css',
         'css/favorite.css',
+        'css/pagination.css',
+//        'css/catalog.css',
     ];
     public $js = [
         'js/notifications.js',
