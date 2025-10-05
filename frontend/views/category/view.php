@@ -26,7 +26,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="products-grid">
                 <?php foreach ($products as $product): ?>
                     <div class="product">
-                        <a href="#" class="product-favorite"></a>
+                        <?php $isInFavorites = Yii::$container->get('context\\Favorite\\interfaces\\FavoriteServiceInterface')->isInFavorites($product->id); ?>
+                        <button class="product-favorite add-to-favorite <?= $isInFavorites ? 'active' : '' ?>" 
+                                data-product-id="<?= $product->id ?>"
+                                data-product-name="<?= Html::encode($product->name) ?>">
+                            <span><?= $isInFavorites ? 'В избранном' : 'В избранное' ?></span>
+                        </button>
                         <div class="product-image">
                             <?php if ($product->image): ?>
                                 <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">

@@ -190,4 +190,18 @@ class CartController extends Controller
 
         return $this->redirect(['index']);
     }
+    
+    /**
+     * Возвращает HTML-содержимое модального окна корзины
+     * 
+     * @return string
+     */
+    public function actionModalContent()
+    {
+        $cart = $this->cartService->getCart();
+        
+        return $this->renderPartial('_modal_content', [
+            'cart' => $cart,
+        ]);
+    }
 }

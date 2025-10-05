@@ -6,6 +6,7 @@
 use common\widgets\Alert;
 use frontend\assets\AppAsset;
 use frontend\widgets\CartWidget;
+use frontend\widgets\FavoriteWidget;
 use frontend\widgets\HeaderCategoriesWidget;
 use yii\bootstrap5\Html;
 use yii\helpers\Url;
@@ -55,6 +56,7 @@ AppAsset::register($this);
                 <p>Вс 09:00-15:00</p>
             </div>
             <div class="header-buttons">
+                <?= FavoriteWidget::widget() ?>
                 <?= CartWidget::widget() ?>
                 <button class="btn btn-primary">Войти</button>
             </div>
@@ -116,174 +118,6 @@ AppAsset::register($this);
 </div>
 
 <?php $this->endBody() ?>
-
-<script>
-$(document).ready(function() {
-    // Функция для обновления содержимого корзины без перезагрузки
-    function updateCartContent(response) {
-        if (response.success) {
-            // Обновляем счетчик товаров
-            $('.cart-counter').text(response.cartAmount);
-            
-            // Обновляем общую сумму
-            if ($('.cart-total strong').length) {
-                $('.cart-total strong').text(new Intl.NumberFormat('ru-RU').format(response.cartTotal) + 'р.');
-            }
-            
-            // Если это было изменение количества, обновляем отображение количества
-            if (response.updatedProductId) {
-                var item = $('.cart-item[data-product-id="' + response.updatedProductId + '"]');
-                item.find('.btn.disabled').text(response.newQuantity);
-                var priceElement = item.find('.cart-item-total');
-                if (priceElement.length) {
-                    priceElement.text('= ' + new Intl.NumberFormat('ru-RU').format(response.itemTotal) + 'р.');
-                }
-            }
-            
-            // Обновляем кнопку оформления заказа
-            if ($('.btn-success').length) {
-                $('.btn-success').text('Оформить заказ на ' + new Intl.NumberFormat('ru-RU').format(response.cartTotal) + 'р.');
-            }
-        } else {
-            alert('Ошибка: ' + (response.message || 'Неизвестная ошибка'));
-        }
-    }
-
-    // Обработка кликов по кнопкам изменения количества
-    $(document).on('click', '.cart-quantity-btn', function() {
-        var button = $(this);
-        var action = button.data('action');
-        var productId = button.data('product-id');
-
-        $.ajax({
-            url: '<?= Url::to(['/cart/update-quantity']) ?>',
-            type: 'POST',
-            data: {
-                productId: productId,
-                action: action,
-                '_csrf-frontend': $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: 'json',
-            success: updateCartContent,
-            error: function() {
-                alert('Произошла ошибка при обновлении количества');
-            }
-        });
-    });
-
-    // Обработка кликов по кнопкам удаления
-    $(document).on('click', '.cart-remove-btn', function() {
-        var button = $(this);
-        var productId = button.data('product-id');
-
-        if (confirm('Вы уверены, что хотите удалить этот товар из корзины?')) {
-            $.ajax({
-                url: '<?= Url::to(['/cart/remove']) ?>',
-                type: 'POST',
-                data: {
-                    'id': productId,
-                    '_csrf-frontend': $('meta[name="csrf-token"]').attr('content')
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.success) {
-                        // Удаляем элемент из DOM
-                        var cartItem = button.closest('.cart-item');
-                        cartItem.fadeOut(300, function() {
-                            $(this).remove();
-                            
-                            // Обновляем счетчик и общую сумму
-                            $('.cart-counter').text(response.cartAmount);
-                            
-                            if ($('.cart-total strong').length) {
-                                $('.cart-total strong').text(new Intl.NumberFormat('ru-RU').format(response.cartTotal) + 'р.');
-                            }
-                            
-                            // Если корзина пуста, показываем сообщение
-                            if (response.cartAmount === 0) {
-                                var emptyCartHtml = '<div class="text-center py-5">' +
-                                    '<div class="mb-4">' +
-                                    '<svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-muted">' +
-                                    '<path d="M3 3H5L5.4 5M7 13H17L21 5H5.4M7 13L5.4 5M7 13L4.7 15.3C4.3 15.7 4.6 16.4 5.1 16.4H17M17 13V17C17 18.1 16.1 19 15 19H9C7.9 19 7 18.1 7 17V13H17ZM9 21C9.6 21 10 21.4 10 22S9.6 23 9 23 8 22.6 8 22 8.4 21 9 21ZM20 21C20.6 21 21 21.4 21 22S20.6 23 20 23 19 22.6 19 22 19.4 21 20 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
-                                    '</svg>' +
-                                    '</div>' +
-                                    '<h5 class="text-muted">Корзина пуста</h5>' +
-                                    '<p class="text-muted">Добавьте товары в корзину, чтобы оформить заказ</p>' +
-                                    '<button type="button" class="btn btn-primary" data-bs-dismiss="modal">Продолжить покупки</button>' +
-                                    '</div>';
-                                $('.modal-body').html(emptyCartHtml);
-                            }
-                            
-                            // Обновляем кнопку оформления заказа
-                            if ($('.btn-success').length && response.cartAmount > 0) {
-                                $('.btn-success').text('Оформить заказ на ' + new Intl.NumberFormat('ru-RU').format(response.cartTotal) + 'р.');
-                            }
-                        });
-                    } else {
-                        alert('Ошибка: ' + response.message);
-                    }
-                },
-                error: function() {
-                    alert('Произошла ошибка при удалении товара');
-                }
-            });
-        }
-    });
-
-    // Обработка формы быстрого заказа
-    $(document).on('submit', '#quick-order-form', function(e) {
-        e.preventDefault();
-
-        var form = $(this);
-        var formData = form.serialize();
-
-        $.ajax({
-            url: form.attr('action'),
-            type: 'POST',
-            data: formData,
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Закрываем модалку
-                    $('#cartModal').modal('hide');
-                    // Показываем уведомление об успехе
-                    alert('Заказ успешно оформлен!');
-                    // Очищаем корзину и перезагружаем страницу
-                    location.reload();
-                } else {
-                    alert('Ошибка при оформлении заказа: ' + (response.message || 'Неизвестная ошибка'));
-                }
-            },
-            error: function() {
-                alert('Произошла ошибка при оформлении заказа');
-            }
-        });
-
-        return false;
-    });
-
-    // Обновление корзины при добавлении товара (для обновления счетчика)
-    $(document).on('cartUpdated', function(event, data) {
-        $('.cart-counter').text(data.cartAmount);
-    });
-    
-    // Исправление проблемы с дублирующимся modal-backdrop
-    $(document).on('hidden.bs.modal', function() {
-        // Удаляем все лишние modal-backdrop, оставляя только один, если он нужен
-        if ($('.modal:visible').length) {
-            // Если есть открытая модалка, оставляем один backdrop
-            if ($('.modal-backdrop').length > 1) {
-                $('.modal-backdrop:not(:first)').remove();
-            }
-        } else {
-            // Если нет открытых модалок, удаляем все backdrops
-            $('.modal-backdrop').remove();
-            $('body').removeClass('modal-open');
-            $('body').css('padding-right', '');
-        }
-    });
-});
-</script>
 </body>
 </html>
 <?php $this->endPage();
