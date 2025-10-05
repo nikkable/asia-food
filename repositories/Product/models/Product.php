@@ -6,6 +6,7 @@ use repositories\Category\models\Category;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "{{%product}}".
@@ -23,9 +24,15 @@ use yii\behaviors\SluggableBehavior;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ *
+ * @property UploadedFile|null $imageFile
  */
 class Product extends ActiveRecord
 {
+    /**
+     * @var UploadedFile|null
+     */
+    public $imageFile;
     public static function tableName()
     {
         return '{{%product}}';
@@ -53,6 +60,7 @@ class Product extends ActiveRecord
             [['price', 'price_discount'], 'number'],
             [['name', 'image', 'article'], 'string', 'max' => 255],
             [['article'], 'unique'],
+            [['imageFile'], 'safe'],
         ];
     }
 
@@ -70,17 +78,51 @@ class Product extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'category_id' => 'Category ID',
-            'name' => 'Name',
-            'description' => 'Description',
-            'image' => 'Image',
-            'price' => 'Price',
-            'price_discount' => 'Price Discount',
-            'quantity' => 'Quantity',
-            'article' => 'Article',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'category_id' => 'Категория',
+            'name' => 'Название',
+            'description' => 'Описание',
+            'image' => 'Изображение',
+            'imageFile' => 'Изображение',
+            'price' => 'Цена',
+            'price_discount' => 'Цена со скидкой',
+            'quantity' => 'Количество',
+            'article' => 'Артикул',
+            'status' => 'Статус',
+            'created_at' => 'Создано',
+            'updated_at' => 'Обновлено',
         ];
+    }
+
+    /**
+     * Получить полный URL изображения
+     *
+     * @return string|null
+     */
+    public function getImageUrl(): ?string
+    {
+        if ($this->image) {
+            // Определяем, в каком приложении мы находимся
+            if (\Yii::$app->id === 'app-backend') {
+                return \Yii::getAlias('@web/uploads/products/' . $this->image);
+            } else {
+                // Для фронтенда используем полный URL бэкенда из параметров
+                $backendUrl = \Yii::$app->params['backendUrl'] ?? 'http://localhost:8080';
+                return rtrim($backendUrl, '/') . '/uploads/products/' . $this->image;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Получить полный путь к изображению
+     *
+     * @return string|null
+     */
+    public function getImagePath(): ?string
+    {
+        if ($this->image) {
+            return \Yii::getAlias('@backend/web/uploads/products/' . $this->image);
+        }
+        return null;
     }
 }

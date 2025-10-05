@@ -34,10 +34,27 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'slug',
             'description:ntext',
-            'image',
-            'status',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->image) {
+                        return Html::img($model->getImageUrl(), [
+                            'alt' => Html::encode($model->name),
+                            'style' => 'max-width: 300px; max-height: 300px;'
+                        ]);
+                    }
+                    return 'Нет изображения';
+                },
+            ],
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->status ? 'Активная' : 'Неактивная';
+                },
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

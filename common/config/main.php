@@ -23,6 +23,9 @@ return [
             // Order
             'context\Order\interfaces\OrderServiceInterface' => 'context\Order\services\OrderService',
             'repositories\Order\interfaces\OrderRepositoryInterface' => 'repositories\Order\OrderRepository',
+
+            // File
+            'context\File\interfaces\FileUploadServiceInterface' => 'context\File\services\FileUploadService',
         ],
     ],
     'components' => [

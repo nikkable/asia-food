@@ -5,6 +5,8 @@ namespace repositories\Category\models;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
+use yii\web\UploadedFile;
+use repositories\Product\models\Product;
 
 /**
  * This is the model class for table "{{%category}}".
@@ -18,9 +20,15 @@ use yii\behaviors\SluggableBehavior;
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
+ *
+ * @property UploadedFile|null $imageFile
  */
 class Category extends ActiveRecord
 {
+    /**
+     * @var UploadedFile|null
+     */
+    public $imageFile;
     public static function tableName()
     {
         return '{{%category}}';
@@ -47,6 +55,7 @@ class Category extends ActiveRecord
             [['description'], 'string'],
             [['name', 'slug', 'image'], 'string', 'max' => 255],
             [['slug'], 'unique'],
+            [['imageFile'], 'safe'],
         ];
     }
 
@@ -89,9 +98,43 @@ class Category extends ActiveRecord
             'slug' => 'Slug',
             'description' => 'Description',
             'image' => 'Image',
+            'imageFile' => 'Изображение',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    }
+
+    /**
+     * Получить полный URL изображения
+     *
+     * @return string|null
+     */
+    public function getImageUrl(): ?string
+    {
+        if ($this->image) {
+            // Определяем, в каком приложении мы находимся
+            if (\Yii::$app->id === 'app-backend') {
+                return \Yii::getAlias('@web/uploads/categories/' . $this->image);
+            } else {
+                // Для фронтенда используем полный URL бэкенда из параметров
+                $backendUrl = \Yii::$app->params['backendUrl'] ?? 'http://localhost:8080';
+                return rtrim($backendUrl, '/') . '/uploads/categories/' . $this->image;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Получить полный путь к изображению
+     *
+     * @return string|null
+     */
+    public function getImagePath(): ?string
+    {
+        if ($this->image) {
+            return \Yii::getAlias('@backend/web/uploads/categories/' . $this->image);
+        }
+        return null;
     }
 }

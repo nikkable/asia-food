@@ -33,11 +33,33 @@ $this->params['breadcrumbs'][] = $this->title;
             'parent_id',
             'name',
             'slug',
-            'description:ntext',
-            //'image',
-            //'status',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->image) {
+                        return Html::img($model->getImageUrl(), [
+                            'alt' => Html::encode($model->name),
+                            'style' => 'max-width: 50px; max-height: 50px;'
+                        ]);
+                    }
+                    return 'Нет';
+                },
+                'contentOptions' => ['style' => 'width: 80px; text-align: center;'],
+            ],
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $class = $model->status ? 'label-success' : 'label-default';
+                    $text = $model->status ? 'Активная' : 'Неактивная';
+                    return "<span class='label {$class}'>{$text}</span>";
+                },
+                'filter' => [
+                    1 => 'Активная',
+                    0 => 'Неактивная'
+                ],
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Category $model, $key, $index, $column) {

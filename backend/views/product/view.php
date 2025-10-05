@@ -30,17 +30,39 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'category_id',
+            [
+                'attribute' => 'category_id',
+                'value' => function ($model) {
+                    return $model->category ? $model->category->name : 'Не указана';
+                },
+            ],
             'name',
             'description:ntext',
-            'image',
-            'price',
-            'price_discount',
+            [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->image) {
+                        return Html::img($model->getImageUrl(), [
+                            'alt' => Html::encode($model->name),
+                            'style' => 'max-width: 300px; max-height: 300px;'
+                        ]);
+                    }
+                    return 'Нет изображения';
+                },
+            ],
+            'price:currency',
+            'price_discount:currency',
             'quantity',
             'article',
-            'status',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'status',
+                'value' => function ($model) {
+                    return $model->status ? 'Активный' : 'Неактивный';
+                },
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 

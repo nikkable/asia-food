@@ -8,12 +8,14 @@ use yii\helpers\Url;
 $this->title = 'Корзина';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="cart-index">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (!empty($cart->getItems())): ?>
-        <table class="table table-bordered">
-            <thead>
+<div class="container">
+    <div class="cart-index">
+        <h1><?= Html::encode($this->title) ?></h1>
+
+        <?php if (!empty($cart->getItems())): ?>
+            <table class="table table-bordered">
+                <thead>
                 <tr>
                     <th>Товар</th>
                     <th>Цена</th>
@@ -21,8 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     <th>Сумма</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 <?php foreach ($cart->getItems() as $item): ?>
                     <tr>
                         <td><?= Html::a(Html::encode($item->getProduct()->name), ['/catalog/product', 'slug' => $item->getProduct()->slug]) ?></td>
@@ -36,13 +38,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     <td colspan="3" class="text-right"><strong>Итого:</strong></td>
                     <td colspan="2"><strong><?= $cart->getTotalCost() ?> руб.</strong></td>
                 </tr>
-            </tbody>
-        </table>
-        <p>
-            <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => 'btn btn-danger', 'data-method' => 'post']) ?>
-            <?= Html::a('Оформить заказ', ['/checkout/index'], ['class' => 'btn btn-success']) ?>
-        </p>
-    <?php else: ?>
-        <p>Ваша корзина пуста.</p>
-    <?php endif; ?>
+                </tbody>
+            </table>
+            <p>
+                <?= Html::a('Очистить корзину', ['/cart/clear'], ['class' => 'btn btn-primary', 'data-method' => 'post']) ?>
+                <?= Html::a('Оформить заказ', ['/checkout/index'], ['class' => 'btn btn-secondary']) ?>
+            </p>
+        <?php else: ?>
+            <p>Ваша корзина пуста.</p>
+        <?php endif; ?>
+    </div>
 </div>
+

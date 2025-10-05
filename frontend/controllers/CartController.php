@@ -54,6 +54,28 @@ class CartController extends Controller
      */
     public function actionAdd($id)
     {
+        if (\Yii::$app->request->isAjax) {
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            
+            $quantity = (int) \Yii::$app->request->post('quantity', 1);
+            $success = $this->cartService->addProduct($id, $quantity);
+            
+            if ($success) {
+                $cart = $this->cartService->getCart();
+                return [
+                    'success' => true,
+                    'message' => 'Товар добавлен в корзину',
+                    'cartAmount' => $cart->getAmount(),
+                    'cartTotal' => $cart->getTotalCost()
+                ];
+            } else {
+                return [
+                    'success' => false,
+                    'message' => 'Не удалось добавить товар в корзину'
+                ];
+            }
+        }
+        
         $product = $this->productService->findById($id);
         if (!$product) {
             throw new NotFoundHttpException();

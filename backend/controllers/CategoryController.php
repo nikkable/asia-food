@@ -7,6 +7,8 @@ use backend\models\search\CategorySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use context\File\interfaces\FileUploadServiceInterface;
 
 /**
  * CategoryController implements the CRUD actions for Category model.
@@ -76,8 +78,28 @@ class CategoryController extends Controller
         $model = new Category();
 
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+                // Обработка загрузки изображения
+                $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+                
+                if ($model->imageFile) {
+                    $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
+                    
+                    if ($fileUploadService->isValidImage($model->imageFile)) {
+                        $fileName = $fileUploadService->uploadImage($model->imageFile, 'categories');
+                        if ($fileName) {
+                            $model->image = $fileName;
+                        } else {
+                            $model->addError('imageFile', 'Ошибка при загрузке файла');
+                        }
+                    } else {
+                        $model->addError('imageFile', 'Неверный формат файла. Разрешены: jpg, jpeg, png, gif, webp (макс. 5MB)');
+                    }
+                }
+                
+                if ($model->save()) {
+                    return $this->redirect(['view', 'id' => $model->id]);
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -98,9 +120,30 @@ class CategoryController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $oldImage = $model->image;
 
-        if ($this->request->isPost && $model->load($this->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($this->request->isPost && $model->load($this->request->post())) {
+            // Обработка загрузки изображения
+            $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
+            
+            if ($model->imageFile) {
+                $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
+                
+                if ($fileUploadService->isValidImage($model->imageFile)) {
+                    $fileName = $fileUploadService->uploadImage($model->imageFile, 'categories', $oldImage);
+                    if ($fileName) {
+                        $model->image = $fileName;
+                    } else {
+                        $model->addError('imageFile', 'Ошибка при загрузке файла');
+                    }
+                } else {
+                    $model->addError('imageFile', 'Неверный формат файла. Разрешены: jpg, jpeg, png, gif, webp (макс. 5MB)');
+                }
+            }
+            
+            if ($model->save()) {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -117,7 +160,15 @@ class CategoryController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        $model = $this->findModel($id);
+        
+        // Удаляем изображение если есть
+        if ($model->image) {
+            $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
+            $fileUploadService->deleteFile($model->image, 'categories');
+        }
+        
+        $model->delete();
 
         return $this->redirect(['index']);
     }

@@ -30,17 +30,48 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'id',
-            'category_id',
+            [
+                'attribute' => 'category_id',
+                'value' => function ($model) {
+                    return $model->category ? $model->category->name : 'Не указана';
+                },
+                'filter' => \yii\helpers\ArrayHelper::map(
+                    \repositories\Category\models\Category::find()->where(['status' => 1])->all(),
+                    'id',
+                    'name'
+                ),
+            ],
             'name',
-            'description:ntext',
-            'image',
-            //'price',
-            //'price_discount',
-            //'quantity',
-            //'article',
-            //'status',
-            //'created_at',
-            //'updated_at',
+            [
+                'attribute' => 'image',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    if ($model->image) {
+                        return Html::img($model->getImageUrl(), [
+                            'alt' => Html::encode($model->name),
+                            'style' => 'max-width: 50px; max-height: 50px;'
+                        ]);
+                    }
+                    return 'Нет';
+                },
+                'contentOptions' => ['style' => 'width: 80px; text-align: center;'],
+            ],
+            'price:currency',
+            'quantity',
+            'article',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $class = $model->status ? 'label-success' : 'label-default';
+                    $text = $model->status ? 'Активный' : 'Неактивный';
+                    return "<span class='label {$class}'>{$text}</span>";
+                },
+                'filter' => [
+                    1 => 'Активный',
+                    0 => 'Неактивный'
+                ],
+            ],
             [
                 'class' => ActionColumn::className(),
                 'urlCreator' => function ($action, Product $model, $key, $index, $column) {
