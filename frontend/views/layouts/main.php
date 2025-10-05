@@ -49,9 +49,11 @@ AppAsset::register($this);
                 <p>Пн-Сб 09:00-18:00</p>
                 <p>Вс 09:00-15:00</p>
             </div>
+            <!--
             <div class="header-buttons">
                 <button class="btn btn-primary">Войти</button>
             </div>
+            -->
         </div>
     </div>
 </header>

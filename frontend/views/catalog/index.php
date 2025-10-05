@@ -4,6 +4,7 @@ use common\helpers\PriceHelper;
 use frontend\widgets\HeaderCategoriesWidget;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
+use yii\helpers\Url;
 
 /** @var yii\web\View $this */
 /** @var repositories\Category\models\Category[] $categories */
@@ -29,6 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="category-page-main">
             <div class="category-page-categories">
                 <ul>
+                    <li><a href="<?= Url::to(['/catalog/index']) ?>">Все</a></li>
                     <?= HeaderCategoriesWidget::widget(); ?>
                 </ul>
             </div>
@@ -37,10 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php foreach ($products as $product): ?>
                         <div class="product">
                             <?php $isInFavorites = Yii::$container->get('context\\Favorite\\interfaces\\FavoriteServiceInterface')->isInFavorites($product->id); ?>
-                            <button class="product-favorite add-to-favorite <?= $isInFavorites ? 'active' : '' ?>"
+                            <button class="product-favorite js-product-favorite <?= $isInFavorites ? 'active' : '' ?>"
                                     data-product-id="<?= $product->id ?>"
                                     data-product-name="<?= Html::encode($product->name) ?>">
-                                <span><?= $isInFavorites ? 'В избранном' : 'В избранное' ?></span>
+                                <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 6.32647C20 11.4974 10.5 17 10.5 17C10.5 17 1 11.4974 1 6.32647C1 -0.694364 10.5 -0.599555 10.5 5.57947C10.5 -0.599555 20 -0.507124 20 6.32647Z" stroke="black" stroke-linejoin="round"></path>
+                                </svg>
                             </button>
                             <div class="product-image">
                                 <?php if ($product->image): ?>
@@ -96,88 +100,3 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
-
-<?php
-use yii\helpers\Url;
-
-$this->registerJs("
-$(document).ready(function() {
-    $('.add-to-cart-btn').on('click', function(e) {
-        e.preventDefault();
-        
-        var button = $(this);
-        var productId = button.data('product-id');
-        var productName = button.data('product-name');
-        var originalText = button.text();
-        
-        // Блокируем кнопку на время запроса
-        button.prop('disabled', true).text('Добавляем...');
-        
-        $.ajax({
-            url: '" . Url::to(['/cart/add']) . "' + '?id=' + productId,
-            type: 'POST',
-            data: {
-                quantity: 1,
-                '_csrf-frontend': $('meta[name=\"csrf-token\"]').attr('content')
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.success) {
-                    // Показываем успешное сообщение
-                    button.text('Добавлено!').removeClass('btn-three').addClass('btn-success');
-                    
-                    // Обновляем счетчик корзины если есть
-                    if ($('.js-cart-counter').length) {
-                        $('.js-cart-counter').text(response.cartAmount);
-                    }
-                    
-                    // Показываем уведомление
-                    showNotification('Товар \"' + productName + '\" добавлен в корзину', 'success');
-                    
-                    // Возвращаем кнопку в исходное состояние через 2 секунды
-                    setTimeout(function() {
-                        button.text(originalText).removeClass('btn-success').addClass('btn-three').prop('disabled', false);
-                    }, 2000);
-                } else {
-                    button.text(originalText).prop('disabled', false);
-                    showNotification(response.message || 'Ошибка при добавлении товара', 'error');
-                }
-            },
-            error: function() {
-                button.text(originalText).prop('disabled', false);
-                showNotification('Произошла ошибка. Попробуйте еще раз.', 'error');
-            }
-        });
-    });
-});
-
-// Функция для показа уведомлений
-function showNotification(message, type) {
-    var notification = $('<div class=\"notification notification-' + type + '\">' + message + '</div>');
-    
-    // Добавляем стили если их нет
-    if (!$('#notification-styles').length) {
-        $('head').append('<style id=\"notification-styles\">' +
-            '.notification { position: fixed; top: 20px; right: 20px; padding: 15px 20px; border-radius: 5px; color: white; z-index: 9999; max-width: 300px; }' +
-            '.notification-success { background-color: #28a745; }' +
-            '.notification-error { background-color: #dc3545; }' +
-            '.notification-fade-in { animation: fadeIn 0.3s ease-in; }' +
-            '.notification-fade-out { animation: fadeOut 0.3s ease-out; }' +
-            '@keyframes fadeIn { from { opacity: 0; transform: translateX(100%); } to { opacity: 1; transform: translateX(0); } }' +
-            '@keyframes fadeOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(100%); } }' +
-            '</style>');
-    }
-    
-    notification.addClass('notification-fade-in');
-    $('body').append(notification);
-    
-    // Автоматически скрываем через 3 секунды
-    setTimeout(function() {
-        notification.addClass('notification-fade-out');
-        setTimeout(function() {
-            notification.remove();
-        }, 300);
-    }, 3000);
-}
-");
-?>

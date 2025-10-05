@@ -93,4 +93,15 @@
       margin: 0 5px;
     }
   }
+
+  .product {
+    background: none;
+    padding: 0;
+    &-image {
+      padding: 3rem;
+      background: $color-white;
+      border-radius: 30px;
+      margin-bottom: 2rem;
+    }
+  }
 }

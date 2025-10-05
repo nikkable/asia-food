@@ -83,66 +83,89 @@ $model = new QuickOrderForm();
         ]); ?>
 
         <div class="col-md-6">
-            <?= $form->field($model, 'customerName', [
-                'inputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Ваше имя'
-                ]
-            ])->label('Имя *') ?>
+            <div class="form-group mb-3">
+                <?= $form->field($model, 'customerName', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'Ваше имя'
+                    ],
+                    'options' => ['class' => 'form-floating'],
+                    'template' => "{input}\n{label}\n{hint}\n{error}"
+                ])->label('Имя *') ?>
+            </div>
         </div>
 
         <div class="col-md-6">
-            <?= $form->field($model, 'customerPhone', [
-                'inputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => '+7 (999) 123-45-67'
-                ]
-            ])->label('Телефон *') ?>
+            <div class="form-group mb-3">
+                <?= $form->field($model, 'customerPhone', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'placeholder' => '+7 (999) 123-45-67'
+                    ],
+                    'options' => ['class' => 'form-floating'],
+                    'template' => "{input}\n{label}\n{hint}\n{error}"
+                ])->label('Телефон *') ?>
+            </div>
         </div>
 
         <div class="col-md-6">
-            <?= $form->field($model, 'customerEmail', [
-                'inputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'email@example.com'
-                ]
-            ])->label('Email') ?>
+            <div class="form-group mb-3">
+                <?= $form->field($model, 'customerEmail', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'email@example.com'
+                    ],
+                    'options' => ['class' => 'form-floating'],
+                    'template' => "{input}\n{label}\n{hint}\n{error}"
+                ])->label('Email') ?>
+            </div>
         </div>
 
         <div class="col-md-6">
-            <?= $form->field($model, 'deliveryAddress', [
-                'inputOptions' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'г. Оренбург, ул. Харьковская, 127'
-                ]
-            ])->label('Адрес доставки') ?>
+            <div class="form-group mb-3">
+                <?= $form->field($model, 'deliveryAddress', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'placeholder' => 'г. Оренбург, ул. Харьковская, 127'
+                    ],
+                    'options' => ['class' => 'form-floating'],
+                    'template' => "{input}\n{label}\n{hint}\n{error}"
+                ])->label('Адрес доставки') ?>
+            </div>
         </div>
         
         <div class="col-12">
-            <?= $form->field($model, 'paymentMethod')->radioList(
-                $model->getPaymentMethodOptions(),
-                [
-                    'item' => function($index, $label, $name, $checked, $value) {
-                        $checked = $checked ? 'checked' : '';
-                        $return = '<div class="form-check mb-2">';
-                        $return .= '<input class="form-check-input" type="radio" name="' . $name . '" value="' . $value . '" id="' . $value . '" ' . $checked . '>';
-                        $return .= '<label class="form-check-label" for="' . $value . '">' . $label . '</label>';
-                        $return .= '</div>';
-                        return $return;
-                    },
-                    'unselect' => null,
-                ]
-            ) ?>
+            <div class="form-group mb-3">
+                <?= $form->field($model, 'paymentMethod', [
+                    'options' => ['class' => 'payment-method-group'],
+                ])->radioList(
+                    $model->getPaymentMethodOptions(),
+                    [
+                        'item' => function($index, $label, $name, $checked, $value) {
+                            $checked = $checked ? 'checked' : '';
+                            $return = '<div class="form-check mb-2">';
+                            $return .= '<input class="form-check-input" type="radio" name="' . $name . '" value="' . $value . '" id="' . $value . '" ' . $checked . '>';
+                            $return .= '<label class="form-check-label" for="' . $value . '">' . $label . '</label>';
+                            $return .= '</div>';
+                            return $return;
+                        },
+                        'unselect' => null,
+                    ]
+                ) ?>
+            </div>
         </div>
 
         <div class="col-12">
-            <?= $form->field($model, 'orderComment', [
-                'inputOptions' => [
-                    'class' => 'form-control',
-                    'rows' => 3,
-                    'placeholder' => 'Комментарий к заказу'
-                ]
-            ])->textarea()->label('Комментарий') ?>
+            <div class="form-group mb-3">
+                <?= $form->field($model, 'orderComment', [
+                    'inputOptions' => [
+                        'class' => 'form-control',
+                        'rows' => 3,
+                        'placeholder' => 'Комментарий к заказу'
+                    ],
+                    'options' => ['class' => 'comment-group'],
+                ])->textarea()->label('Комментарий') ?>
+            </div>
         </div>
 
         <div class="col-12 text-center">

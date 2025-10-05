@@ -39,7 +39,7 @@ $(document).ready(function() {
             // Если это было удаление товара из модального окна
             if (response.removedProductId) {
                 // Обновляем состояние всех кнопок для этого товара на странице
-                var pageButtons = $('.add-to-favorite[data-product-id="' + response.removedProductId + '"]');
+                var pageButtons = $('.js-product-favorite[data-product-id="' + response.removedProductId + '"]');
                 pageButtons.removeClass('active').find('span').text('В избранное');
                 
                 // Удаляем элемент из модального окна
@@ -66,7 +66,7 @@ $(document).ready(function() {
             
             // Если это было добавление товара
             if (response.productId && !response.removedProductId) {
-                var addButtons = $('.add-to-favorite[data-product-id="' + response.productId + '"]');
+                var addButtons = $('.js-product-favorite[data-product-id="' + response.productId + '"]');
                 addButtons.addClass('active').find('span').text('В избранном');
                 
                 // Обновляем содержимое модального окна
@@ -78,7 +78,7 @@ $(document).ready(function() {
     }
     
     // Обработка кликов по кнопкам добавления в избранное
-    $(document).on('click', '.add-to-favorite', function(e) {
+    $(document).on('click', '.js-product-favorite', function(e) {
         e.preventDefault();
         var button = $(this);
         var productId = button.data('product-id');
@@ -149,7 +149,7 @@ $(document).ready(function() {
                         refreshFavoriteModal();
                         
                         // Обновляем кнопки на странице
-                        $('.add-to-favorite.active').removeClass('active').find('span').text('В избранное');
+                        $('.js-product-favorite.active').removeClass('active').find('span').text('В избранное');
                         
                         showNotification('success', 'Список избранного очищен');
                     } else {
