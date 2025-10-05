@@ -10,7 +10,9 @@ class OrderRepository implements OrderRepositoryInterface
     public function save(Order $order): void
     {
         if (!$order->save()) {
-            throw new \RuntimeException('Saving error.');
+            $errors = json_encode($order->getErrors());
+            \Yii::error("\u041eшибка сохранения заказа: {$errors}", 'order');
+            throw new \RuntimeException("Saving error. Details: {$errors}");
         }
     }
 }

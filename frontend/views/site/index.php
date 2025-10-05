@@ -1,6 +1,7 @@
 <?php
 
 use frontend\widgets\CategoryWidget;
+use frontend\widgets\BestsellerWidget;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -40,79 +41,11 @@ $this->title = 'Главная';
     </div>
 </div>
 
-<div class="hit">
-    <div class="container">
-        <div class="hit-head">
-            <div class="title">Хиты продаж</div>
-        </div>
-        <div class="hit-main">
-            <div class="product">
-                <a href="#" class="product-favorite"></a>
-                <div class="product-image">
-                    <img src="/images/products/1.png" alt="">
-                </div>
-                <div class="product-info">
-                    <div class="product-price">185р.</div>
-                    <div class="product-quantity">Нет в наличии</div>
-                    <div class="product-name">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                    <div class="product-desc">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                </div>
-                <div class="product-buttons">
-                    <button class="btn btn-three">В корзину</button>
-                    <button class="btn btn-secondary">Подробнее</button>
-                </div>
-            </div>
-            <div class="product">
-                <a href="#" class="product-favorite"></a>
-                <div class="product-image">
-                    <img src="/images/products/1.png" alt="">
-                </div>
-                <div class="product-info">
-                    <div class="product-price">185р.</div>
-                    <div class="product-quantity">Нет в наличии</div>
-                    <div class="product-name">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                    <div class="product-desc">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                </div>
-                <div class="product-buttons">
-                    <button class="btn btn-three">В корзину</button>
-                    <button class="btn btn-secondary">Подробнее</button>
-                </div>
-            </div>
-            <div class="product">
-                <a href="#" class="product-favorite"></a>
-                <div class="product-image">
-                    <img src="/images/products/1.png" alt="">
-                </div>
-                <div class="product-info">
-                    <div class="product-price">185р.</div>
-                    <div class="product-quantity">Нет в наличии</div>
-                    <div class="product-name">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                    <div class="product-desc">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                </div>
-                <div class="product-buttons">
-                    <button class="btn btn-three">В корзину</button>
-                    <button class="btn btn-secondary">Подробнее</button>
-                </div>
-            </div>
-            <div class="product">
-                <a href="#" class="product-favorite"></a>
-                <div class="product-image">
-                    <img src="/images/products/1.png" alt="">
-                </div>
-                <div class="product-info">
-                    <div class="product-price">185р.</div>
-                    <div class="product-quantity">Нет в наличии</div>
-                    <div class="product-name">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                    <div class="product-desc">Соус бальзамический "Тамаки" 0,47 мл.(6шт/уп)</div>
-                </div>
-                <div class="product-buttons">
-                    <button class="btn btn-three">В корзину</button>
-                    <button class="btn btn-secondary">Подробнее</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<?= BestsellerWidget::widget([
+    'title' => 'Хиты продаж',
+    'subtitle' => 'Самые популярные товары нашего магазина',
+    'limit' => 20
+]) ?>
 
 <!--
 <div class="review">

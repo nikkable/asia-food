@@ -19,9 +19,22 @@ class OrderService extends AbstractService implements OrderServiceInterface
     public function create(Cart $cart, array $customerData): Order
     {
         $order = new Order();
-        $order->load($customerData, '');
+        
+        // Маппинг полей из формы в модель
+        $order->customer_name = $customerData['customerName'] ?? '';
+        $order->customer_phone = $customerData['customerPhone'] ?? '';
+        $order->customer_email = $customerData['customerEmail'] ?? 'no-email@example.com'; // Значение по умолчанию, если email не указан
+        $order->note = isset($customerData['orderComment']) ? $customerData['orderComment'] : '';
+        
+        // Если есть адрес доставки, добавляем его в примечание
+        if (!empty($customerData['deliveryAddress'])) {
+            $deliveryInfo = "Адрес доставки: {$customerData['deliveryAddress']}";
+            $order->note = empty($order->note) ? $deliveryInfo : $order->note . "\n\n" . $deliveryInfo;
+        }
+        
         $order->user_id = Yii::$app->user->id;
         $order->total_cost = $cart->getTotalCost();
+        $order->status = 0; // Новый заказ
 
         $transaction = Yii::$app->db->beginTransaction();
         try {
