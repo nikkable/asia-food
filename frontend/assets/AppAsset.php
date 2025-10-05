@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
         'js/notifications.js',
         'js/favorite.js',
         'js/cart.js',
+        'js/price-formatter.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

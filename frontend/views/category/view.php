@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\PriceHelper;
 use frontend\widgets\HeaderCategoriesWidget;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
@@ -52,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?php endif; ?>
                             </div>
                             <div class="product-info">
-                                <div class="product-price"><?= number_format($product->price, 0, ',', ' ') ?>р.</div>
+                                <div class="product-price"><?= PriceHelper::formatRub($product->price) ?></div>
                                 <div class="product-quantity">
                                     <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
                                 </div>

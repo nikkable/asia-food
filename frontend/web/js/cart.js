@@ -40,7 +40,7 @@ $(document).ready(function() {
             
             // Обновляем общую сумму
             if ($('.cart-total strong').length) {
-                $('.cart-total strong').text(new Intl.NumberFormat('ru-RU').format(response.cartTotal) + 'р.');
+                $('.cart-total strong').text(formatPrice(response.cartTotal));
             }
             
             // Если это было изменение количества, обновляем отображение количества
@@ -49,13 +49,13 @@ $(document).ready(function() {
                 item.find('.btn.disabled').text(response.newQuantity);
                 var priceElement = item.find('.cart-item-total');
                 if (priceElement.length) {
-                    priceElement.text('= ' + new Intl.NumberFormat('ru-RU').format(response.itemTotal) + 'р.');
+                    priceElement.text('= ' + formatPrice(response.itemTotal));
                 }
             }
             
             // Обновляем кнопку оформления заказа
             if ($('.btn-success').length) {
-                $('.btn-success').text('Оформить заказ на ' + new Intl.NumberFormat('ru-RU').format(response.cartTotal) + 'р.');
+                $('.btn-success').text('Оформить заказ на ' + formatPrice(response.cartTotal));
             }
             
             // Если товар был удален, обновляем модальное окно

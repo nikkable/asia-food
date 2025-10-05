@@ -1,5 +1,6 @@
 <?php
 
+use common\helpers\PriceHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -35,10 +36,10 @@ $model = new QuickOrderForm();
                         </a>
                     </h6>
                     <div class="cart-item-price text-muted">
-                        <?= number_format($item->getProduct()->price, 0, ',', ' ') ?>р. × <?= $item->getQuantity() ?>
+                        <?= PriceHelper::formatRub($item->getProduct()->price) ?> × <?= $item->getQuantity() ?>
                     </div>
                     <div class="cart-item-total fw-bold">
-                        = <?= number_format($item->getCost(), 0, ',', ' ') ?>р.
+                        = <?= PriceHelper::formatRub($item->getCost()) ?>
                     </div>
                 </div>
 
@@ -68,7 +69,7 @@ $model = new QuickOrderForm();
 
     <!-- Итого -->
     <div class="cart-total text-end mb-4">
-        <h5>Итого: <strong><?= number_format($cart->getTotalCost(), 0, ',', ' ') ?>р.</strong></h5>
+        <h5>Итого: <strong><?= PriceHelper::formatRub($cart->getTotalCost()) ?></strong></h5>
     </div>
 
     <!-- Форма быстрого заказа -->
@@ -146,7 +147,7 @@ $model = new QuickOrderForm();
 
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-success btn-lg">
-                Оформить заказ на <?= number_format($cart->getTotalCost(), 0, ',', ' ') ?>р.
+                Оформить заказ на <?= PriceHelper::formatRub($cart->getTotalCost()) ?>
             </button>
         </div>
 
