@@ -2,6 +2,7 @@
 
 use common\helpers\PriceHelper;
 use frontend\widgets\HeaderCategoriesWidget;
+use yii\data\Pagination;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
 use yii\helpers\Url;
@@ -22,9 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="container">
         <div class="category-page-head">
             <h1><?= Html::encode($this->title) ?></h1>
-            <div class="category-description">
-                Все товары нашего магазина
-            </div>
         </div>
 
         <div class="category-page-main">
@@ -71,7 +69,9 @@ $this->params['breadcrumbs'][] = $this->title;
                                         В корзину
                                     </button>
                                 <?php endif; ?>
+                                <!--
                                 <button class="btn btn-secondary">Подробнее</button>
+                                -->
                             </div>
                         </div>
                     <?php endforeach; ?>
@@ -79,7 +79,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <!-- Пагинация -->
                     <div class="pagination-container">
                         <?= LinkPager::widget([
-                            'pagination' => new \yii\data\Pagination([
+                            'pagination' => new Pagination([
                                 'totalCount' => $totalProducts,
                                 'pageSize' => $pageSize,
                                 'page' => $currentPage - 1,

@@ -16,66 +16,75 @@ $model = new QuickOrderForm();
     <!-- Список товаров в корзине -->
     <div class="cart-items mb-4">
         <?php foreach ($cart->getItems() as $item): ?>
-            <div class="cart-item d-flex align-items-center mb-3 p-3 border rounded" data-product-id="<?= $item->getProduct()->id ?>">
-                <div class="cart-item-image me-3">
+            <div class="cart-item js-cart-item" data-product-id="<?= $item->getProduct()->id ?>">
+                <div class="cart-item-image">
                     <?php if ($item->getProduct()->image): ?>
                         <img src="<?= $item->getProduct()->getImageUrl() ?>"
                              alt="<?= Html::encode($item->getProduct()->name) ?>"
                              style="width: 60px; height: 60px; object-fit: cover;">
                     <?php else: ?>
-                        <div style="width: 60px; height: 60px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                            Нет фото
+                        <div style="width: 60px; height: 60px; background: #f8f9fa; border-radius: 10px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 12px;">
+                            Фото
                         </div>
                     <?php endif; ?>
                 </div>
 
                 <div class="cart-item-info flex-grow-1">
-                    <h6 class="mb-1">
+                    <div class="cart-item-name">
                         <a href="<?= Url::to(['/catalog/product', 'slug' => $item->getProduct()->slug]) ?>">
                             <?= Html::encode($item->getProduct()->name) ?>
                         </a>
-                    </h6>
-                    <div class="cart-item-price text-muted">
-                        <?= PriceHelper::formatRub($item->getProduct()->price) ?> × <?= $item->getQuantity() ?>
                     </div>
-                    <div class="cart-item-total fw-bold">
-                        = <?= PriceHelper::formatRub($item->getCost()) ?>
+                    <div class="cart-item-info-price">
+                        <div class="cart-item-price">
+                            <?= PriceHelper::formatRub($item->getProduct()->price) ?> × <?= $item->getQuantity() ?>
+                        </div>
+                        <div class="cart-item-total js-cart-item-total">
+                            = <?= PriceHelper::formatRub($item->getCost()) ?>
+                        </div>
                     </div>
                 </div>
 
                 <div class="cart-item-actions">
-                    <div class="btn-group btn-group-sm">
-                        <button type="button" class="btn btn-outline-secondary cart-quantity-btn"
-                                data-action="decrease" data-product-id="<?= $item->getProduct()->id ?>">
-                            −
+                    <div class="cart-item-quantity">
+                        <button type="button" class="btn js-cart-quantity-btn" data-action="decrease" data-product-id="<?= $item->getProduct()->id ?>">
+                            <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                                <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="14" y1="31" x2="50" y2="31"/></g>
+                                <g><circle fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="32" cy="32" r="30.999"/></g>
+                            </svg>
                         </button>
                         <span class="btn disabled">
                             <?= $item->getQuantity() ?>
                         </span>
-                        <button type="button" class="btn btn-outline-secondary cart-quantity-btn"
-                                data-action="increase" data-product-id="<?= $item->getProduct()->id ?>">
-                            +
+                        <button type="button" class="btn js-cart-quantity-btn" data-action="increase" data-product-id="<?= $item->getProduct()->id ?>">
+                            <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                                <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="32" y1="50" x2="32" y2="14"/><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="14" y1="32" x2="50" y2="32"/></g>
+                                <g><circle fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="32" cy="32" r="30.999"/></g>
+                            </svg>
                         </button>
                     </div>
 
-                    <button type="button" class="btn btn-sm btn-outline-danger mt-2 cart-remove-btn"
-                            data-product-id="<?= $item->getProduct()->id ?>">
-                        Удалить
-                    </button>
+                    <div class="cart-item-remove">
+                        <button type="button" class="btn js-cart-remove-btn" data-product-id="<?= $item->getProduct()->id ?>">
+                            <svg width="20px" height="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+                                <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="18.947" y1="17.153" x2="45.045" y2="43.056"/></g>
+                                <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="19.045" y1="43.153" x2="44.947" y2="17.056"/></g>
+                                <g><circle fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="32" cy="32" r="30.999"/></g>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
         <?php endforeach; ?>
     </div>
 
     <!-- Итого -->
-    <div class="cart-total text-end mb-4">
-        <h5>Итого: <strong><?= PriceHelper::formatRub($cart->getTotalCost()) ?></strong></h5>
+    <div class="cart-total js-cart-total m-b-4">
+        <div>Сумма: <strong><?= PriceHelper::formatRub($cart->getTotalCost()) ?></strong></div>
     </div>
 
     <!-- Форма быстрого заказа -->
     <div class="quick-order-form">
-        <h6 class="mb-3">Быстрый заказ</h6>
-
         <?php $form = ActiveForm::begin([
             'id' => 'quick-order-form',
             'action' => Url::to(['/order/create']),
@@ -83,40 +92,33 @@ $model = new QuickOrderForm();
         ]); ?>
 
         <div class="col-md-6">
-            <div class="form-group mb-3">
-                <?= $form->field($model, 'customerName', [
-                    'inputOptions' => [
-                        'class' => 'form-control',
-                        'placeholder' => 'Ваше имя'
-                    ],
-                    'options' => ['class' => 'form-floating'],
-                    'template' => "{input}\n{label}\n{hint}\n{error}"
-                ])->label('Имя *') ?>
-            </div>
+            <?= $form->field($model, 'customerName', [
+                'inputOptions' => [
+                    'class' => 'field-text',
+                    'placeholder' => 'Ваше имя'
+                ],
+                'options' => ['class' => 'form-group'],
+            ])->label('Имя *') ?>
         </div>
 
         <div class="col-md-6">
-            <div class="form-group mb-3">
-                <?= $form->field($model, 'customerPhone', [
-                    'inputOptions' => [
-                        'class' => 'form-control',
-                        'placeholder' => '+7 (999) 123-45-67'
-                    ],
-                    'options' => ['class' => 'form-floating'],
-                    'template' => "{input}\n{label}\n{hint}\n{error}"
-                ])->label('Телефон *') ?>
-            </div>
+            <?= $form->field($model, 'customerPhone', [
+                'inputOptions' => [
+                    'class' => 'field-text',
+                    'placeholder' => '+7 (999) 123-45-67'
+                ],
+                'options' => ['class' => 'form-group'],
+            ])->label('Телефон *') ?>
         </div>
 
         <div class="col-md-6">
             <div class="form-group mb-3">
                 <?= $form->field($model, 'customerEmail', [
                     'inputOptions' => [
-                        'class' => 'form-control',
+                        'class' => 'field-text',
                         'placeholder' => 'email@example.com'
                     ],
-                    'options' => ['class' => 'form-floating'],
-                    'template' => "{input}\n{label}\n{hint}\n{error}"
+                    'options' => ['class' => 'form-group'],
                 ])->label('Email') ?>
             </div>
         </div>
@@ -125,17 +127,16 @@ $model = new QuickOrderForm();
             <div class="form-group mb-3">
                 <?= $form->field($model, 'deliveryAddress', [
                     'inputOptions' => [
-                        'class' => 'form-control',
+                        'class' => 'field-text',
                         'placeholder' => 'г. Оренбург, ул. Харьковская, 127'
                     ],
-                    'options' => ['class' => 'form-floating'],
-                    'template' => "{input}\n{label}\n{hint}\n{error}"
+                    'options' => ['class' => 'form-group'],
                 ])->label('Адрес доставки') ?>
             </div>
         </div>
         
         <div class="col-12">
-            <div class="form-group mb-3">
+            <div class="form-group">
                 <?= $form->field($model, 'paymentMethod', [
                     'options' => ['class' => 'payment-method-group'],
                 ])->radioList(
@@ -143,7 +144,7 @@ $model = new QuickOrderForm();
                     [
                         'item' => function($index, $label, $name, $checked, $value) {
                             $checked = $checked ? 'checked' : '';
-                            $return = '<div class="form-check mb-2">';
+                            $return = '<div class="field-radio">';
                             $return .= '<input class="form-check-input" type="radio" name="' . $name . '" value="' . $value . '" id="' . $value . '" ' . $checked . '>';
                             $return .= '<label class="form-check-label" for="' . $value . '">' . $label . '</label>';
                             $return .= '</div>';
@@ -159,17 +160,17 @@ $model = new QuickOrderForm();
             <div class="form-group mb-3">
                 <?= $form->field($model, 'orderComment', [
                     'inputOptions' => [
-                        'class' => 'form-control',
+                        'class' => 'field-textarea',
                         'rows' => 3,
                         'placeholder' => 'Комментарий к заказу'
                     ],
-                    'options' => ['class' => 'comment-group'],
+                    'options' => ['class' => 'form-group'],
                 ])->textarea()->label('Комментарий') ?>
             </div>
         </div>
 
         <div class="col-12 text-center">
-            <button type="submit" class="btn btn-success btn-lg">
+            <button type="submit" class="btn btn-three btn-big">
                 Оформить заказ на <?= PriceHelper::formatRub($cart->getTotalCost()) ?>
             </button>
         </div>
@@ -186,7 +187,7 @@ $model = new QuickOrderForm();
             </svg>
         </div>
         <h5 class="text-muted">Корзина пуста</h5>
-        <p class="text-muted">Добавьте товары в корзину, чтобы оформить заказ</p>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Продолжить покупки</button>
+        <p class="text-muted m-b-4">Добавьте товары в корзину, чтобы оформить заказ</p>
+        <button type="button" class="btn btn-three" data-bs-dismiss="modal">Продолжить покупки</button>
     </div>
 <?php endif; ?>

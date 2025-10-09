@@ -2,7 +2,6 @@
 
 namespace context\File\interfaces;
 
-use yii\web\UploadedFile;
 
 interface FileUploadServiceInterface
 {
@@ -14,7 +13,7 @@ interface FileUploadServiceInterface
      * @param string|null $oldFileName
      * @return string|null Имя загруженного файла или null при ошибке
      */
-    public function uploadImage(UploadedFile $file, string $directory, ?string $oldFileName = null): ?string;
+    public function uploadImage(FileInterface $file, string $directory, ?string $oldFileName = null): ?string;
 
     /**
      * Удаляет файл
@@ -31,7 +30,7 @@ interface FileUploadServiceInterface
      * @param UploadedFile $file
      * @return bool
      */
-    public function isValidImage(UploadedFile $file): bool;
+    public function isValidImage(FileInterface $file): bool;
 
     /**
      * Генерирует уникальное имя файла
@@ -40,4 +39,11 @@ interface FileUploadServiceInterface
      * @return string
      */
     public function generateFileName(string $originalName): string;
+
+    /**
+     * Возвращает сообщение о последней ошибке валидации или загрузки.
+     *
+     * @return string|null
+     */
+    public function getLastError(): ?string;
 }

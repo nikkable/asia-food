@@ -16,6 +16,7 @@
       min-height: 44px;
       border-radius: 10px;
       color: $color-black;
+      text-decoration: none;
     }
     &.hidden {
       display: block !important;
@@ -29,10 +30,10 @@
         border: 1px solid $color-grey;
       }
     }
-    &.selected {
+    &.active {
       > a {
-        border: 1px solid $color-green;
-        background: $color-green;
+        border: 1px solid $color-red;
+        background: $color-red;
         color: $color-white;
       }
     }

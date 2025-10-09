@@ -15,7 +15,7 @@ class AppAsset extends AssetBundle
 //        'css/site.css',
         'css/style.min.css',
         'css/favorite.css',
-        'css/pagination.css',
+//        'css/pagination.css',
 //        'css/catalog.css',
         'css/bestsellers.css',
     ];

@@ -11,8 +11,6 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app): void
     {
-        if ($app instanceof Application) {
-            \Yii::$container->set(FileUploadServiceInterface::class, FileUploadService::class);
-        }
+        \Yii::$container->set(FileUploadServiceInterface::class, FileUploadService::class);
     }
 }

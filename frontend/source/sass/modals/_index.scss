@@ -1,21 +1,4 @@
 .modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0, 0, 0, 0.67);
-  z-index: 1007;
-  color: $color-black;
-  p {
-    color: $color-black;
-  }
-  &--show {
-    display: flex;
-  }
   &-dialog {
     position: relative;
     width: 100%;
@@ -23,71 +6,20 @@
     background: $color-white;
     min-height: 20%;
     max-height: 100%;
-    border-radius: 20px;
-    margin: 1.5rem;
+    border-radius: 30px;
     overflow-y: auto;
-    @media(max-width: #{$break-max-md}) {
-      max-width: unset;
-      border-radius: unset;
-      margin: 0;
-      min-height: 100%;
-    }
   }
-  &-head {
-    padding: 2.4rem;
-    border-bottom: 1px solid $color-white-middle;
-    @media(max-width: #{$break-max-sm}) {
-      padding: 1.6rem;
-    }
+  &-content {
+    padding: 30px;
   }
-  &-main {
-    padding: 2.4rem;
-    @media(max-width: #{$break-max-sm}) {
-      padding: 1.6rem;
-    }
-  }
-  &-foot {
-    padding: 2.4rem;
-    border-top: 1px solid $color-white-middle;
-    @media(max-width: #{$break-max-sm}) {
-      padding: 1.6rem;
-    }
-  }
-  &-close {
-    position: absolute;
-    top: 24px;
-    right: 16px;
-    padding: 0;
-    min-height: unset;
-    @media(max-width: #{$break-max-sm}) {
-      top: 14px;
-    }
-    &:hover {
-      cursor: pointer;
-    }
-  }
-  &-title {
-    font-size: 2rem;
-    font-weight: 500;
-    @media(max-width: #{$break-max-sm}) {
-      font-size: 1.6rem;
-    }
-  }
-}
 
-// modal-created
-.modal-created {
-  &.modal {
-    text-align: center;
-    .modal-dialog {
-      max-width: 560px;
-    }
-    .modal-head {
-      padding: 2.4rem 2.4rem 1rem 2.4rem;
-      border-bottom: none;
-    }
-    .modal-main {
-      padding: 0 2.4rem 2.4rem 2.4rem;
-    }
+  &-title {
+    font-weight: bold;
+    font-size: 3rem;
+  }
+
+
+  &-header {
+    border-bottom: none;
   }
 }

@@ -39,15 +39,15 @@ $(document).ready(function() {
             $('.js-cart-counter').text(response.cartAmount);
             
             // Обновляем общую сумму
-            if ($('.cart-total strong').length) {
-                $('.cart-total strong').text(formatPrice(response.cartTotal));
+            if ($('.js-cart-total strong').length) {
+                $('.js-cart-total strong').text(formatPrice(response.cartTotal));
             }
             
             // Если это было изменение количества, обновляем отображение количества
             if (response.updatedProductId) {
-                var item = $('.cart-item[data-product-id="' + response.updatedProductId + '"]');
+                var item = $('.js-cart-item[data-product-id="' + response.updatedProductId + '"]');
                 item.find('.btn.disabled').text(response.newQuantity);
-                var priceElement = item.find('.cart-item-total');
+                var priceElement = item.find('.js-cart-item-total');
                 if (priceElement.length) {
                     priceElement.text('= ' + formatPrice(response.itemTotal));
                 }
@@ -68,7 +68,7 @@ $(document).ready(function() {
     }
 
     // Обработка кликов по кнопкам изменения количества
-    $(document).on('click', '.cart-quantity-btn', function() {
+    $(document).on('click', '.js-cart-quantity-btn', function() {
         var button = $(this);
         var action = button.data('action');
         var productId = button.data('product-id');
@@ -97,7 +97,7 @@ $(document).ready(function() {
     });
 
     // Обработка кликов по кнопкам удаления
-    $(document).on('click', '.cart-remove-btn', function() {
+    $(document).on('click', '.js-cart-remove-btn', function() {
         var button = $(this);
         var productId = button.data('product-id');
 

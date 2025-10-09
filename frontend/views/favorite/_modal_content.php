@@ -39,12 +39,12 @@ use yii\helpers\Url;
                 </div>
 
                 <div class="favorite-item-actions">
-                    <button type="button" class="btn btn-sm btn-primary add-to-cart-btn mb-2"
+                    <button type="button" class="btn btn-three add-to-cart-btn mb-2"
                             data-product-id="<?= $product->id ?>"
                             data-product-name="<?= Html::encode($product->name) ?>">
                         В корзину
                     </button>
-                    <button type="button" class="btn btn-sm btn-outline-danger favorite-remove-btn"
+                    <button type="button" class="btn btn-secondary favorite-remove-btn"
                             data-product-id="<?= $product->id ?>">
                         Удалить
                     </button>
@@ -55,12 +55,9 @@ use yii\helpers\Url;
 
     <!-- Кнопки действий -->
     <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-outline-danger favorite-clear-btn">
+        <button type="button" class="btn btn-secondary favorite-clear-btn">
             Очистить избранное
         </button>
-        <a href="<?= Url::to(['/favorite/index']) ?>" class="btn btn-outline-primary">
-            Перейти в избранное
-        </a>
     </div>
 
 <?php else: ?>
@@ -72,7 +69,7 @@ use yii\helpers\Url;
             </svg>
         </div>
         <h5 class="text-muted">В избранном пока нет товаров</h5>
-        <p class="text-muted">Добавьте товары в избранное, чтобы вернуться к ним позже</p>
-        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Продолжить покупки</button>
+        <p class="text-muted m-b-4">Добавьте товары в избранное, чтобы вернуться к ним позже</p>
+        <button type="button" class="btn btn-three" data-bs-dismiss="modal">Продолжить покупки</button>
     </div>
 <?php endif; ?>

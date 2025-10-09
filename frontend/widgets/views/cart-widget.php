@@ -27,12 +27,11 @@ $model = new QuickOrderForm();
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="cartModalLabel">Корзина</h5>
+                <div class="modal-title" id="cartModalLabel">Мой заказ</div>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
             </div>
 
             <div class="modal-body">
-                <!-- Содержимое будет загружено через AJAX -->
                 <div class="text-center py-5">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Загрузка...</span>
