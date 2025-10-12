@@ -13,12 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'css/swiper-bundle.min.css',
-//        'css/site.css',
         'css/style.min.css',
-        'css/favorite.css',
-//        'css/pagination.css',
-//        'css/catalog.css',
-        'css/bestsellers.css',
     ];
     public $js = [
         'js/swiper-bundle.min.js',

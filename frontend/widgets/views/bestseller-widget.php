@@ -10,17 +10,17 @@ use common\helpers\PriceHelper;
 /** @var repositories\Product\models\Product[] $bestsellers */
 ?>
 
-<section class="bestsellers-section">
+<section class="bestsellers">
     <div class="container">
-        <div class="section-header">
-            <h2 class="section-title"><?= Html::encode($title) ?></h2>
+        <div class="bestsellers-head">
+            <div class="bestsellers-title title"><?= Html::encode($title) ?></div>
             <?php if (!empty($subtitle)): ?>
-                <p class="section-subtitle"><?= Html::encode($subtitle) ?></p>
+                <div class="undertitle"><?= Html::encode($subtitle) ?></div>
             <?php endif; ?>
         </div>
         
         <?php if (!empty($bestsellers)): ?>
-            <div class="bestsellers-grid">
+            <div class="bestsellers-main">
                 <?php foreach ($bestsellers as $product): ?>
                     <div class="product">
                         <?php $isInFavorites = Yii::$container->get('context\\Favorite\\interfaces\\FavoriteServiceInterface')->isInFavorites($product->id); ?>
@@ -48,7 +48,7 @@ use common\helpers\PriceHelper;
                         </div>
                         <div class="product-buttons">
                             <?php if ($product->quantity > 0): ?>
-                                <button class="btn btn-three add-to-cart-btn"
+                                <button class="btn btn-three js-add-to-cart-btn"
                                         data-product-id="<?= $product->id ?>"
                                         data-product-name="<?= Html::encode($product->name) ?>">
                                     В корзину

@@ -1,5 +1,8 @@
 .screen {
   margin-bottom: 10rem;
+  @media(max-width: #{$break-max-md}) {
+    margin-bottom: 5rem;
+  }
   &-main {
     position: relative;
     overflow: hidden;
@@ -16,6 +19,9 @@
         top: 0;
         bottom: 0;
         margin: auto 0;
+      }
+      @media(max-width: #{$break-max-sm}) {
+        display: none;
       }
     }
 
@@ -40,6 +46,9 @@
       right: 0;
       margin: 0 auto;
       z-index: 1;
+      @media(max-width: #{$break-max-sm}) {
+        display: none;
+      }
     }
   }
 
@@ -49,6 +58,19 @@
     width: 100%;
     overflow: hidden;
     min-height: 400px;
+    @media(max-width: #{$break-max-xl}) {
+      min-height: 300px;
+    }
+    @media(max-width: #{$break-max-lg}) {
+      min-height: 200px;
+    }
+    @media(max-width: #{$break-max-md}) {
+      min-height: 160px;
+    }
+    @media(max-width: #{$break-max-sm}) {
+      min-height: 110px;
+      border-radius: 16px;
+    }
     img {
       position: absolute;
       top: 0;
@@ -61,11 +83,24 @@
       position: absolute;
       bottom: 40px;
       left: 40px;
+      @media(max-width: #{$break-max-lg}) {
+        bottom: 30px;
+      }
+      @media(max-width: #{$break-max-sm}) {
+        bottom: 10px;
+        left: 10px;
+      }
       .btn {
         min-height: 60px;
         border-radius: 50px;
         font-size: 24px;
         padding: 0 7rem;
+        @media(max-width: #{$break-max-lg}) {
+          padding: 0 2rem;
+          border-radius: 16px;
+          font-size: 16px;
+          min-height: 30px;
+        }
       }
     }
   }

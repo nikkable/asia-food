@@ -47,6 +47,7 @@ const ready = function () {
         }
     }
 
+    Menu()
 
     const catalogSwiper = new Swiper('.js-screen-main', {
         loop: true,

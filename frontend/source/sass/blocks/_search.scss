@@ -12,6 +12,10 @@
     background-color: #ffffff;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
     outline: none;
+    @media (max-width: #{$break-max-md}) {
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
     &:focus {
       border-color: #f59e0b;
       box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
@@ -54,7 +58,7 @@
   right: 0;
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   max-height: 400px;

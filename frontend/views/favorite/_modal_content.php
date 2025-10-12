@@ -12,8 +12,8 @@ use common\helpers\PriceHelper;
     <div class="favorite-items mb-4">
         <?php foreach ($favorites->getItems() as $item): ?>
             <?php $product = $item->getProduct(); ?>
-            <div class="favorite-item d-flex align-items-center mb-3 p-3 border rounded" data-product-id="<?= $product->id ?>">
-                <div class="favorite-item-image me-3">
+            <div class="favorite-item js-favorite-item" data-product-id="<?= $product->id ?>">
+                <div class="favorite-item-image">
                     <?php if ($product->image): ?>
                         <img src="<?= $product->getImageUrl() ?>"
                              alt="<?= Html::encode($product->name) ?>"
@@ -25,28 +25,25 @@ use common\helpers\PriceHelper;
                     <?php endif; ?>
                 </div>
 
-                <div class="favorite-item-info flex-grow-1">
-                    <h6 class="mb-1">
-                        <a href="<?= Url::to(['/catalog/product', 'slug' => $product->slug]) ?>">
-                            <?= Html::encode($product->name) ?>
-                        </a>
-                    </h6>
-                    <div class="favorite-item-price text-muted">
+                <div class="favorite-item-info">
+                    <a class="favorite-item-name" href="<?= Url::to(['/catalog/product', 'slug' => $product->slug]) ?>">
+                        <?= Html::encode($product->name) ?>
+                    </a>
+                    <div class="favorite-item-price">
                         <?= PriceHelper::formatRub($product->price) ?>
                     </div>
-                    <div class="badge bg-<?= $product->quantity > 0 ? 'success' : 'danger' ?>">
+                    <div class="favorite-item-quantity <?= $product->quantity > 0 ? 'color-green' : 'color-red' ?>">
                         <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
                     </div>
                 </div>
 
                 <div class="favorite-item-actions">
-                    <button type="button" class="btn btn-three add-to-cart-btn mb-2"
+                    <button type="button" class="btn btn-three js-add-to-cart-btn mb-2"
                             data-product-id="<?= $product->id ?>"
                             data-product-name="<?= Html::encode($product->name) ?>">
                         В корзину
                     </button>
-                    <button type="button" class="btn btn-secondary favorite-remove-btn"
-                            data-product-id="<?= $product->id ?>">
+                    <button type="button" class="btn btn-secondary js-favorite-remove-btn" data-product-id="<?= $product->id ?>">
                         Удалить
                     </button>
                 </div>
@@ -56,7 +53,7 @@ use common\helpers\PriceHelper;
 
     <!-- Кнопки действий -->
     <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary favorite-clear-btn">
+        <button type="button" class="btn btn-secondary js-favorite-clear-btn">
             Очистить избранное
         </button>
     </div>

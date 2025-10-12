@@ -10,10 +10,16 @@
     .footer-info {
       width: calc(100% / 4 - 30px);
       margin: 0 15px;
+      @media(max-width: #{$break-max-md}) {
+        width: 100%;
+      }
     }
     .footer-menu {
       width: calc(100% / 4 - 30px);
       margin: 0 15px;
+      @media(max-width: #{$break-max-md}) {
+        width: 100%;
+      }
     }
   }
 

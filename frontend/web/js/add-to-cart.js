@@ -3,7 +3,7 @@
  */
 $(document).ready(function() {
     // Обработка кликов по кнопкам добавления в корзину
-    $(document).on('click', '.add-to-cart-btn', function(e) {
+    $(document).on('click', '.js-add-to-cart-btn', function(e) {
         e.preventDefault();
         
         var button = $(this);

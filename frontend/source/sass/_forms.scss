@@ -1,5 +1,8 @@
 .form-group {
   margin-bottom: 2rem;
+  @media (max-width: #{$break-max-sm}) {
+    margin-bottom: 1rem;
+  }
   &-relate {
     position: relative;
   }
@@ -7,6 +10,10 @@
     display: inline-block;
     font-size: 1.8rem;
     margin-bottom: 1rem;
+    @media (max-width: #{$break-max-sm}) {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
   }
 }
 
@@ -19,6 +26,9 @@
     border-radius: 10px;
     font-size: 1.6rem;
     padding: 0 2rem;
+    @media (max-width: #{$break-max-sm}) {
+      font-size: 1.4rem;
+    }
     &-button {
       position: absolute;
       display: flex;

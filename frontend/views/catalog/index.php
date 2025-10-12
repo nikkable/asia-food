@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="category-page-main">
             <div class="category-page-categories">
                 <ul>
-                    <li><a href="<?= Url::to(['/catalog/index']) ?>">Все</a></li>
+                    <li class="active"><a href="<?= Url::to(['/catalog/index']) ?>">Все</a></li>
                     <?= HeaderCategoriesWidget::widget(); ?>
                 </ul>
             </div>
@@ -66,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                             <div class="product-buttons">
                                 <?php if ($product->quantity > 0): ?>
-                                    <button class="btn btn-three add-to-cart-btn"
+                                    <button class="btn btn-three js-add-to-cart-btn"
                                             data-product-id="<?= $product->id ?>"
                                             data-product-name="<?= Html::encode($product->name) ?>">
                                         В корзину

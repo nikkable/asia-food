@@ -44,14 +44,14 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="card-body">
                             <h3>Социальные сети</h3>
                             <div class="social-links">
-                                <a href="#" class="btn btn-outline-primary me-2 mb-2">
-                                    <i class="fab fa-telegram"></i> Telegram
+                                <a href="#" class="btn btn-secondary me-2 mb-2">
+                                    Telegram
                                 </a>
-                                <a href="#" class="btn btn-outline-success me-2 mb-2">
-                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                <a href="#" class="btn btn-secondary me-2 mb-2">
+                                    WhatsApp
                                 </a>
-                                <a href="#" class="btn btn-outline-primary me-2 mb-2">
-                                    <i class="fab fa-vk"></i> ВКонтакте
+                                <a href="#" class="btn btn-secondary me-2 mb-2">
+                                    ВКонтакте
                                 </a>
                             </div>
                         </div>

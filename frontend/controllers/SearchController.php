@@ -11,7 +11,7 @@ use common\helpers\PriceHelper;
 /**
  * Контроллер для поиска товаров
  */
-class SearchController extends Controller
+class SearchController extends BaseSeoController
 {
     public function __construct(
         $id,
@@ -51,5 +51,26 @@ class SearchController extends Controller
         }
         
         return ['products' => $result];
+    }
+
+    /**
+     * Страница результатов поиска
+     */
+    public function actionResults(string $q = '') :string
+    {
+        $query = trim($q);
+        
+        if (empty($query)) {
+            return $this->redirect(['/catalog/index']);
+        }
+        
+        $this->setSearchSeoData($query);
+        
+        $products = $this->productService->searchByName($query, 20);
+        
+        return $this->render('results', [
+            'products' => $products,
+            'query' => $query,
+        ]);
     }
 }

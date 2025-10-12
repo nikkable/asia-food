@@ -825,8 +825,11 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
   @media(max-width: #{$break-max-xxl}) {
     font-size: 4rem;
   }
+  @media (max-width: #{$break-max-md}) {
+    margin-bottom: 1rem;
+  }
   @media(max-width: #{$break-max-sm}) {
-    font-size: 3rem;
+    font-size: 2.4rem;
   }
   &--words {
     display: flex;
@@ -846,6 +849,9 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
   font-size: 2.6rem;
   font-weight: 300;
   line-height: 1.4;
+  @media(max-width: #{$break-max-md}) {
+    font-size: 1.6rem;
+  }
 }
 
 // circle
@@ -861,11 +867,13 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
   position: relative;
   padding: 1rem 3rem 1rem 1.25rem;
   margin-bottom: 1rem;
+  margin-left: 1rem;
   border: 1px solid transparent;
   border-radius: .25rem;
   &-success {
-    background-color: #d4edda;
-    border-color: #c3e6cb;
+    background: $color-black !important;
+    color: $color-white !important;
+    font-size: 12px;
   }
   &-info {
     background-color: #d1ecf1;

@@ -14,6 +14,12 @@ body {
 	line-height: 1.2;
 	color: $color-black;
 	background: rgb(247, 248, 249);
+	@media (max-width: #{$break-max-sm}) {
+		font-size: 1.4rem;
+	}
+	&.mobile-open {
+		overflow: hidden;
+	}
 }
 
 // Заголовки
@@ -30,24 +36,36 @@ h1 {
 		font-size: 4rem;
 	}
 	@media(max-width: #{$break-max-sm}) {
-		font-size: 3rem;
+		font-size: 2.4rem;
 	}
 }
 
 h2 {
 	font-size: 2.8rem;
+	@media (max-width: #{$break-max-sm}) {
+		font-size: 2rem;
+	}
 }
 
 h3 {
 	font-size: 2.4rem;
+	@media (max-width: #{$break-max-sm}) {
+		font-size: 1.6rem;
+	}
 }
 
 h4 {
 	font-size: 2rem;
+	@media (max-width: #{$break-max-sm}) {
+		font-size: 1.4rem;
+	}
 }
 
 h5 {
 	font-size: 1.6rem;
+	@media (max-width: #{$break-max-sm}) {
+		font-size: 1.2rem;
+	}
 }
 
 // Параграфы
@@ -57,6 +75,9 @@ p {
 	line-height: 120%;
 	color: $color-black;
 	margin: 0.8rem 0;
+	@media (max-width: #{$break-max-sm}) {
+		font-size: 1.4rem;
+	}
 }
 
 //Все ссылки

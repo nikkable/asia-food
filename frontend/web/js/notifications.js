@@ -22,5 +22,5 @@ function showNotification(type, message) {
     // Автоматически скрываем уведомление через 3 секунды
     setTimeout(function() {
         $('#' + notificationId).alert('close');
-    }, 100000);
+    }, 3000);
 }

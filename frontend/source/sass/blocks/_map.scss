@@ -1,7 +1,13 @@
 .map {
   margin-bottom: 10rem;
+  @media(max-width: #{$break-max-md}) {
+    margin-bottom: 5rem;
+  }
   &-head {
     margin-bottom: 4rem;
+    @media (max-width: #{$break-max-md}) {
+      margin-bottom: 2rem;
+    }
   }
   &-main {
 

@@ -10,7 +10,7 @@ use repositories\Product\interfaces\ProductRepositoryInterface;
 /**
  * CategoryController для отображения категорий и товаров в них
  */
-class CategoryController extends Controller
+class CategoryController extends BaseSeoController
 {
     /**
      * Отображение категории и товаров в ней с пагинацией
@@ -26,6 +26,8 @@ class CategoryController extends Controller
         if (!$category) {
             throw new NotFoundHttpException('Категория не найдена.');
         }
+        
+        $this->setCategorySeoData($category->name, $category->slug);
         
         $pageSize = 12; // Количество товаров на странице
         $offset = ($page - 1) * $pageSize;

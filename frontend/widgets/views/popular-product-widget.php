@@ -14,7 +14,7 @@ use common\helpers\PriceHelper;
             <div class="popular-info">
                 <div class="popular-title title"><?= Html::encode($title) ?></div>
                 <div class="popular-name"><?= Html::encode($product->name) ?></div>
-                <div class="popular-price">
+                <div class="popular-price hidden">
                     <?php if ($product->price_discount): ?>
                         <span class="price-old"><?= PriceHelper::formatRub($product->price) ?></span>
                         <span class="price-new"><?= PriceHelper::formatRub($product->price_discount) ?></span>
@@ -23,7 +23,7 @@ use common\helpers\PriceHelper;
                     <?php endif; ?>
                 </div>
                 <div class="popular-buttons">
-                    <button class="btn btn-secondary btn-big add-to-cart-btn" 
+                    <button class="btn btn-secondary btn-big js-add-to-cart-btn"
                             data-product-id="<?= $product->id ?>"
                             data-product-name="<?= Html::encode($product->name) ?>">
                         Купить

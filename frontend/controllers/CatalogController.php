@@ -7,7 +7,7 @@ use context\Product\interfaces\ProductServiceInterface;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class CatalogController extends Controller
+class CatalogController extends BaseSeoController
 {
     public function __construct(
         $id,
@@ -21,6 +21,8 @@ class CatalogController extends Controller
 
     public function actionIndex(int $page = 1) :string
     {
+        $this->setCatalogSeoData();
+        
         $pageSize = 12; // Количество товаров на странице
         $offset = ($page - 1) * $pageSize;
         
@@ -49,6 +51,8 @@ class CatalogController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
+        $this->setCategorySeoData($category->name, $category->slug);
+
         $pageSize = 12;
         $offset = ($page - 1) * $pageSize;
         
@@ -75,6 +79,9 @@ class CatalogController extends Controller
         if (!$product = $this->productService->findBySlug($slug)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        $categoryName = $product->category ? $product->category->name : null;
+        $this->setProductSeoData($product->name, $product->slug, $categoryName);
 
         return $this->render('product', [
             'product' => $product,

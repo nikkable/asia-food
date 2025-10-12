@@ -1,5 +1,8 @@
 .popular {
   margin-bottom: 10rem;
+  @media(max-width: #{$break-max-md}) {
+    margin-bottom: 5rem;
+  }
   &-main {
     display: flex;
     flex-wrap: wrap;
@@ -14,12 +17,20 @@
   }
 
   &-info {
-    padding: 40px;
+    padding: 4rem;
+    @media(max-width: #{$break-max-md}) {
+      padding: 2rem;
+    }
     .popular-title {
-
+      @media(max-width: #{$break-max-md}) {
+        margin-bottom: 1rem;
+      }
     }
     .popular-name {
       margin-bottom: 3rem;
+      @media(max-width: #{$break-max-md}) {
+        margin-bottom: 1rem;
+      }
     }
     .popular-buttons {
 
@@ -28,14 +39,26 @@
 
   &-title {
     color: $color-red;
+    @media(max-width: #{$break-max-md}) {
+      font-size: 1.8rem;
+    }
   }
 
   &-name {
     font-size: 2rem;
+    @media(max-width: #{$break-max-md}) {
+      font-size: 1.2rem;
+    }
   }
 
   &-buttons {
-
+    .btn {
+      @media(max-width: #{$break-max-md}) {
+        min-height: 30px;
+        font-size: 1.2rem;
+        padding: 0 1.5rem;
+      }
+    }
   }
 
   &-image {
@@ -45,6 +68,9 @@
     border-radius: 100px 30px 30px 0px;
     background-color: #ff4400;
     max-height: 360px;
+    @media(max-width: #{$break-max-md}) {
+      max-height: 150px;
+    }
     img {
       max-width: 100%;
       width: auto;

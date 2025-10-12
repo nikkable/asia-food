@@ -43,7 +43,7 @@ $(document).ready(function() {
                 pageButtons.removeClass('active').find('span').text('В избранное');
                 
                 // Удаляем элемент из модального окна
-                var item = $('.favorite-item[data-product-id="' + response.removedProductId + '"]');
+                var item = $('.js-favorite-item[data-product-id="' + response.removedProductId + '"]');
                 item.fadeOut(300, function() {
                     $(this).remove();
                     
@@ -111,7 +111,7 @@ $(document).ready(function() {
     });
     
     // Обработка кликов по кнопкам удаления из избранного в модалке
-    $(document).on('click', '.favorite-remove-btn', function() {
+    $(document).on('click', '.js-favorite-remove-btn', function() {
         var button = $(this);
         var productId = button.data('product-id');
         
@@ -131,7 +131,7 @@ $(document).ready(function() {
     });
     
     // Обработка клика по кнопке очистки избранного
-    $(document).on('click', '.favorite-clear-btn', function() {
+    $(document).on('click', '.js-favorite-clear-btn', function() {
         if (confirm('Вы уверены, что хотите очистить список избранного?')) {
             $.ajax({
                 url: '/favorite/clear',
@@ -164,7 +164,7 @@ $(document).ready(function() {
     });
     
     // Добавление товара в корзину из модалки избранного
-    $(document).on('click', '.favorite-item .add-to-cart-btn', function() {
+    $(document).on('click', '.js-favorite-item .js-add-to-cart-btn', function() {
         var button = $(this);
         var productId = button.data('product-id');
         var productName = button.data('product-name');

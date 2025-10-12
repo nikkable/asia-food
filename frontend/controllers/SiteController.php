@@ -22,7 +22,7 @@ use yii\web\Response;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends BaseSeoController
 {
     /**
      * {@inheritdoc}
@@ -73,6 +73,7 @@ class SiteController extends Controller
 
     public function actionIndex(): string
     {
+        $this->setHomeSeoData();
         return $this->render('index');
     }
 
@@ -121,6 +122,7 @@ class SiteController extends Controller
 
     public function actionAbout(): string
     {
+        $this->setPageSeoData('О нас', 'about');
         return $this->render('about');
     }
 
@@ -220,6 +222,7 @@ class SiteController extends Controller
      */
     public function actionDelivery(): string
     {
+        $this->setPageSeoData('О доставке', 'delivery');
         return $this->render('delivery');
     }
 
@@ -228,6 +231,7 @@ class SiteController extends Controller
      */
     public function actionCooperation(): string
     {
+        $this->setPageSeoData('Сотрудничество', 'cooperation');
         return $this->render('cooperation');
     }
 
@@ -236,6 +240,7 @@ class SiteController extends Controller
      */
     public function actionContacts(): string
     {
+        $this->setPageSeoData('Контакты', 'contacts');
         return $this->render('contacts');
     }
 
@@ -244,6 +249,7 @@ class SiteController extends Controller
      */
     public function actionPrivacyPolicy(): string
     {
+        $this->setPageSeoData('Политика конфиденциальности', 'privacy-policy');
         return $this->render('privacy-policy');
     }
 
@@ -252,6 +258,7 @@ class SiteController extends Controller
      */
     public function actionPersonalDataConsent(): string
     {
+        $this->setPageSeoData('Согласие на обработку персональных данных', 'personal-data-consent');
         return $this->render('personal-data-consent');
     }
 
@@ -260,6 +267,7 @@ class SiteController extends Controller
      */
     public function actionAdvertisingConsent(): string
     {
+        $this->setPageSeoData('Согласие на рекламную рассылку', 'advertising-consent');
         return $this->render('advertising-consent');
     }
 }

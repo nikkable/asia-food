@@ -171,7 +171,7 @@ $model = new QuickOrderForm();
 
         <div class="col-12 text-center">
             <button type="submit" class="btn btn-three btn-big">
-                Оформить заказ на <?= PriceHelper::formatRub($cart->getTotalCost()) ?>
+                Оформить заказ
             </button>
         </div>
 

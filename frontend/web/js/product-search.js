@@ -79,16 +79,13 @@ class ProductSearchWidget {
     }
     
     async performSearch(query) {
-        // Отменяем предыдущий запрос
         if (this.currentRequest) {
             this.currentRequest.abort();
         }
         
-        // Показываем состояние загрузки
         this.showLoading();
         
         try {
-            // Создаем новый AbortController для отмены запроса
             const controller = new AbortController();
             this.currentRequest = controller;
             
@@ -157,7 +154,6 @@ class ProductSearchWidget {
             </div>
         `;
         
-        // Закрываем dropdown при клике на результат
         item.addEventListener('click', () => {
             this.hideDropdown();
         });
