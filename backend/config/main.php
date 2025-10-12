@@ -11,7 +11,7 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log', 'commerce1c'],
+    'bootstrap' => ['log'],
     'container' => [
         'definitions' => [],
         'singletons' => [],
