@@ -3,6 +3,7 @@
 use common\helpers\PriceHelper;
 use common\helpers\SvgHelper;
 use frontend\widgets\HeaderCategoriesWidget;
+use frontend\widgets\ProductSearchWidget;
 use yii\data\Pagination;
 use yii\helpers\Html;
 use yii\widgets\LinkPager;
@@ -24,12 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="category-page">
     <div class="container">
         <div class="category-page-head">
+            <div class="category-search">
+                <?= ProductSearchWidget::widget(['placeholder' => 'Поиск товаров в каталоге...', 'containerClass' => 'm-b-4']) ?>
+            </div>
+
             <h1><?= Html::encode($category->name) ?></h1>
-            <?php if ($category->description): ?>
-                <div class="category-description">
-                    <?= Html::encode($category->description) ?>
-                </div>
-            <?php endif; ?>
         </div>
 
         <div class="category-page-main">

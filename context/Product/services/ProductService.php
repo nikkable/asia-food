@@ -44,4 +44,9 @@ class ProductService extends AbstractService implements ProductServiceInterface
     {
         return $this->productRepository->countByCategory($category);
     }
+    
+    public function searchByName(string $query, int $limit = 10): array
+    {
+        return $this->productRepository->searchByName($query, $limit);
+    }
 }

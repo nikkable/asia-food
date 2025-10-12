@@ -57,4 +57,18 @@ class ProductRepository implements ProductRepositoryInterface
     {
         return Product::find()->where(['category_id' => $category->id, 'status' => 1])->count();
     }
+    
+    public function searchByName(string $query, int $limit = 10): array
+    {
+        if (empty(trim($query))) {
+            return [];
+        }
+        
+        return Product::find()
+            ->where(['status' => 1])
+            ->andWhere(['like', 'name', $query])
+            ->orderBy(['id' => SORT_DESC])
+            ->limit($limit)
+            ->all();
+    }
 }

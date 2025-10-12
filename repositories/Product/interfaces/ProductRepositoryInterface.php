@@ -7,26 +7,23 @@ use repositories\Category\models\Category;
 
 interface ProductRepositoryInterface
 {
+    /**
+     * Найти товар по ID
+     */
     public function findById(int $id): ?Product;
 
+    /**
+     * Найти товар по slug
+     */
     public function findBySlug(string $slug): ?Product;
     
     /**
      * Найти все товары с пагинацией
-     * 
-     * @param int $limit Количество товаров на странице
-     * @param int $offset Смещение
-     * @return array Массив товаров
      */
     public function findAll(int $limit = null, int $offset = null): array;
 
     /**
      * Найти все товары в категории с пагинацией
-     * 
-     * @param Category $category Категория
-     * @param int $limit Количество товаров на странице
-     * @param int $offset Смещение
-     * @return array Массив товаров
      */
     public function findAllByCategory(Category $category, int $limit = null, int $offset = null): array;
     
@@ -39,9 +36,11 @@ interface ProductRepositoryInterface
     
     /**
      * Получить количество товаров в категории
-     * 
-     * @param Category $category Категория
-     * @return int Количество товаров
      */
     public function countByCategory(Category $category): int;
+
+    /**
+     * Поиск товаров по названию
+     */
+    public function searchByName(string $query, int $limit = 10): array;
 }
