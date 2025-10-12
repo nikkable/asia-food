@@ -10,6 +10,7 @@ $(document).ready(function() {
         var productId = button.data('product-id');
         var productName = button.data('product-name');
         var originalText = button.text();
+        var originalClasses = button.attr('class');
         
         // Блокируем кнопку на время запроса
         button.prop('disabled', true).text('Добавляем...');
@@ -25,7 +26,9 @@ $(document).ready(function() {
             success: function(response) {
                 if (response.success) {
                     // Показываем успешное сообщение
-                    button.text('Добавлено!').removeClass('btn-three').addClass('btn-success');
+                    button.text('Добавлено!')
+                          .removeClass('btn-primary btn-secondary btn-three btn-danger btn-warning btn-info btn-light btn-dark')
+                          .addClass('btn-success');
                     
                     // Обновляем счетчик корзины если есть
                     if ($('.js-cart-counter').length) {
@@ -37,7 +40,7 @@ $(document).ready(function() {
                     
                     // Возвращаем кнопку в исходное состояние через 2 секунды
                     setTimeout(function() {
-                        button.text(originalText).removeClass('btn-success').addClass('btn-three').prop('disabled', false);
+                        button.text(originalText).attr('class', originalClasses).prop('disabled', false);
                     }, 2000);
                 } else {
                     button.text(originalText).prop('disabled', false);

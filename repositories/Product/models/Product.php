@@ -21,6 +21,7 @@ use yii\web\UploadedFile;
  * @property float|null $price_discount
  * @property int $quantity
  * @property string|null $article
+ * @property string|null $external_id
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -58,8 +59,9 @@ class Product extends ActiveRecord
             [['category_id', 'quantity', 'status', 'created_at', 'updated_at'], 'integer'],
             [['description'], 'string'],
             [['price', 'price_discount'], 'number'],
-            [['name', 'image', 'article'], 'string', 'max' => 255],
+            [['name', 'image', 'article', 'external_id'], 'string', 'max' => 255],
             [['article'], 'unique'],
+            [['external_id'], 'unique'],
             [['imageFile'], 'safe'],
         ];
     }
@@ -87,6 +89,7 @@ class Product extends ActiveRecord
             'price_discount' => 'Цена со скидкой',
             'quantity' => 'Количество',
             'article' => 'Артикул',
+            'external_id' => 'Внешний ID (1C)',
             'status' => 'Статус',
             'created_at' => 'Создано',
             'updated_at' => 'Обновлено',

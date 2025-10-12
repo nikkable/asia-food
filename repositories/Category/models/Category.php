@@ -17,6 +17,7 @@ use repositories\Product\models\Product;
  * @property string $slug
  * @property string|null $description
  * @property string|null $image
+ * @property string|null $external_id
  * @property int $status
  * @property int $created_at
  * @property int $updated_at
@@ -53,8 +54,9 @@ class Category extends ActiveRecord
             [['name', 'slug'], 'required'],
             [['parent_id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['description'], 'string'],
-            [['name', 'slug', 'image'], 'string', 'max' => 255],
+            [['name', 'slug', 'image', 'external_id'], 'string', 'max' => 255],
             [['slug'], 'unique'],
+            [['external_id'], 'unique'],
             [['imageFile'], 'safe'],
         ];
     }
@@ -99,6 +101,7 @@ class Category extends ActiveRecord
             'description' => 'Description',
             'image' => 'Image',
             'imageFile' => 'Изображение',
+            'external_id' => 'Внешний ID (1C)',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

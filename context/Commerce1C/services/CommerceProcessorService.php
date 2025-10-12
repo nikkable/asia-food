@@ -1,0 +1,74 @@
+<?php
+
+namespace context\Commerce1C\services;
+
+use context\Commerce1C\interfaces\CommerceProcessorInterface;
+use context\Commerce1C\interfaces\CommerceAuthInterface;
+use context\Commerce1C\interfaces\CommerceImportInterface;
+use context\Commerce1C\enums\CommerceTypeEnum;
+use context\Commerce1C\enums\CommerceModeEnum;
+use context\Commerce1C\enums\ImportFileTypeEnum;
+use context\Commerce1C\models\CommerceRequest;
+use context\Commerce1C\models\CommerceResponse;
+use context\AbstractService;
+
+class CommerceProcessorService extends AbstractService implements CommerceProcessorInterface
+{
+    public function __construct(
+        private CommerceAuthInterface $authService,
+        private CommerceImportInterface $importService
+    ) {}
+
+    public function processRequest(CommerceRequest $request): CommerceResponse
+    {
+        // Проверяем поддержку запроса
+        if (!$this->isRequestSupported($request)) {
+            return CommerceResponse::failure('Unsupported request type or mode');
+        }
+
+        // Обрабатываем по типу и режиму
+        return match ([$request->getType()->value, $request->getMode()->value]) {
+            ['catalog', 'checkauth'] => $this->authService->checkAuth($request),
+            ['catalog', 'init'] => $this->handleAuthenticatedRequest($request, fn() => $this->importService->initialize($request)),
+            ['catalog', 'file'] => $this->handleAuthenticatedRequest($request, fn() => $this->importService->saveFile($request)),
+            ['catalog', 'import'] => $this->handleImportRequest($request),
+            default => CommerceResponse::failure('Request handler not implemented')
+        };
+    }
+
+    public function isRequestSupported(CommerceRequest $request): bool
+    {
+        $supportedRequests = [
+            ['catalog', 'checkauth'],
+            ['catalog', 'init'],
+            ['catalog', 'file'],
+            ['catalog', 'import']
+        ];
+
+        return in_array([$request->getType()->value, $request->getMode()->value], $supportedRequests, true);
+    }
+
+    private function handleAuthenticatedRequest(CommerceRequest $request, callable $handler): CommerceResponse
+    {
+        $sessionId = $_GET['session_id'] ?? $_POST['session_id'] ?? null;
+        
+        if (!$sessionId || !$this->authService->validateSession($sessionId)) {
+            return CommerceResponse::failure('Invalid or expired session', 401);
+        }
+
+        return $handler();
+    }
+
+    private function handleImportRequest(CommerceRequest $request): CommerceResponse
+    {
+        return $this->handleAuthenticatedRequest($request, function() use ($request) {
+            $filename = $request->getFilename();
+            
+            return match ($filename) {
+                ImportFileTypeEnum::CATALOG->value => $this->importService->importCatalog($request),
+                ImportFileTypeEnum::OFFERS->value => $this->importService->importOffers($request),
+                default => CommerceResponse::failure('Unknown file type for import')
+            };
+        });
+    }
+}

@@ -11,7 +11,11 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'commerce1c'],
+    'container' => [
+        'definitions' => [],
+        'singletons' => [],
+    ],
     'modules' => [],
     'components' => [
         'request' => [
@@ -42,6 +46,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '1c' => 'commerce-ml/index',
+                '1c/<action>' => 'commerce-ml/<action>',
             ],
         ],
     ],
