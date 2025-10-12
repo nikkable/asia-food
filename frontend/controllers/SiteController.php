@@ -6,6 +6,7 @@ use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\captcha\CaptchaAction;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -15,6 +16,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\ErrorAction;
+use yii\web\Response;
 
 /**
  * Site controller
@@ -59,30 +62,20 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => \yii\web\ErrorAction::class,
+                'class' => ErrorAction::class,
             ],
             'captcha' => [
-                'class' => \yii\captcha\CaptchaAction::class,
+                'class' => CaptchaAction::class,
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
     }
 
-    /**
-     * Displays homepage.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         return $this->render('index');
     }
 
-    /**
-     * Logs in a user.
-     *
-     * @return mixed
-     */
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
@@ -101,23 +94,13 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
-    public function actionLogout()
+    public function actionLogout(): Response
     {
         Yii::$app->user->logout();
 
         return $this->goHome();
     }
 
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
     public function actionContact()
     {
         $model = new ContactForm();
@@ -136,21 +119,11 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
+    public function actionAbout(): string
     {
         return $this->render('about');
     }
 
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
     public function actionSignup()
     {
         $model = new SignupForm();
@@ -164,11 +137,6 @@ class SiteController extends Controller
         ]);
     }
 
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
     public function actionRequestPasswordReset()
     {
         $model = new PasswordResetRequestForm();
@@ -188,13 +156,9 @@ class SiteController extends Controller
     }
 
     /**
-     * Resets password.
-     *
-     * @param string $token
-     * @return mixed
      * @throws BadRequestHttpException
      */
-    public function actionResetPassword($token)
+    public function actionResetPassword(string $token)
     {
         try {
             $model = new ResetPasswordForm($token);
@@ -214,13 +178,9 @@ class SiteController extends Controller
     }
 
     /**
-     * Verify email address
-     *
-     * @param string $token
      * @throws BadRequestHttpException
-     * @return yii\web\Response
      */
-    public function actionVerifyEmail($token)
+    public function actionVerifyEmail(string $token) :Response
     {
         try {
             $model = new VerifyEmailForm($token);
@@ -238,8 +198,6 @@ class SiteController extends Controller
 
     /**
      * Resend verification email
-     *
-     * @return mixed
      */
     public function actionResendVerificationEmail()
     {
@@ -259,60 +217,48 @@ class SiteController extends Controller
 
     /**
      * Displays delivery page.
-     *
-     * @return mixed
      */
-    public function actionDelivery()
+    public function actionDelivery(): string
     {
         return $this->render('delivery');
     }
 
     /**
      * Displays cooperation page.
-     *
-     * @return mixed
      */
-    public function actionCooperation()
+    public function actionCooperation(): string
     {
         return $this->render('cooperation');
     }
 
     /**
      * Displays contacts page.
-     *
-     * @return mixed
      */
-    public function actionContacts()
+    public function actionContacts(): string
     {
         return $this->render('contacts');
     }
 
     /**
      * Displays privacy policy page.
-     *
-     * @return mixed
      */
-    public function actionPrivacyPolicy()
+    public function actionPrivacyPolicy(): string
     {
         return $this->render('privacy-policy');
     }
 
     /**
      * Displays personal data consent page.
-     *
-     * @return mixed
      */
-    public function actionPersonalDataConsent()
+    public function actionPersonalDataConsent(): string
     {
         return $this->render('personal-data-consent');
     }
 
     /**
      * Displays advertising consent page.
-     *
-     * @return mixed
      */
-    public function actionAdvertisingConsent()
+    public function actionAdvertisingConsent(): string
     {
         return $this->render('advertising-consent');
     }

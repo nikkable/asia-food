@@ -37,20 +37,16 @@ class CartController extends Controller
 
     /**
      * Корзина доступна только через модальное окно
-     * Редирект на главную страницу
-     * 
-     * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex(): Response
     {
         return $this->redirect(['/site/index']);
     }
 
     /**
-     * @param int $id
      * @throws NotFoundHttpException
      */
-    public function actionAdd($id)
+    public function actionAdd(int $id) :Response|array
     {
         if (\Yii::$app->request->isAjax) {
             \Yii::$app->response->format = Response::FORMAT_JSON;
@@ -192,10 +188,8 @@ class CartController extends Controller
     
     /**
      * Возвращает HTML-содержимое модального окна корзины
-     * 
-     * @return string
      */
-    public function actionModalContent()
+    public function actionModalContent() :string
     {
         $cart = $this->cartService->getCart();
         

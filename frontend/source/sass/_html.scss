@@ -10,7 +10,7 @@ body {
 	position: relative;
 	font-family: $font-primary;
 	font-weight: normal;
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	line-height: 1.2;
 	color: $color-black;
 	background: rgb(247, 248, 249);
@@ -25,7 +25,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-	font-size: 5rem;
+	font-size: 4.2rem;
 	@media(max-width: #{$break-max-xxl}) {
 		font-size: 4rem;
 	}
@@ -52,7 +52,7 @@ h5 {
 
 // Параграфы
 p {
-	font-size: 1.8rem;
+	font-size: 1.6rem;
 	font-weight: normal;
 	line-height: 120%;
 	color: $color-black;

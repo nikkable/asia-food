@@ -14,13 +14,9 @@ class CategoryController extends Controller
 {
     /**
      * Отображение категории и товаров в ней с пагинацией
-     * 
-     * @param string $slug
-     * @param int $page Номер текущей страницы
-     * @return string
      * @throws NotFoundHttpException
      */
-    public function actionView($slug, $page = 1)
+    public function actionView(string $slug, int $page = 1) :string
     {
         $categoryRepository = \Yii::$container->get(CategoryRepositoryInterface::class);
         $productRepository = \Yii::$container->get(ProductRepositoryInterface::class);

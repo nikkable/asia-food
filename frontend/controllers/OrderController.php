@@ -36,8 +36,6 @@ class OrderController extends Controller
 
     /**
      * Создание заказа из модального окна корзины
-     * 
-     * @return mixed
      */
     public function actionCreate()
     {
@@ -132,7 +130,6 @@ class OrderController extends Controller
             ];
         }
         
-        // Если что-то пошло не так, перенаправляем на главную страницу
         return $this->redirect(['/site/index']);
     }
 }

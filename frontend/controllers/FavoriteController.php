@@ -17,13 +17,6 @@ class FavoriteController extends Controller
     private $favoriteService;
     private $productService;
     
-    /**
-     * @param string $id
-     * @param \yii\base\Module $module
-     * @param FavoriteServiceInterface $favoriteService
-     * @param ProductServiceInterface $productService
-     * @param array $config
-     */
     public function __construct(
         $id, 
         $module, 
@@ -36,9 +29,6 @@ class FavoriteController extends Controller
         parent::__construct($id, $module, $config);
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function behaviors()
     {
         return [
@@ -53,25 +43,16 @@ class FavoriteController extends Controller
         ];
     }
     
-    /**
-     * Избранное доступно только через модальное окно
-     * Редирект на главную страницу
-     * 
-     * @return mixed
-     */
-    public function actionIndex()
+    public function actionIndex(): Response
     {
         return $this->redirect(['/site/index']);
     }
     
     /**
      * Добавляет товар в избранное
-     * 
-     * @param int $id ID товара
-     * @return Response
      * @throws NotFoundHttpException
      */
-    public function actionAdd($id)
+    public function actionAdd(int $id)
     {
         if (\Yii::$app->request->isAjax) {
             \Yii::$app->response->format = Response::FORMAT_JSON;
@@ -106,8 +87,6 @@ class FavoriteController extends Controller
     
     /**
      * Удаляет товар из избранного
-     * 
-     * @return Response
      */
     public function actionRemove()
     {
@@ -149,8 +128,6 @@ class FavoriteController extends Controller
     
     /**
      * Очищает список избранных товаров
-     * 
-     * @return Response
      */
     public function actionClear()
     {
@@ -170,11 +147,8 @@ class FavoriteController extends Controller
     
     /**
      * Проверяет, находится ли товар в избранном
-     * 
-     * @param int $id ID товара
-     * @return Response
      */
-    public function actionCheck($id)
+    public function actionCheck(int $id): array
     {
         \Yii::$app->response->format = Response::FORMAT_JSON;
         
@@ -189,10 +163,8 @@ class FavoriteController extends Controller
     
     /**
      * Возвращает HTML-содержимое модального окна избранного
-     * 
-     * @return string
      */
-    public function actionModalContent()
+    public function actionModalContent() :string
     {
         $favorites = $this->favoriteService->getFavorites();
         

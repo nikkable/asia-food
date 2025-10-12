@@ -19,12 +19,7 @@ class CatalogController extends Controller
         parent::__construct($id, $module, $config);
     }
 
-    /**
-     * Displays the list of all products with pagination.
-     * @param int $page Current page number
-     * @return string
-     */
-    public function actionIndex($page = 1)
+    public function actionIndex(int $page = 1) :string
     {
         $pageSize = 12; // Количество товаров на странице
         $offset = ($page - 1) * $pageSize;
@@ -46,19 +41,15 @@ class CatalogController extends Controller
     }
 
     /**
-     * Displays products in a specific category with pagination.
-     * @param string $slug
-     * @param int $page Current page number
-     * @return string
      * @throws NotFoundHttpException
      */
-    public function actionCategory($slug, $page = 1)
+    public function actionCategory(string $slug, int $page = 1) :string
     {
         if (!$category = $this->categoryService->findBySlug($slug)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        $pageSize = 12; // Количество товаров на странице
+        $pageSize = 12;
         $offset = ($page - 1) * $pageSize;
         
         $totalProducts = $this->productService->countByCategory($category);
@@ -77,12 +68,9 @@ class CatalogController extends Controller
     }
 
     /**
-     * Displays a single product.
-     * @param string $slug
-     * @return string
      * @throws NotFoundHttpException
      */
-    public function actionProduct($slug)
+    public function actionProduct(string $slug) :string
     {
         if (!$product = $this->productService->findBySlug($slug)) {
             throw new NotFoundHttpException('The requested page does not exist.');

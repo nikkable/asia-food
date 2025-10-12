@@ -24,12 +24,9 @@ class PaymentController extends Controller
 
     /**
      * Страница обработки платежа (заглушка)
-     * 
-     * @param string $transaction_id ID транзакции
-     * @return mixed
      * @throws NotFoundHttpException
      */
-    public function actionProcess($transaction_id)
+    public function actionProcess(string $transaction_id): string
     {
         // Проверяем статус платежа
         $paymentStatus = $this->paymentService->checkStatus($transaction_id);
@@ -53,11 +50,8 @@ class PaymentController extends Controller
     
     /**
      * Имитация успешной оплаты
-     * 
-     * @param string $transaction_id ID транзакции
-     * @return mixed
      */
-    public function actionSuccess($transaction_id)
+    public function actionSuccess(string $transaction_id): Response
     {
         // Обрабатываем успешный платеж
         $this->paymentService->handleCallback([
@@ -73,9 +67,8 @@ class PaymentController extends Controller
      * Имитация неудачной оплаты
      * 
      * @param string $transaction_id ID транзакции
-     * @return mixed
      */
-    public function actionFail($transaction_id)
+    public function actionFail(string $transaction_id): Response
     {
         // Обрабатываем неудачный платеж
         $this->paymentService->handleCallback([
@@ -89,10 +82,8 @@ class PaymentController extends Controller
     
     /**
      * Обработка уведомлений от платежной системы
-     * 
-     * @return mixed
      */
-    public function actionCallback()
+    public function actionCallback(): array
     {
         // В реальном проекте здесь будет обработка уведомлений от платежной системы
         Yii::$app->response->format = Response::FORMAT_JSON;
