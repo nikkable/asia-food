@@ -2,6 +2,8 @@
 
 use frontend\widgets\CategoryWidget;
 use frontend\widgets\BestsellerWidget;
+use frontend\widgets\PopularProductWidget;
+use common\helpers\SvgHelper;
 use yii\helpers\Url;
 
 /** @var yii\web\View $this */
@@ -11,35 +13,55 @@ $this->title = 'Главная';
 
 <div class="screen">
     <div class="container">
-        <div class="screen-main">
-            <div class="screen-item">
-                <img src="/images/screen/1.png" alt="">
-                <div class="screen-item-buttons">
-                    <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+        <div class="screen-main js-screen-main">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="screen-item">
+                        <img src="/images/screen/1.png" alt="">
+                        <div class="screen-item-buttons">
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="screen-item">
+                        <img src="/images/screen/2.png" alt="">
+                        <div class="screen-item-buttons">
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="screen-item">
+                        <img src="/images/screen/3.png" alt="">
+                        <div class="screen-item-buttons">
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="screen-item">
+                        <img src="/images/screen/4.png" alt="">
+                        <div class="screen-item-buttons">
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="slider-prev js-slider-prev"><?= SvgHelper::getIcon('arrow-slider'); ?></div>
+            <div class="slider-next js-slider-next"><?= SvgHelper::getIcon('arrow-slider'); ?></div>
+            <div class="slider-dots js-slider-dots"></div>
         </div>
     </div>
 </div>
 
 <?= CategoryWidget::widget() ?>
 
-<div class="popular">
-    <div class="container">
-        <div class="popular-main">
-            <div class="popular-info">
-                <div class="popular-title title">Популярное</div>
-                <div class="popular-name">Соусы "Тамаки"</div>
-                <div class="popular-buttons">
-                    <button class="btn btn-secondary btn-big">Купить</button>
-                </div>
-            </div>
-            <div class="popular-image">
-                <img src="/images/popular/1.png" alt="">
-            </div>
-        </div>
-    </div>
-</div>
+<?= PopularProductWidget::widget([
+    'slug' => 'sous-poke-tamaki-047-ml6stup',
+    'title' => 'Популярное',
+    'imagePath' => '/images/popular/1.png'
+]) ?>
 
 <?= BestsellerWidget::widget([
     'title' => 'Хиты продаж',

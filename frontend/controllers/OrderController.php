@@ -53,7 +53,7 @@ class OrderController extends Controller
                     'message' => 'Корзина пуста'
                 ];
             }
-            return $this->redirect(['/cart/index']);
+            return $this->redirect(['/site/index']);
         }
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
@@ -132,7 +132,7 @@ class OrderController extends Controller
             ];
         }
         
-        // Если что-то пошло не так, перенаправляем на страницу корзины
-        return $this->redirect(['/cart/index']);
+        // Если что-то пошло не так, перенаправляем на главную страницу
+        return $this->redirect(['/site/index']);
     }
 }

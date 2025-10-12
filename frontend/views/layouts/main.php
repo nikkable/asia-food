@@ -39,9 +39,9 @@ AppAsset::register($this);
                             <?= HeaderCategoriesWidget::widget() ?>
                         </ul>
                     </li>
-                    <li><a href="#">О доставке</a></li>
-                    <li><a href="#">Сотрудничество</a></li>
-                    <li><a href="#">Контакты</a></li>
+                    <li><a href="<?= Url::to(['/site/delivery']) ?>">О доставке</a></li>
+                    <li><a href="<?= Url::to(['/site/cooperation']) ?>">Сотрудничество</a></li>
+                    <li><a href="<?= Url::to(['/site/contacts']) ?>">Контакты</a></li>
                 </ul>
             </div>
             <div class="header-work">
@@ -97,17 +97,19 @@ AppAsset::register($this);
                 </ul>
             </div>
             <div class="footer-menu">
-                <div class="footer-menu-label">Доставка</div>
+                <div class="footer-menu-label">Информация</div>
                 <ul>
-                    <li><a href="#">Условия доставки</a></li>
+                    <li><a href="<?= Url::to(['/site/delivery']) ?>">О доставке</a></li>
+                    <li><a href="<?= Url::to(['/site/cooperation']) ?>">Сотрудничество</a></li>
+                    <li><a href="<?= Url::to(['/site/contacts']) ?>">Контакты</a></li>
                 </ul>
             </div>
             <div class="footer-menu">
                 <div class="footer-menu-label">Документы</div>
                 <ul>
-                    <li><a href="#">Политика конфиденциальности</a></li>
-                    <li><a href="#">Согласие на обработку персональных данных</a></li>
-                    <li><a href="#">Согласие на рекламную рассылку</a></li>
+                    <li><a href="<?= Url::to(['/site/privacy-policy']) ?>">Политика конфиденциальности</a></li>
+                    <li><a href="<?= Url::to(['/site/personal-data-consent']) ?>">Согласие на обработку персональных данных</a></li>
+                    <li><a href="<?= Url::to(['/site/advertising-consent']) ?>">Согласие на рекламную рассылку</a></li>
                 </ul>
             </div>
         </div>

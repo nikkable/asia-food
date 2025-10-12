@@ -3,6 +3,7 @@
 /** @var \repositories\Product\models\Product $product */
 
 use yii\helpers\Html;
+use common\helpers\PriceHelper;
 
 $this->title = $product->name;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['/catalog/index']];
@@ -17,11 +18,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="row">
             <div class="col-lg-8">
                 <p><?= Html::encode($product->description) ?></p>
-                <p><strong>Цена:</strong> <?= Html::encode($product->price) ?> руб.</p>
+                <p><strong>Цена:</strong> <?= PriceHelper::formatRub($product->price) ?></p>
                 <p><strong>Артикул:</strong> <?= Html::encode($product->article) ?></p>
                 <hr>
                 <p>
-                    <?= Html::a('Добавить в корзину', ['/cart/add', 'id' => $product->id], ['class' => 'btn btn-primary', 'data-method' => 'post']) ?>
+                    <button type="button" class="btn btn-primary add-to-cart-btn" data-product-id="<?= $product->id ?>" data-product-name="<?= Html::encode($product->name) ?>">
+                        Добавить в корзину
+                    </button>
                 </p>
             </div>
         </div>

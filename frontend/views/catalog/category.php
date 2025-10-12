@@ -4,6 +4,7 @@
 /** @var array $products */
 
 use yii\helpers\Html;
+use common\helpers\PriceHelper;
 
 $this->title = $category->name;
 $this->params['breadcrumbs'][] = ['label' => 'Каталог', 'url' => ['/catalog/index']];
@@ -18,7 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php foreach ($products as $product): ?>
                 <div class="col-lg-4">
                     <h2><?= Html::encode($product->name) ?></h2>
-                    <p><?= Html::encode($product->price) ?> руб.</p>
+                    <p><?= PriceHelper::formatRub($product->price) ?></p>
                     <p><?= Html::a('Подробнее &raquo;', ['/catalog/product', 'slug' => $product->slug], ['class' => 'btn btn-outline-secondary']) ?></p>
                 </div>
             <?php endforeach; ?>

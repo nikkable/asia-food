@@ -1,0 +1,53 @@
+.slider {
+  &-prev, &-next {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #F0F0F0;
+    z-index: 5;
+    transition: all 0.3s ease-in-out;
+    @media(max-width: #{$break-max-sm}) {
+      width: 30px;
+      height: 30px;
+      svg {
+        width: 15px;
+        height: 15px;
+      }
+    }
+    &:hover {
+      background: rgba(#F0F0F0, 0.6);
+    }
+    &:active {
+      background: #F0F0F0;
+    }
+  }
+  &-prev {
+    transform: scale(-1, 1);
+  }
+}
+
+// dots
+.slider {
+  &-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0 15px;
+    .slider-dot {
+
+    }
+  }
+
+  &-dot {
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    background: rgb(145, 125, 121);
+    &-active {
+      background: $color-white;
+    }
+  }
+}

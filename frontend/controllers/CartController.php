@@ -36,15 +36,14 @@ class CartController extends Controller
     }
 
     /**
+     * Корзина доступна только через модальное окно
+     * Редирект на главную страницу
+     * 
      * @return mixed
      */
     public function actionIndex()
     {
-        $cart = $this->cartService->getCart();
-
-        return $this->render('index', [
-            'cart' => $cart,
-        ]);
+        return $this->redirect(['/site/index']);
     }
 
     /**
@@ -82,7 +81,7 @@ class CartController extends Controller
 
         $this->cartService->getCart()->add($product, 1);
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/site/index']);
     }
 
     public function actionRemove()
@@ -101,7 +100,7 @@ class CartController extends Controller
                     'message' => 'Не указан ID товара'
                 ];
             }
-            return $this->redirect(['index']);
+            return $this->redirect(['/site/index']);
         }
 
         if (\Yii::$app->request->isAjax) {
@@ -120,13 +119,13 @@ class CartController extends Controller
         }
 
         $this->cartService->getCart()->remove($id);
-        return $this->redirect(['index']);
+        return $this->redirect(['/site/index']);
     }
 
     public function actionClear()
     {
         $this->cartService->getCart()->clear();
-        return $this->redirect(['index']);
+        return $this->redirect(['/site/index']);
     }
 
     /**
@@ -188,7 +187,7 @@ class CartController extends Controller
             ];
         }
 
-        return $this->redirect(['index']);
+        return $this->redirect(['/site/index']);
     }
     
     /**

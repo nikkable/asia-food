@@ -256,4 +256,64 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+
+    /**
+     * Displays delivery page.
+     *
+     * @return mixed
+     */
+    public function actionDelivery()
+    {
+        return $this->render('delivery');
+    }
+
+    /**
+     * Displays cooperation page.
+     *
+     * @return mixed
+     */
+    public function actionCooperation()
+    {
+        return $this->render('cooperation');
+    }
+
+    /**
+     * Displays contacts page.
+     *
+     * @return mixed
+     */
+    public function actionContacts()
+    {
+        return $this->render('contacts');
+    }
+
+    /**
+     * Displays privacy policy page.
+     *
+     * @return mixed
+     */
+    public function actionPrivacyPolicy()
+    {
+        return $this->render('privacy-policy');
+    }
+
+    /**
+     * Displays personal data consent page.
+     *
+     * @return mixed
+     */
+    public function actionPersonalDataConsent()
+    {
+        return $this->render('personal-data-consent');
+    }
+
+    /**
+     * Displays advertising consent page.
+     *
+     * @return mixed
+     */
+    public function actionAdvertisingConsent()
+    {
+        return $this->render('advertising-consent');
+    }
 }

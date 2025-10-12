@@ -1,6 +1,7 @@
 <?php
 
 use common\helpers\PriceHelper;
+use common\helpers\SvgHelper;
 use frontend\widgets\HeaderCategoriesWidget;
 use yii\data\Pagination;
 use yii\helpers\Html;
@@ -40,9 +41,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <button class="product-favorite js-product-favorite <?= $isInFavorites ? 'active' : '' ?>"
                                     data-product-id="<?= $product->id ?>"
                                     data-product-name="<?= Html::encode($product->name) ?>">
-                                <svg width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 6.32647C20 11.4974 10.5 17 10.5 17C10.5 17 1 11.4974 1 6.32647C1 -0.694364 10.5 -0.599555 10.5 5.57947C10.5 -0.599555 20 -0.507124 20 6.32647Z" stroke="black" stroke-linejoin="round"></path>
-                                </svg>
+                                <?= SvgHelper::getIcon('favorite'); ?>
                             </button>
                             <div class="product-image">
                                 <?php if ($product->image): ?>
@@ -77,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?php endforeach; ?>
                     
                     <!-- Пагинация -->
-                    <div class="pagination-container">
+                    <div class="pagination-container" style="width: 100%;">
                         <?= LinkPager::widget([
                             'pagination' => new Pagination([
                                 'totalCount' => $totalProducts,

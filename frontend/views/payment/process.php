@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\helpers\PriceHelper;
 
 /** @var repositories\Order\models\Order $order */
 /** @var string $transaction_id */
@@ -26,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="mb-4">
                             <h5>Информация о заказе:</h5>
                             <p><strong>Номер заказа:</strong> <?= $order->id ?></p>
-                            <p><strong>Сумма к оплате:</strong> <?= number_format($order->total_cost, 0, ',', ' ') ?> руб.</p>
+                            <p><strong>Сумма к оплате:</strong> <?= PriceHelper::formatRub($order->total_cost) ?></p>
                             <p><strong>ID транзакции:</strong> <?= Html::encode($transaction_id) ?></p>
                         </div>
                         
@@ -54,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 Отменить платеж
                             </a>
                             <a href="<?= Url::to(['payment/success', 'transaction_id' => $transaction_id]) ?>" class="btn btn-success">
-                                Оплатить <?= number_format($order->total_cost, 0, ',', ' ') ?> руб.
+                                Оплатить <?= PriceHelper::formatRub($order->total_cost) ?>
                             </a>
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\helpers\PriceHelper;
 
 /** @var \repositories\Favorite\models\FavoriteList $favorites */
 ?>
@@ -31,7 +32,7 @@ use yii\helpers\Url;
                         </a>
                     </h6>
                     <div class="favorite-item-price text-muted">
-                        <?= number_format($product->price, 0, ',', ' ') ?>р.
+                        <?= PriceHelper::formatRub($product->price) ?>
                     </div>
                     <div class="badge bg-<?= $product->quantity > 0 ? 'success' : 'danger' ?>">
                         <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>

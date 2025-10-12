@@ -54,17 +54,14 @@ class FavoriteController extends Controller
     }
     
     /**
-     * Отображает список избранных товаров
+     * Избранное доступно только через модальное окно
+     * Редирект на главную страницу
      * 
      * @return mixed
      */
     public function actionIndex()
     {
-        $favorites = $this->favoriteService->getFavorites();
-        
-        return $this->render('index', [
-            'favorites' => $favorites,
-        ]);
+        return $this->redirect(['/site/index']);
     }
     
     /**
@@ -104,7 +101,7 @@ class FavoriteController extends Controller
         }
         
         $this->favoriteService->addProduct($id);
-        return $this->redirect(['index']);
+        return $this->redirect(['/site/index']);
     }
     
     /**
@@ -128,7 +125,7 @@ class FavoriteController extends Controller
                     'message' => 'Не указан ID товара'
                 ];
             }
-            return $this->redirect(['index']);
+            return $this->redirect(['/site/index']);
         }
         
         if (\Yii::$app->request->isAjax) {

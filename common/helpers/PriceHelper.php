@@ -2,8 +2,6 @@
 
 namespace common\helpers;
 
-use Yii;
-
 /**
  * Хелпер для форматирования цен
  */
@@ -11,12 +9,8 @@ class PriceHelper
 {
     /**
      * Форматирует цену в рублях
-     * 
-     * @param float $price Цена
-     * @param bool $showCurrency Показывать символ валюты
-     * @return string Отформатированная цена
      */
-    public static function format($price, $showCurrency = true)
+    public static function format(float $price, bool $showCurrency = true) :string
     {
         if ($showCurrency) {
             return self::formatRub($price);
@@ -27,22 +21,16 @@ class PriceHelper
     
     /**
      * Форматирует цену в рублях с символом ₽
-     * 
-     * @param float $price Цена
-     * @return string Отформатированная цена
      */
-    public static function formatRub($price)
+    public static function formatRub(float $price) :string
     {
         return number_format($price, 0, ',', ' ') . ' ₽';
     }
     
     /**
      * Форматирует цену в рублях для отображения в GridView
-     * 
-     * @param float $price Цена
-     * @return string Отформатированная цена
      */
-    public static function formatForGrid($price)
+    public static function formatForGrid(float $price) :string
     {
         return self::formatRub($price);
     }
