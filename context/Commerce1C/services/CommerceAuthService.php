@@ -4,8 +4,8 @@ namespace context\Commerce1C\services;
 
 use context\Commerce1C\interfaces\CommerceAuthInterface;
 use context\Commerce1C\interfaces\CommerceSessionInterface;
-use context\Commerce1C\models\CommerceRequest;
-use context\Commerce1C\models\CommerceResponse;
+use repositories\Commerce1C\models\CommerceRequest;
+use repositories\Commerce1C\models\CommerceResponse;
 use context\AbstractService;
 
 class CommerceAuthService extends AbstractService implements CommerceAuthInterface

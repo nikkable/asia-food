@@ -8,8 +8,8 @@ use repositories\Commerce1C\interfaces\Commerce1CSyncRepositoryInterface;
 use context\Commerce1C\enums\ImportFileTypeEnum;
 use context\Commerce1C\parsers\CatalogXmlParser;
 use context\Commerce1C\parsers\OffersXmlParser;
-use context\Commerce1C\models\CommerceRequest;
-use context\Commerce1C\models\CommerceResponse;
+use repositories\Commerce1C\models\CommerceRequest;
+use repositories\Commerce1C\models\CommerceResponse;
 use context\AbstractService;
 
 class CommerceImportService extends AbstractService implements CommerceImportInterface

@@ -8,8 +8,8 @@ use context\Commerce1C\interfaces\CommerceImportInterface;
 use context\Commerce1C\enums\CommerceTypeEnum;
 use context\Commerce1C\enums\CommerceModeEnum;
 use context\Commerce1C\enums\ImportFileTypeEnum;
-use context\Commerce1C\models\CommerceRequest;
-use context\Commerce1C\models\CommerceResponse;
+use repositories\Commerce1C\models\CommerceRequest;
+use repositories\Commerce1C\models\CommerceResponse;
 use context\AbstractService;
 
 class CommerceProcessorService extends AbstractService implements CommerceProcessorInterface

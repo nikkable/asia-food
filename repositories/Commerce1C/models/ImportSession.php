@@ -1,6 +1,6 @@
 <?php
 
-namespace context\Commerce1C\models;
+namespace repositories\Commerce1C\models;
 
 class ImportSession
 {

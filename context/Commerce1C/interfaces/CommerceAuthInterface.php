@@ -2,8 +2,8 @@
 
 namespace context\Commerce1C\interfaces;
 
-use context\Commerce1C\models\CommerceRequest;
-use context\Commerce1C\models\CommerceResponse;
+use repositories\Commerce1C\models\CommerceRequest;
+use repositories\Commerce1C\models\CommerceResponse;
 
 interface CommerceAuthInterface
 {

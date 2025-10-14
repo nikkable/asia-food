@@ -3,7 +3,7 @@
 namespace context\Commerce1C\services;
 
 use context\Commerce1C\interfaces\CommerceSessionInterface;
-use context\Commerce1C\models\ImportSession;
+use repositories\Commerce1C\models\ImportSession;
 use context\AbstractService;
 
 class CommerceSessionService extends AbstractService implements CommerceSessionInterface

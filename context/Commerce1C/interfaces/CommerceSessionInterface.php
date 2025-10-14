@@ -2,7 +2,7 @@
 
 namespace context\Commerce1C\interfaces;
 
-use context\Commerce1C\models\ImportSession;
+use repositories\Commerce1C\models\ImportSession;
 
 interface CommerceSessionInterface
 {

@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use context\Commerce1C\interfaces\CommerceProcessorInterface;
-use context\Commerce1C\models\CommerceRequest;
+use repositories\Commerce1C\models\CommerceRequest;
 use yii\web\Controller;
 use yii\web\Response;
 use Yii;

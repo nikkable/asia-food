@@ -3,7 +3,7 @@
 namespace backend\controllers;
 
 use context\Commerce1C\interfaces\CommerceProcessorInterface;
-use context\Commerce1C\models\CommerceRequest;
+use repositories\Commerce1C\models\CommerceRequest;
 use context\Commerce1C\enums\CommerceTypeEnum;
 use context\Commerce1C\enums\CommerceModeEnum;
 use yii\web\Controller;
