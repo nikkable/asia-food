@@ -24,7 +24,7 @@ class CategoryWidget extends Widget
     /**
      * @var int Максимальное количество категорий для отображения
      */
-    public $limit = 12;
+    public $limit = 20;
 
     public function run()
     {

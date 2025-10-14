@@ -1,8 +1,5 @@
 <?php
 
-use IntlDateFormatter;
-use NumberFormatter;
-
 return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -33,6 +30,13 @@ return [
         ],
     ],
     'components' => [
+        'db' => [
+            'class' => \yii\db\Connection::class,
+            'dsn' => 'mysql:host=localhost;dbname=u3295317_default',
+            'username' => 'u3295317_default',
+            'password' => 'GlgaL3T4B2zrMi2B',
+            'charset' => 'utf8',
+        ],
         'cache' => [
             'class' => \yii\caching\FileCache::class,
         ],

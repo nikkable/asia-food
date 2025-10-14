@@ -84,9 +84,9 @@ class CategoryController extends Controller
                 
                 if ($model->imageFile) {
                     $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
-                    
-                    if ($fileUploadService->isValidImage($model->imageFile)) {
-                        $fileName = $fileUploadService->uploadImage($model->imageFile, 'categories');
+                    $wrappedFile = new \context\File\models\UploadedFileWrapper($model->imageFile);
+                    if ($fileUploadService->isValidImage($wrappedFile)) {
+                        $fileName = $fileUploadService->uploadImage($wrappedFile, 'categories');
                         if ($fileName) {
                             $model->image = $fileName;
                         } else {
@@ -128,9 +128,9 @@ class CategoryController extends Controller
             
             if ($model->imageFile) {
                 $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
-                
-                if ($fileUploadService->isValidImage($model->imageFile)) {
-                    $fileName = $fileUploadService->uploadImage($model->imageFile, 'categories', $oldImage);
+                $wrappedFile = new \context\File\models\UploadedFileWrapper($model->imageFile);
+                if ($fileUploadService->isValidImage($wrappedFile)) {
+                    $fileName = $fileUploadService->uploadImage($wrappedFile, 'categories', $oldImage);
                     if ($fileName) {
                         $model->image = $fileName;
                     } else {

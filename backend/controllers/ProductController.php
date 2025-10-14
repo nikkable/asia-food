@@ -84,9 +84,9 @@ class ProductController extends Controller
                 
                 if ($model->imageFile) {
                     $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
-                    
-                    if ($fileUploadService->isValidImage($model->imageFile)) {
-                        $fileName = $fileUploadService->uploadImage($model->imageFile, 'products');
+                    $wrappedFile = new \context\File\models\UploadedFileWrapper($model->imageFile);
+                    if ($fileUploadService->isValidImage($wrappedFile)) {
+                        $fileName = $fileUploadService->uploadImage($wrappedFile, 'products');
                         if ($fileName) {
                             $model->image = $fileName;
                         } else {
@@ -128,9 +128,9 @@ class ProductController extends Controller
             
             if ($model->imageFile) {
                 $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
-                
-                if ($fileUploadService->isValidImage($model->imageFile)) {
-                    $fileName = $fileUploadService->uploadImage($model->imageFile, 'products', $oldImage);
+                $wrappedFile = new \context\File\models\UploadedFileWrapper($model->imageFile);
+                if ($fileUploadService->isValidImage($wrappedFile)) {
+                    $fileName = $fileUploadService->uploadImage($wrappedFile, 'products', $oldImage);
                     if ($fileName) {
                         $model->image = $fileName;
                     } else {

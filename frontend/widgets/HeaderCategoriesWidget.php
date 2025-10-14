@@ -15,7 +15,7 @@ class HeaderCategoriesWidget extends Widget
     /**
      * @var int Максимальное количество категорий для отображения в меню
      */
-    public $limit = 15;
+    public $limit = 20;
 
     public function run()
     {
