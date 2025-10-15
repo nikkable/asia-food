@@ -8,8 +8,8 @@ use yii\web\Session;
 
 class Cart extends Component
 {
-    private $items;
-    private $session;
+    private array $items;
+    private Session $session;
 
     public function __construct(Session $session, $config = [])
     {
@@ -17,7 +17,7 @@ class Cart extends Component
         parent::__construct($config);
     }
 
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->loadItems();

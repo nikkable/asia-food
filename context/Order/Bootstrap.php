@@ -4,20 +4,15 @@ namespace context\Order;
 
 use context\Order\interfaces\OrderServiceInterface;
 use context\Order\services\OrderService;
+use Yii;
 use yii\base\BootstrapInterface;
-use yii\di\Container;
 
 class Bootstrap implements BootstrapInterface
 {
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
-        $container = \Yii::$container;
-        
-        $this->registerServices($container);
-    }
-    
-    private function registerServices(Container $container): void
-    {
-        $container->setSingleton(OrderServiceInterface::class, OrderService::class);
+        Yii::$container->setDefinitions([
+            OrderServiceInterface::class => OrderService::class,
+        ]);
     }
 }

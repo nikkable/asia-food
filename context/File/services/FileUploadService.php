@@ -9,24 +9,19 @@ use context\File\interfaces\FileInterface;
 
 class FileUploadService extends AbstractService implements FileUploadServiceInterface
 {
-    private const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+    private const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
     private ?string $lastError = null;
 
-    /**
-     * @inheritDoc
-     */
     public function uploadImage(FileInterface $file, string $directory, ?string $oldFileName = null): ?string
     {
-        $this->lastError = null; // Сбрасываем предыдущую ошибку
+        $this->lastError = null;
         try {
             if (!$this->isValidImage($file)) {
-                // Ошибка уже установлена в isValidImage
                 \Yii::error('Invalid image file: ' . $file->getName() . '. Reason: ' . $this->lastError, __METHOD__);
                 return null;
             }
 
-            // Создаем директорию если её нет
             $fullPath = \Yii::getAlias('@backend/web/uploads/' . $directory);
             if (!is_dir($fullPath)) {
                 if (!mkdir($fullPath, 0755, true)) {
@@ -35,15 +30,12 @@ class FileUploadService extends AbstractService implements FileUploadServiceInte
                 }
             }
 
-            // Удаляем старый файл если есть
             if ($oldFileName) {
                 $this->deleteFile($oldFileName, $directory);
             }
 
-            // Генерируем новое имя файла
             $fileName = $this->generateFileName($file->getName());
 
-            // Сохраняем файл
             $filePath = $fullPath . '/' . $fileName;
             if ($file->saveAs($filePath)) {
                 \Yii::info('File uploaded successfully: ' . $filePath, __METHOD__);
@@ -58,9 +50,6 @@ class FileUploadService extends AbstractService implements FileUploadServiceInte
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function deleteFile(string $fileName, string $directory): bool
     {
         $filePath = \Yii::getAlias('@backend/web/uploads/' . $directory . '/' . $fileName);
@@ -72,18 +61,13 @@ class FileUploadService extends AbstractService implements FileUploadServiceInte
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function isValidImage(FileInterface $file): bool
     {
-        // Проверяем, что файл загружен корректно
         if ($file->getError() !== UPLOAD_ERR_OK) {
             $this->lastError = 'Ошибка загрузки файла (код: ' . $file->getError() . ').';
             return false;
         }
 
-        // Проверяем размер файла
         if ($file->getSize() > self::MAX_FILE_SIZE) {
             $this->lastError = 'Файл слишком большой. Максимальный размер: ' . self::MAX_FILE_SIZE . ' байт.';
             return false;
@@ -93,20 +77,16 @@ class FileUploadService extends AbstractService implements FileUploadServiceInte
             return false;
         }
 
-        // Проверяем расширение по имени файла
         $extension = strtolower(pathinfo($file->getName(), PATHINFO_EXTENSION));
         if (!in_array($extension, FileTypeEnum::getAllowedImageExtensions())) {
             $this->lastError = 'Недопустимое расширение файла: ' . $extension;
             return false;
         }
 
-        // Проверяем MIME-тип, если он доступен
         if ($file->getType() && !in_array($file->getType(), FileTypeEnum::getAllowedImageMimes())) {
-            // Это может быть ложным срабатыванием, поэтому просто логируем, но не блокируем
             \Yii::warning('MIME-тип файла (' . $file->getType() . ') не соответствует ожидаемому, но проверка продолжается.', __METHOD__);
         }
 
-        // Самая надежная проверка - через getimagesize
         $tempName = $file->getTempName();
         if ($tempName && file_exists($tempName)) {
             $imageInfo = @getimagesize($tempName);
@@ -128,18 +108,12 @@ class FileUploadService extends AbstractService implements FileUploadServiceInte
         return true;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function generateFileName(string $originalName): string
     {
         $extension = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
         return uniqid() . '_' . time() . '.' . $extension;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getLastError(): ?string
     {
         return $this->lastError;

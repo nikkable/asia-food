@@ -11,8 +11,6 @@ enum FileTypeEnum: string
 
     /**
      * Получить все допустимые MIME-типы изображений
-     *
-     * @return array
      */
     public static function getAllowedImageMimes(): array
     {
@@ -26,8 +24,6 @@ enum FileTypeEnum: string
 
     /**
      * Получить все допустимые расширения изображений
-     *
-     * @return array
      */
     public static function getAllowedImageExtensions(): array
     {

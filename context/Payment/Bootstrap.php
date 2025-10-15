@@ -4,20 +4,15 @@ namespace context\Payment;
 
 use context\Payment\interfaces\PaymentServiceInterface;
 use context\Payment\services\MockPaymentService;
+use Yii;
 use yii\base\BootstrapInterface;
-use yii\di\Container;
 
 class Bootstrap implements BootstrapInterface
 {
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
-        $container = \Yii::$container;
-        
-        $this->registerServices($container);
-    }
-    
-    private function registerServices(Container $container): void
-    {
-        $container->setSingleton(PaymentServiceInterface::class, MockPaymentService::class);
+        Yii::$container->setDefinitions([
+            PaymentServiceInterface::class => MockPaymentService::class,
+        ]);
     }
 }

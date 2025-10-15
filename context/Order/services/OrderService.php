@@ -9,6 +9,7 @@ use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\models\Order;
 use repositories\Order\models\OrderItem;
 use Yii;
+use yii\db\Exception;
 
 class OrderService extends AbstractService implements OrderServiceInterface
 {
@@ -16,35 +17,34 @@ class OrderService extends AbstractService implements OrderServiceInterface
         private readonly OrderRepositoryInterface $orderRepository
     ) {}
 
+    /**
+     * @throws Exception
+     */
     public function create(Cart $cart, array $customerData): Order
     {
         $order = new Order();
         
-        // Маппинг полей из формы в модель
         $order->customer_name = $customerData['customerName'] ?? '';
         $order->customer_phone = $customerData['customerPhone'] ?? '';
-        $order->customer_email = $customerData['customerEmail'] ?? 'no-email@example.com'; // Значение по умолчанию, если email не указан
-        $order->note = isset($customerData['orderComment']) ? $customerData['orderComment'] : '';
+        $order->customer_email = $customerData['customerEmail'] ?? 'no-email@example.com';
+        $order->note = $customerData['orderComment'] ?? '';
         
-        // Если есть адрес доставки, добавляем его в примечание
         if (!empty($customerData['deliveryAddress'])) {
             $deliveryInfo = "Адрес доставки: {$customerData['deliveryAddress']}";
             $order->note = empty($order->note) ? $deliveryInfo : $order->note . "\n\n" . $deliveryInfo;
         }
         
-        // Устанавливаем способ оплаты
         if (!empty($customerData['paymentMethod'])) {
             $order->payment_method = $customerData['paymentMethod'];
         } else {
-            $order->payment_method = Order::PAYMENT_METHOD_CASH; // По умолчанию - наличными
+            $order->payment_method = Order::PAYMENT_METHOD_CASH;
         }
         
-        // Устанавливаем статус оплаты
         $order->payment_status = Order::PAYMENT_STATUS_PENDING;
         
         $order->user_id = Yii::$app->user->id;
         $order->total_cost = $cart->getTotalCost();
-        $order->status = Order::STATUS_NEW; // Новый заказ
+        $order->status = Order::STATUS_NEW;
 
         $transaction = Yii::$app->db->beginTransaction();
         try {

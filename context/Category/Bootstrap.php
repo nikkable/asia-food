@@ -1,9 +1,9 @@
 <?php
 
-namespace context\Favorite;
+namespace context\Category;
 
-use context\Favorite\interfaces\FavoriteServiceInterface;
-use context\Favorite\services\FavoriteService;
+use context\Category\interfaces\CategoryServiceInterface;
+use context\Category\services\CategoryService;
 use Yii;
 use yii\base\BootstrapInterface;
 
@@ -12,7 +12,7 @@ class Bootstrap implements BootstrapInterface
     public function bootstrap($app): void
     {
         Yii::$container->setDefinitions([
-            FavoriteServiceInterface::class => FavoriteService::class,
+            CategoryServiceInterface::class => CategoryService::class,
         ]);
     }
 }

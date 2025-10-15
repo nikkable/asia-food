@@ -3,7 +3,6 @@
 namespace context\Cart\interfaces;
 
 use context\Cart\models\Cart;
-use repositories\Product\models\Product;
 
 interface CartServiceInterface
 {

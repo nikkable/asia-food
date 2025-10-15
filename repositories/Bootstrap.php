@@ -2,36 +2,32 @@
 
 namespace repositories;
 
+use repositories\Category\CategoryRepository;
 use repositories\Favorite\FavoriteRepository;
 use repositories\Favorite\interfaces\FavoriteRepositoryInterface;
+use repositories\Order\interfaces\OrderRepositoryInterface;
+use repositories\Order\OrderRepository;
 use repositories\Product\interfaces\ProductRepositoryInterface;
 use repositories\Category\interfaces\CategoryRepositoryInterface;
 use repositories\Commerce1C\interfaces\Commerce1CSyncRepositoryInterface;
 use repositories\Commerce1C\Commerce1CSyncRepository;
+use repositories\Product\ProductRepository;
+use Yii;
 use yii\base\BootstrapInterface;
-use yii\di\Container;
 
 /**
  * Bootstrap для регистрации репозиториев
  */
 class Bootstrap implements BootstrapInterface
 {
-    /**
-     * @param \yii\base\Application $app
-     */
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
-        \Yii::$container->setSingleton(FavoriteRepositoryInterface::class, function (Container $container) {
-            return new FavoriteRepository(
-                $container->get(ProductRepositoryInterface::class)
-            );
-        });
-
-        \Yii::$container->setSingleton(Commerce1CSyncRepositoryInterface::class, function (Container $container) {
-            return new Commerce1CSyncRepository(
-                $container->get(CategoryRepositoryInterface::class),
-                $container->get(ProductRepositoryInterface::class)
-            );
-        });
+        Yii::$container->setDefinitions([
+            CategoryRepositoryInterface::class => CategoryRepository::class,
+            Commerce1CSyncRepositoryInterface::class => Commerce1CSyncRepository::class,
+            FavoriteRepositoryInterface::class => FavoriteRepository::class,
+            OrderRepositoryInterface::class => OrderRepository::class,
+            ProductRepositoryInterface::class => ProductRepository::class,
+        ]);
     }
 }

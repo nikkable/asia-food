@@ -13,16 +13,12 @@ use Yii;
  */
 class MockPaymentService extends AbstractService implements PaymentServiceInterface
 {
-    private $orderRepository;
-    
-    public function __construct(OrderRepositoryInterface $orderRepository)
+    public function __construct(
+        private readonly OrderRepositoryInterface $orderRepository
+    )
     {
-        $this->orderRepository = $orderRepository;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function initPayment(Order $order): array
     {
         // Генерируем уникальный ID транзакции
@@ -32,9 +28,6 @@ class MockPaymentService extends AbstractService implements PaymentServiceInterf
         $order->payment_transaction_id = $transactionId;
         $order->payment_status = Order::PAYMENT_STATUS_PENDING;
         $this->orderRepository->save($order);
-        
-        // В реальном эквайринге здесь был бы запрос к платежному шлюзу
-        // и получение URL для редиректа на страницу оплаты
         
         // Формируем URL для страницы оплаты
         $paymentUrl = Yii::$app->urlManager->createAbsoluteUrl([
@@ -51,9 +44,6 @@ class MockPaymentService extends AbstractService implements PaymentServiceInterf
         ];
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function handleCallback(array $data): bool
     {
         // Проверяем наличие необходимых параметров
@@ -82,10 +72,7 @@ class MockPaymentService extends AbstractService implements PaymentServiceInterf
         
         return false;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
+
     public function checkStatus(string $transactionId): array
     {
         // Находим заказ по ID транзакции
@@ -97,7 +84,6 @@ class MockPaymentService extends AbstractService implements PaymentServiceInterf
             ];
         }
         
-        // Для заглушки просто возвращаем текущий статус
         $statusText = 'Неизвестный статус';
         switch ($order->payment_status) {
             case Order::PAYMENT_STATUS_PENDING:

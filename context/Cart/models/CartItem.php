@@ -6,8 +6,8 @@ use repositories\Product\models\Product;
 
 class CartItem
 {
-    private $product;
-    private $quantity;
+    private Product $product;
+    private int $quantity;
 
     public function __construct(Product $product, $quantity)
     {

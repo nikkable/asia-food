@@ -44,9 +44,6 @@ class UploadedFileWrapper implements FileInterface
         return $this->uploadedFile->saveAs($file, $deleteTempFile);
     }
     
-    /**
-     * Возвращает исходный объект UploadedFile, если он нужен для специфичных операций Yii.
-     */
     public function getOriginalFile(): UploadedFile
     {
         return $this->uploadedFile;
