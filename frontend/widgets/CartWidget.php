@@ -3,7 +3,6 @@
 namespace frontend\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
 use context\Cart\interfaces\CartServiceInterface;
 
 /**
@@ -11,10 +10,16 @@ use context\Cart\interfaces\CartServiceInterface;
  */
 class CartWidget extends Widget
 {
+    public function __construct(
+        private readonly CartServiceInterface $cartService,
+        array $config = []
+    ) {
+        parent::__construct($config);
+    }
+
     public function run()
     {
-        $cartService = \Yii::$container->get(CartServiceInterface::class);
-        $cart = $cartService->getCart();
+        $cart = $this->cartService->getCart();
 
         return $this->render('cart-widget', [
             'cart' => $cart,

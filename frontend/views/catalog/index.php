@@ -48,11 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= SvgHelper::getIcon('favorite'); ?>
                             </button>
                             <div class="product-image">
-                                <?php if ($product->image): ?>
-                                    <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
-                                <?php else: ?>
-                                    <img src="/images/products/default.png" alt="<?= Html::encode($product->name) ?>">
-                                <?php endif; ?>
+                                <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
                             </div>
                             <div class="product-info">
                                 <div class="product-price"><?= PriceHelper::formatRub($product->price) ?></div>
@@ -72,9 +68,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                         В корзину
                                     </button>
                                 <?php endif; ?>
-                                <!--
-                                <button class="btn btn-secondary">Подробнее</button>
-                                -->
                             </div>
                         </div>
                     <?php endforeach; ?>

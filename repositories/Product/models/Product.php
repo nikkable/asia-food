@@ -3,6 +3,7 @@
 namespace repositories\Product\models;
 
 use repositories\Category\models\Category;
+use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -103,29 +104,16 @@ class Product extends ActiveRecord
      */
     public function getImageUrl(): ?string
     {
+        $basePath = Yii::$app->id === 'app-backend' ? '@web/uploads/products/' : rtrim(Yii::$app->params['backendUrl'], '/') . '/uploads/products/';
+
         if ($this->image) {
-            // Определяем, в каком приложении мы находимся
-            if (\Yii::$app->id === 'app-backend') {
-                return \Yii::getAlias('@web/uploads/products/' . $this->image);
+            if (Yii::$app->id === 'app-backend') {
+                return Yii::getAlias($basePath . $this->image);
             } else {
-                // Для фронтенда используем полный URL бэкенда из параметров
-                $backendUrl = \Yii::$app->params['backendUrl'] ?? 'http://localhost:8080';
-                return rtrim($backendUrl, '/') . '/uploads/products/' . $this->image;
+                return $basePath . $this->image;
             }
         }
-        return null;
-    }
 
-    /**
-     * Получить полный путь к изображению
-     *
-     * @return string|null
-     */
-    public function getImagePath(): ?string
-    {
-        if ($this->image) {
-            return \Yii::getAlias('@backend/web/uploads/products/' . $this->image);
-        }
-        return null;
+        return $basePath . 'default.png';
     }
 }

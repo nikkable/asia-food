@@ -2,6 +2,7 @@
 
 namespace frontend\widgets;
 
+use context\Favorite\interfaces\FavoriteServiceInterface;
 use context\Product\interfaces\BestsellerServiceInterface;
 use yii\base\Widget;
 
@@ -10,41 +11,20 @@ use yii\base\Widget;
  */
 class BestsellerWidget extends Widget
 {
-    /**
-     * @var string Заголовок блока
-     */
-    public $title = 'Хиты продаж';
+    public string $title = 'Хиты продаж';
     
-    /**
-     * @var string Подзаголовок блока
-     */
-    public $subtitle = 'Самые популярные товары нашего магазина';
+    public string $subtitle = 'Самые популярные товары нашего магазина';
     
-    /**
-     * @var int Количество товаров для отображения
-     */
-    public $limit = 20;
+    public int $limit = 20;
     
-    /**
-     * @var BestsellerServiceInterface
-     */
-    private $bestsellerService;
-    
-    /**
-     * @param BestsellerServiceInterface $bestsellerService
-     * @param array $config
-     */
     public function __construct(
-        BestsellerServiceInterface $bestsellerService,
-        $config = []
+        private readonly BestsellerServiceInterface $bestsellerService,
+        private readonly FavoriteServiceInterface $favoriteService,
+        array $config = []
     ) {
-        $this->bestsellerService = $bestsellerService;
         parent::__construct($config);
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function run()
     {
         $bestsellers = $this->bestsellerService->getBestsellers($this->limit);
@@ -53,6 +33,7 @@ class BestsellerWidget extends Widget
             'bestsellers' => $bestsellers,
             'title' => $this->title,
             'subtitle' => $this->subtitle,
+            'favoriteService' => $this->favoriteService
         ]);
     }
 }

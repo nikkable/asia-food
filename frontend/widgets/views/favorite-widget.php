@@ -1,6 +1,5 @@
 <?php
 
-
 /** @var FavoriteList $favorites */
 
 use repositories\Favorite\models\FavoriteList;

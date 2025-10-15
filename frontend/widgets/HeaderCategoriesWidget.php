@@ -3,7 +3,6 @@
 namespace frontend\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
 use repositories\Category\interfaces\CategoryRepositoryInterface;
 use Yii;
 
@@ -12,22 +11,24 @@ use Yii;
  */
 class HeaderCategoriesWidget extends Widget
 {
-    /**
-     * @var int Максимальное количество категорий для отображения в меню
-     */
-    public $limit = 20;
+    public int $limit = 20;
+
+    public function __construct(
+        private readonly CategoryRepositoryInterface $categoryRepository,
+        array $config = []
+    )
+    {
+        parent::__construct($config);
+    }
 
     public function run()
     {
-        $categoryRepository = \Yii::$container->get(CategoryRepositoryInterface::class);
-        $categories = $categoryRepository->getRoot();
+        $categories = $this->categoryRepository->getRoot();
         
-        // Ограничиваем количество категорий для меню
         if ($this->limit > 0) {
             $categories = array_slice($categories, 0, $this->limit);
         }
 
-        // Определяем текущую категорию
         $currentCategorySlug = $this->getCurrentCategorySlug();
 
         return $this->render('header-categories-widget', [
@@ -36,16 +37,11 @@ class HeaderCategoriesWidget extends Widget
         ]);
     }
 
-    /**
-     * Определение текущей категории по URL
-     * @return string|null
-     */
     private function getCurrentCategorySlug(): ?string
     {
         $route = Yii::$app->controller->route;
         $params = Yii::$app->request->get();
 
-        // Если это страница категории
         if ($route === 'category/view' && isset($params['slug'])) {
             return $params['slug'];
         }

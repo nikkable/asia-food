@@ -2,6 +2,7 @@
 
 namespace frontend\widgets;
 
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Url;
 use yii\web\View;
@@ -11,22 +12,16 @@ use yii\web\View;
  */
 class ProductSearchWidget extends Widget
 {
-    /**
-     * @var string $placeholder Placeholder для поля поиска
-     */
     public string $placeholder = 'Поиск товаров...';
     
-    /**
-     * @var string $inputClass CSS класс для input поля
-     */
     public string $inputClass = '';
     
-    /**
-     * @var string $containerClass CSS класс для контейнера
-     */
     public string $containerClass = '';
 
-    public function init()
+    /**
+     * @throws InvalidConfigException
+     */
+    public function init(): void
     {
         parent::init();
         

@@ -1,12 +1,14 @@
 <?php
 
 use common\helpers\SvgHelper;
+use context\Favorite\interfaces\FavoriteServiceInterface;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use common\helpers\PriceHelper;
 
 /** @var string $title */
 /** @var string $subtitle */
+/** @var FavoriteServiceInterface $favoriteService */
 /** @var repositories\Product\models\Product[] $bestsellers */
 ?>
 
@@ -23,18 +25,14 @@ use common\helpers\PriceHelper;
             <div class="bestsellers-main">
                 <?php foreach ($bestsellers as $product): ?>
                     <div class="product">
-                        <?php $isInFavorites = Yii::$container->get('context\\Favorite\\interfaces\\FavoriteServiceInterface')->isInFavorites($product->id); ?>
+                        <?php $isInFavorites = $favoriteService->isInFavorites($product->id); ?>
                         <button class="product-favorite js-product-favorite <?= $isInFavorites ? 'active' : '' ?>"
                                 data-product-id="<?= $product->id ?>"
                                 data-product-name="<?= Html::encode($product->name) ?>">
                             <?= SvgHelper::getIcon('favorite'); ?>
                         </button>
                         <div class="product-image">
-                            <?php if ($product->image): ?>
-                                <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
-                            <?php else: ?>
-                                <img src="/images/products/default.png" alt="<?= Html::encode($product->name) ?>">
-                            <?php endif; ?>
+                            <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
                         </div>
                         <div class="product-info">
                             <div class="product-price"><?= PriceHelper::formatRub($product->price) ?></div>

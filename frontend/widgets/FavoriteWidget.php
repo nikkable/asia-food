@@ -3,7 +3,6 @@
 namespace frontend\widgets;
 
 use yii\base\Widget;
-use yii\helpers\Html;
 use context\Favorite\interfaces\FavoriteServiceInterface;
 
 /**
@@ -11,10 +10,17 @@ use context\Favorite\interfaces\FavoriteServiceInterface;
  */
 class FavoriteWidget extends Widget
 {
+    public function __construct(
+        private readonly FavoriteServiceInterface $favoriteService,
+        array $config = []
+    )
+    {
+        parent::__construct($config);
+    }
+
     public function run()
     {
-        $favoriteService = \Yii::$container->get(FavoriteServiceInterface::class);
-        $favorites = $favoriteService->getFavorites();
+        $favorites = $this->favoriteService->getFavorites();
         
         return $this->render('favorite-widget', [
             'favorites' => $favorites,

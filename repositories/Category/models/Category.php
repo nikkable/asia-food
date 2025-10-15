@@ -2,6 +2,7 @@
 
 namespace repositories\Category\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -115,29 +116,16 @@ class Category extends ActiveRecord
      */
     public function getImageUrl(): ?string
     {
+        $basePath = Yii::$app->id === 'app-backend' ? '@web/uploads/categories/' : rtrim(Yii::$app->params['backendUrl'], '/') . '/uploads/categories/';
+
         if ($this->image) {
-            // Определяем, в каком приложении мы находимся
-            if (\Yii::$app->id === 'app-backend') {
-                return \Yii::getAlias('@web/uploads/categories/' . $this->image);
+            if (Yii::$app->id === 'app-backend') {
+                return Yii::getAlias($basePath . $this->image);
             } else {
-                // Для фронтенда используем полный URL бэкенда из параметров
-                $backendUrl = \Yii::$app->params['backendUrl'] ?? 'http://localhost:8080';
-                return rtrim($backendUrl, '/') . '/uploads/categories/' . $this->image;
+                return $basePath . $this->image;
             }
         }
-        return null;
-    }
 
-    /**
-     * Получить полный путь к изображению
-     *
-     * @return string|null
-     */
-    public function getImagePath(): ?string
-    {
-        if ($this->image) {
-            return \Yii::getAlias('@backend/web/uploads/categories/' . $this->image);
-        }
-        return null;
+        return $basePath . 'default.png';
     }
 }

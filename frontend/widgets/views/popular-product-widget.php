@@ -5,7 +5,6 @@ use common\helpers\PriceHelper;
 
 /** @var repositories\Product\models\Product $product */
 /** @var string $title */
-/** @var string $imagePath */
 ?>
 
 <div class="popular">
@@ -31,7 +30,7 @@ use common\helpers\PriceHelper;
                 </div>
             </div>
             <div class="popular-image">
-                <img src="<?= $imagePath ?>" alt="<?= Html::encode($product->name) ?>">
+                <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
             </div>
         </div>
     </div>

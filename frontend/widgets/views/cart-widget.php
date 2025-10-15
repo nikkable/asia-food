@@ -1,13 +1,9 @@
 <?php
 
-use yii\helpers\Html;
-use yii\helpers\Url;
-use yii\widgets\ActiveForm;
 use frontend\models\QuickOrderForm;
 
 /** @var context\Cart\models\Cart $cart */
 
-// Создаем модель для формы
 $model = new QuickOrderForm();
 ?>
 

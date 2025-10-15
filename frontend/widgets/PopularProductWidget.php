@@ -4,22 +4,17 @@ namespace frontend\widgets;
 
 use repositories\Product\interfaces\ProductRepositoryInterface;
 use yii\base\Widget;
-use yii\helpers\Html;
 
 class PopularProductWidget extends Widget
 {
-    public $slug;
-    public $title = 'Популярное';
-    public $imagePath = '/images/popular/1.png';
+    public string $slug = 'sous-poke-tamaki-047-ml6stup';
+    public string $title = 'Популярное';
 
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepository;
-
-    public function __construct($config = [])
+    public function __construct(
+        private readonly ProductRepositoryInterface $productRepository,
+        $config = []
+    )
     {
-        $this->productRepository = \Yii::$container->get(ProductRepositoryInterface::class);
         parent::__construct($config);
     }
 
@@ -38,7 +33,6 @@ class PopularProductWidget extends Widget
         return $this->render('popular-product-widget', [
             'product' => $product,
             'title' => $this->title,
-            'imagePath' => $this->imagePath,
         ]);
     }
 }

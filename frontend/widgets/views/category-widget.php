@@ -18,11 +18,7 @@ use yii\helpers\Url;
             <?php foreach ($categories as $category): ?>
                 <div class="category-item">
                     <a href="<?= Url::to(['/category/view', 'slug' => $category->slug]) ?>" class="category-item-image">
-                        <?php if ($category->image): ?>
-                            <img src="<?= $category->getImageUrl() ?>" alt="<?= Html::encode($category->name) ?>">
-                        <?php else: ?>
-                            <img src="/images/category/default.png" alt="<?= Html::encode($category->name) ?>">
-                        <?php endif; ?>
+                        <img src="<?= $category->getImageUrl() ?>" alt="<?= Html::encode($category->name) ?>">
                     </a>
                     <a href="<?= Url::to(['/category/view', 'slug' => $category->slug]) ?>" class="category-item-name">
                         <?= Html::encode($category->name) ?>
