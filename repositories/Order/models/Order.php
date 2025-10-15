@@ -2,6 +2,7 @@
 
 namespace repositories\Order\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 
@@ -40,19 +41,20 @@ class Order extends ActiveRecord
     const STATUS_PROCESSING = 1;
     const STATUS_COMPLETED = 2;
     const STATUS_CANCELLED = 3;
-    public static function tableName()
+
+    public static function tableName(): string
     {
         return '{{%order}}';
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             TimestampBehavior::class,
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['customer_name', 'customer_email', 'customer_phone', 'total_cost'], 'required'],
@@ -67,7 +69,7 @@ class Order extends ActiveRecord
         ];
     }
 
-    public function getOrderItems()
+    public function getOrderItems(): ActiveQuery
     {
         return $this->hasMany(OrderItem::class, ['order_id' => 'id']);
     }

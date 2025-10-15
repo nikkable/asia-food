@@ -10,12 +10,8 @@ use repositories\Product\models\Product;
 class Favorite
 {
     private int $productId;
-    private ?Product $product = null;
+    private ?Product $product;
     
-    /**
-     * @param int $productId ID товара
-     * @param Product|null $product Модель товара
-     */
     public function __construct(int $productId, ?Product $product = null)
     {
         $this->productId = $productId;
@@ -24,8 +20,6 @@ class Favorite
     
     /**
      * Получить ID товара
-     * 
-     * @return int
      */
     public function getProductId(): int
     {
@@ -34,8 +28,6 @@ class Favorite
     
     /**
      * Получить модель товара
-     * 
-     * @return Product|null
      */
     public function getProduct(): ?Product
     {
@@ -44,8 +36,6 @@ class Favorite
     
     /**
      * Установить модель товара
-     * 
-     * @param Product $product
      */
     public function setProduct(Product $product): void
     {

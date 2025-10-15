@@ -10,7 +10,7 @@ class FavoriteList
     /**
      * @var Favorite[] Список избранных товаров
      */
-    private array $items = [];
+    private array $items;
     
     /**
      * @param Favorite[] $items
@@ -32,8 +32,6 @@ class FavoriteList
     
     /**
      * Добавить товар в избранное
-     * 
-     * @param Favorite $favorite
      */
     public function addItem(Favorite $favorite): void
     {
@@ -42,8 +40,6 @@ class FavoriteList
     
     /**
      * Удалить товар из избранного
-     * 
-     * @param int $productId
      */
     public function removeItem(int $productId): void
     {
@@ -54,9 +50,6 @@ class FavoriteList
     
     /**
      * Проверить, есть ли товар в избранном
-     * 
-     * @param int $productId
-     * @return bool
      */
     public function hasItem(int $productId): bool
     {
@@ -73,8 +66,6 @@ class FavoriteList
     
     /**
      * Получить количество товаров в избранном
-     * 
-     * @return int
      */
     public function getCount(): int
     {

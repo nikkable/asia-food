@@ -29,8 +29,6 @@ interface ProductRepositoryInterface
     
     /**
      * Получить общее количество товаров
-     * 
-     * @return int Количество товаров
      */
     public function countAll(): int;
     

@@ -4,6 +4,7 @@ namespace repositories\Product\models;
 
 use repositories\Category\models\Category;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -31,16 +32,14 @@ use yii\web\UploadedFile;
  */
 class Product extends ActiveRecord
 {
-    /**
-     * @var UploadedFile|null
-     */
-    public $imageFile;
-    public static function tableName()
+    public ?UploadedFile $imageFile;
+
+    public static function tableName(): string
     {
         return '{{%product}}';
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             TimestampBehavior::class,
@@ -53,7 +52,7 @@ class Product extends ActiveRecord
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['category_id', 'name', 'price', 'slug'], 'required'],
@@ -67,17 +66,12 @@ class Product extends ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Category]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategory()
+    public function getCategory(): ActiveQuery
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
             'id' => 'ID',
@@ -99,8 +93,6 @@ class Product extends ActiveRecord
 
     /**
      * Получить полный URL изображения
-     *
-     * @return string|null
      */
     public function getImageUrl(): ?string
     {

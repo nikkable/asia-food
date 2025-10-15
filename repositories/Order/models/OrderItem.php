@@ -2,6 +2,7 @@
 
 namespace repositories\Order\models;
 
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use repositories\Product\models\Product;
 
@@ -21,12 +22,12 @@ use repositories\Product\models\Product;
  */
 class OrderItem extends ActiveRecord
 {
-    public static function tableName()
+    public static function tableName(): string
     {
         return '{{%order_item}}';
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['order_id', 'product_name', 'price', 'quantity', 'cost'], 'required'],
@@ -36,12 +37,12 @@ class OrderItem extends ActiveRecord
         ];
     }
 
-    public function getOrder()
+    public function getOrder(): ActiveQuery
     {
         return $this->hasOne(Order::class, ['id' => 'order_id']);
     }
 
-    public function getProduct()
+    public function getProduct(): ActiveQuery
     {
         return $this->hasOne(Product::class, ['id' => 'product_id']);
     }

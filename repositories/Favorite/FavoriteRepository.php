@@ -4,31 +4,21 @@ namespace repositories\Favorite;
 
 use repositories\Favorite\interfaces\FavoriteRepositoryInterface;
 use repositories\Favorite\models\Favorite;
-use repositories\Favorite\models\FavoriteList;
 use repositories\Product\interfaces\ProductRepositoryInterface;
 use Yii;
 
 /**
  * Репозиторий для работы с избранными товарами
- * Хранит избранное в сессии пользователя
  */
 class FavoriteRepository implements FavoriteRepositoryInterface
 {
     private const SESSION_KEY = 'favorite';
     
-    private ProductRepositoryInterface $productRepository;
+    public function __construct(
+        private readonly ProductRepositoryInterface $productRepository
+    )
+    {}
     
-    /**
-     * @param ProductRepositoryInterface $productRepository
-     */
-    public function __construct(ProductRepositoryInterface $productRepository)
-    {
-        $this->productRepository = $productRepository;
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
     public function getAll(): array
     {
         $session = Yii::$app->session;
@@ -45,9 +35,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
         return $items;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function add(int $productId): bool
     {
         $session = Yii::$app->session;
@@ -62,9 +49,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
         return false;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function remove(int $productId): bool
     {
         $session = Yii::$app->session;
@@ -80,9 +64,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
         return false;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function exists(int $productId): bool
     {
         $session = Yii::$app->session;
@@ -91,9 +72,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
         return in_array($productId, $favoriteIds);
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function clear(): bool
     {
         $session = Yii::$app->session;
@@ -102,9 +80,6 @@ class FavoriteRepository implements FavoriteRepositoryInterface
         return true;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function getCount(): int
     {
         $session = Yii::$app->session;

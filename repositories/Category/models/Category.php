@@ -3,6 +3,7 @@
 namespace repositories\Category\models;
 
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
@@ -27,16 +28,14 @@ use repositories\Product\models\Product;
  */
 class Category extends ActiveRecord
 {
-    /**
-     * @var UploadedFile|null
-     */
-    public $imageFile;
-    public static function tableName()
+    public ?UploadedFile $imageFile;
+
+    public static function tableName(): string
     {
         return '{{%category}}';
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             TimestampBehavior::class,
@@ -49,7 +48,7 @@ class Category extends ActiveRecord
         ];
     }
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'slug'], 'required'],
@@ -62,32 +61,17 @@ class Category extends ActiveRecord
         ];
     }
 
-    /**
-     * Gets query for [[Parent]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getParent()
+    public function getParent(): ActiveQuery
     {
         return $this->hasOne(Category::class, ['id' => 'parent_id']);
     }
 
-    /**
-     * Gets query for [[Children]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getChildren()
+    public function getChildren(): ActiveQuery
     {
         return $this->hasMany(Category::class, ['parent_id' => 'id']);
     }
 
-    /**
-     * Gets query for [[Products]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProducts()
+    public function getProducts(): ActiveQuery
     {
         return $this->hasMany(Product::class, ['category_id' => 'id']);
     }
@@ -111,8 +95,6 @@ class Category extends ActiveRecord
 
     /**
      * Получить полный URL изображения
-     *
-     * @return string|null
      */
     public function getImageUrl(): ?string
     {
