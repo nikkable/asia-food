@@ -29,6 +29,7 @@ use yii\web\UploadedFile;
  * @property int $updated_at
  *
  * @property UploadedFile|null $imageFile
+ * @property mixed|null $category
  */
 class Product extends ActiveRecord
 {

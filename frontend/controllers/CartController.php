@@ -11,17 +11,18 @@ use yii\web\Response;
 
 class CartController extends Controller
 {
-    private $cartService;
-    private $productService;
-
-    public function __construct($id, $module, CartServiceInterface $cartService, ProductServiceInterface $productService, $config = [])
+    public function __construct(
+        $id,
+        $module,
+        private readonly CartServiceInterface $cartService,
+        private readonly ProductServiceInterface $productService,
+        $config = []
+    )
     {
-        $this->cartService = $cartService;
-        $this->productService = $productService;
         parent::__construct($id, $module, $config);
     }
 
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'verbs' => [
@@ -80,7 +81,7 @@ class CartController extends Controller
         return $this->redirect(['/site/index']);
     }
 
-    public function actionRemove()
+    public function actionRemove(): Response|array
     {
         // Получаем ID из GET или POST параметров
         $id = \Yii::$app->request->get('id');
@@ -118,7 +119,7 @@ class CartController extends Controller
         return $this->redirect(['/site/index']);
     }
 
-    public function actionClear()
+    public function actionClear(): Response
     {
         $this->cartService->getCart()->clear();
         return $this->redirect(['/site/index']);
@@ -127,7 +128,7 @@ class CartController extends Controller
     /**
      * Обновление количества товара в корзине через AJAX
      */
-    public function actionUpdateQuantity()
+    public function actionUpdateQuantity(): Response|array
     {
         if (\Yii::$app->request->isAjax) {
             \Yii::$app->response->format = Response::FORMAT_JSON;

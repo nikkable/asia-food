@@ -7,6 +7,8 @@ use repositories\Favorite\FavoriteRepository;
 use repositories\Favorite\interfaces\FavoriteRepositoryInterface;
 use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\OrderRepository;
+use repositories\Product\BestsellerRepository;
+use repositories\Product\interfaces\BestsellerRepositoryInterface;
 use repositories\Product\interfaces\ProductRepositoryInterface;
 use repositories\Category\interfaces\CategoryRepositoryInterface;
 use repositories\Commerce1C\interfaces\Commerce1CSyncRepositoryInterface;
@@ -28,6 +30,7 @@ class Bootstrap implements BootstrapInterface
             FavoriteRepositoryInterface::class => FavoriteRepository::class,
             OrderRepositoryInterface::class => OrderRepository::class,
             ProductRepositoryInterface::class => ProductRepository::class,
+            BestsellerRepositoryInterface::class => BestsellerRepository::class,
         ]);
     }
 }

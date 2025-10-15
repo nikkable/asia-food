@@ -4,26 +4,32 @@ namespace frontend\controllers;
 
 use context\Category\interfaces\CategoryServiceInterface;
 use context\Product\interfaces\ProductServiceInterface;
-use yii\web\Controller;
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\di\NotInstantiableException;
 use yii\web\NotFoundHttpException;
 
 class CatalogController extends BaseSeoController
 {
-    public function __construct(
-        $id,
-        $module,
-        private readonly CategoryServiceInterface $categoryService,
-        private readonly ProductServiceInterface $productService,
-        $config = []
-    ) {
-        parent::__construct($id, $module, $config);
+    private $categoryService;
+    private $productService;
+
+    /**
+     * @throws NotInstantiableException
+     * @throws InvalidConfigException
+     */
+    public function init(): void
+    {
+        parent::init();
+        $this->categoryService = Yii::$container->get(CategoryServiceInterface::class);
+        $this->productService = Yii::$container->get(ProductServiceInterface::class);
     }
 
     public function actionIndex(int $page = 1) :string
     {
         $this->setCatalogSeoData();
         
-        $pageSize = 12; // Количество товаров на странице
+        $pageSize = 12;
         $offset = ($page - 1) * $pageSize;
         
         $totalProducts = $this->productService->countAll();

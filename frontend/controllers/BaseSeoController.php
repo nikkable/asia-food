@@ -4,6 +4,9 @@ namespace frontend\controllers;
 
 use context\Seo\interfaces\SeoServiceInterface;
 use repositories\Seo\models\SeoData;
+use Yii;
+use yii\base\InvalidConfigException;
+use yii\di\NotInstantiableException;
 use yii\web\Controller;
 
 /**
@@ -11,12 +14,16 @@ use yii\web\Controller;
  */
 abstract class BaseSeoController extends Controller
 {
-    protected SeoServiceInterface $seoService;
+    protected $seoService;
 
-    public function __construct($id, $module, $config = [])
+    /**
+     * @throws NotInstantiableException
+     * @throws InvalidConfigException
+     */
+    public function init()
     {
-        parent::__construct($id, $module, $config);
-        $this->seoService = \Yii::$container->get(SeoServiceInterface::class);
+        parent::init();
+        $this->seoService = Yii::$container->get(SeoServiceInterface::class);
     }
 
     /**
