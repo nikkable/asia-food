@@ -69,6 +69,21 @@ class Order extends ActiveRecord
         ];
     }
 
+    public function attributeLabels(): array
+    {
+        return [
+          'user_id' => 'Id пользователя',
+          'customer_name' => 'Имя клиента',
+          'customer_email' => 'Email клиента',
+          'customer_phone' => 'Телефон клиента',
+          'total_cost' => 'Итоговая цена',
+          'note' => 'Заметка',
+          'status' => 'Статус',
+          'created_at' => 'Дата создания',
+          'updated_at' => 'Дата обновления',
+        ];
+    }
+
     public function getOrderItems(): ActiveQuery
     {
         return $this->hasMany(OrderItem::class, ['order_id' => 'id']);

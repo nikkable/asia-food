@@ -12,7 +12,7 @@ use yii\helpers\ArrayHelper;
 /** @var backend\models\search\OrderSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Orders';
+$this->title = 'Заказы';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="order-index">
@@ -20,10 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Order', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать заказ', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -34,6 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             [
                 'attribute' => 'customer_name',
+                'header' => 'Имя',
                 'format' => 'raw',
                 'value' => function (Order $model) {
                     return Html::a(
@@ -43,9 +42,17 @@ $this->params['breadcrumbs'][] = $this->title;
                     );
                 },
             ],
-            'customer_phone',
-            'customer_email:email',
             [
+                    'header' => 'Телефон',
+                    'attribute' => 'customer_phone',
+            ],
+            [
+                'header' => 'Email',
+                'attribute' => 'customer_email',
+            ],
+
+            [
+                'header' => 'Итоговая цена',
                 'attribute' => 'total_cost',
                 'format' => 'raw',
                 'value' => function (Order $model) {
@@ -54,6 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'contentOptions' => ['class' => 'text-right'],
             ],
             [
+                'header' => 'Способ оплаты',
                 'attribute' => 'payment_method',
                 'filter' => [
                     Order::PAYMENT_METHOD_CASH => 'Наличными',
@@ -64,6 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
+                'header' => 'Статус оплаты',
                 'attribute' => 'payment_status',
                 'filter' => [
                     Order::PAYMENT_STATUS_PENDING => 'Ожидает оплаты',
@@ -80,10 +89,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     
                     $status = $statuses[$model->payment_status] ?? ['Неизвестно', 'default'];
                     
-                    return Html::tag('span', $status[0], ['class' => 'badge badge-' . $status[1]]);
+                    return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                 },
             ],
             [
+                'header' => 'Статус заказа',
                 'attribute' => 'status',
                 'filter' => [
                     Order::STATUS_NEW => 'Новый',
@@ -102,10 +112,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     
                     $status = $statuses[$model->status] ?? ['Неизвестно', 'default'];
                     
-                    return Html::tag('span', $status[0], ['class' => 'badge badge-' . $status[1]]);
+                    return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                 },
             ],
             [
+                'header' => 'Время создания',
                 'attribute' => 'created_at',
                 'format' => 'datetime',
             ],

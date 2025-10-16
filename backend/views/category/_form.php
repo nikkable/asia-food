@@ -12,38 +12,51 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'parent_id')->textInput() ?>
-
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'id' => 'category-name']) ?>
-
-    <?= $form->field($model, 'slug')->textInput([
-        'maxlength' => true, 
-        'id' => 'category-slug',
-        'placeholder' => 'Автогенерируется из названия'
-    ]) ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'imageFile')->fileInput(['accept' => 'image/*']) ?>
-    
-    <?php if ($model->image): ?>
-        <div class="form-group">
-            <label class="control-label">Текущее изображение:</label><br>
-            <img src="<?= $model->getImageUrl() ?>" alt="<?= Html::encode($model->name) ?>" style="max-width: 200px; max-height: 200px;">
+    <div class="row mb-3">
+        <div class="col-6">
+            <?= $form->field($model, 'parent_id')->textInput() ?>
         </div>
-    <?php endif; ?>
+    </div>
 
-    <?= $form->field($model, 'status')->dropDownList([
-        1 => 'Активная',
-        0 => 'Неактивная'
-    ], ['prompt' => 'Выберите статус']) ?>
+    <div class="row mb-3">
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true, 'id' => 'category-name']) ?>
+    </div>
+
+    <div class="row mb-3">
+        <?= $form->field($model, 'slug')->textInput([
+            'maxlength' => true,
+            'id' => 'category-slug',
+            'placeholder' => 'Автогенерируется из названия'
+        ]) ?>
+    </div>
+
+    <div class="row mb-3">
+        <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    </div>
+
+    <div class="row mb-3">
+        <?= $form->field($model, 'imageFile')->fileInput(['accept' => 'image/*']) ?>
+
+        <?php if ($model->image): ?>
+            <div class="form-group">
+                <label class="control-label">Текущее изображение:</label><br>
+                <img src="<?= $model->getImageUrl() ?>" alt="<?= Html::encode($model->name) ?>" style="max-width: 200px; max-height: 200px;">
+            </div>
+        <?php endif; ?>
+    </div>
+
+    <div class="row mb-3">
+        <?= $form->field($model, 'status')->dropDownList([
+            1 => 'Активная',
+            0 => 'Неактивная'
+        ], ['prompt' => 'Выберите статус']) ?>
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>
 
 <?php

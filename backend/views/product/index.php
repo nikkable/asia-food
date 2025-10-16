@@ -1,6 +1,8 @@
 <?php
 
+use repositories\Category\models\Category;
 use repositories\Product\models\Product;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\grid\ActionColumn;
@@ -10,7 +12,7 @@ use yii\grid\GridView;
 /** @var backend\models\search\ProductSearch $searchModel */
 /** @var yii\data\ActiveDataProvider $dataProvider */
 
-$this->title = 'Products';
+$this->title = 'Товары';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">
@@ -18,10 +20,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать товар', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -35,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function ($model) {
                     return $model->category ? $model->category->name : 'Не указана';
                 },
-                'filter' => \yii\helpers\ArrayHelper::map(
-                    \repositories\Category\models\Category::find()->where(['status' => 1])->all(),
+                'filter' => ArrayHelper::map(
+                    Category::find()->where(['status' => 1])->all(),
                     'id',
                     'name'
                 ),
@@ -73,7 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
             ],
             [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
                 'urlCreator' => function ($action, Product $model, $key, $index, $column) {
                     return Url::toRoute([$action, 'id' => $model->id]);
                  }

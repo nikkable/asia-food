@@ -2,11 +2,16 @@
 
 namespace backend\controllers;
 
+use context\File\models\UploadedFileWrapper;
 use repositories\Category\models\Category;
 use backend\models\search\CategorySearch;
+use yii\db\Exception;
+use yii\db\StaleObjectException;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 use yii\web\UploadedFile;
 use context\File\interfaces\FileUploadServiceInterface;
 
@@ -18,11 +23,11 @@ class CategoryController extends Controller
     /**
      * @inheritDoc
      */
-    public function behaviors()
+    public function behaviors(): array
     {
         return [
             'access' => [
-                'class' => \yii\filters\AccessControl::class,
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -39,12 +44,7 @@ class CategoryController extends Controller
         ];
     }
 
-    /**
-     * Lists all Category models.
-     *
-     * @return string
-     */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search($this->request->queryParams);
@@ -56,12 +56,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Displays a single Category model.
-     * @param int $id ID
-     * @return string
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException
      */
-    public function actionView($id)
+    public function actionView(int $id): string
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -69,22 +66,18 @@ class CategoryController extends Controller
     }
 
     /**
-     * Creates a new Category model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return string|\yii\web\Response
+     * @throws Exception
      */
-    public function actionCreate()
+    public function actionCreate(FileUploadServiceInterface $fileUploadService): Response|string
     {
         $model = new Category();
 
         if ($this->request->isPost) {
             if ($model->load($this->request->post())) {
-                // Обработка загрузки изображения
                 $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
                 
                 if ($model->imageFile) {
-                    $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
-                    $wrappedFile = new \context\File\models\UploadedFileWrapper($model->imageFile);
+                    $wrappedFile = new UploadedFileWrapper($model->imageFile);
                     if ($fileUploadService->isValidImage($wrappedFile)) {
                         $fileName = $fileUploadService->uploadImage($wrappedFile, 'categories');
                         if ($fileName) {
@@ -111,24 +104,19 @@ class CategoryController extends Controller
     }
 
     /**
-     * Updates an existing Category model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param int $id ID
-     * @return string|\yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws Exception
+     * @throws NotFoundHttpException
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id, FileUploadServiceInterface $fileUploadService): Response|string
     {
         $model = $this->findModel($id);
         $oldImage = $model->image;
 
         if ($this->request->isPost && $model->load($this->request->post())) {
-            // Обработка загрузки изображения
             $model->imageFile = UploadedFile::getInstance($model, 'imageFile');
             
             if ($model->imageFile) {
-                $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
-                $wrappedFile = new \context\File\models\UploadedFileWrapper($model->imageFile);
+                $wrappedFile = new UploadedFileWrapper($model->imageFile);
                 if ($fileUploadService->isValidImage($wrappedFile)) {
                     $fileName = $fileUploadService->uploadImage($wrappedFile, 'categories', $oldImage);
                     if ($fileName) {
@@ -152,19 +140,15 @@ class CategoryController extends Controller
     }
 
     /**
-     * Deletes an existing Category model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param int $id ID
-     * @return \yii\web\Response
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Throwable
+     * @throws StaleObjectException
+     * @throws NotFoundHttpException
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id, FileUploadServiceInterface $fileUploadService): Response
     {
         $model = $this->findModel($id);
         
-        // Удаляем изображение если есть
         if ($model->image) {
-            $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
             $fileUploadService->deleteFile($model->image, 'categories');
         }
         
@@ -174,13 +158,9 @@ class CategoryController extends Controller
     }
 
     /**
-     * Finds the Category model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id ID
-     * @return Category the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @throws NotFoundHttpException
      */
-    protected function findModel($id)
+    protected function findModel(int $id): Category
     {
         if (($model = Category::findOne(['id' => $id])) !== null) {
             return $model;

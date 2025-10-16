@@ -3,6 +3,7 @@
 use common\helpers\PriceHelper;
 use repositories\Order\models\Order;
 use yii\helpers\Html;
+use yii\web\YiiAsset;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
@@ -11,9 +12,9 @@ use yii\data\ArrayDataProvider;
 /** @var repositories\Order\models\Order $model */
 
 $this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Orders', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Заказы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
-\yii\web\YiiAsset::register($this);
+YiiAsset::register($this);
 ?>
 <div class="order-view">
 
@@ -53,8 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 $orderStatus = $orderStatuses[$model->status] ?? ['Неизвестно', 'default'];
                 $paymentStatus = $paymentStatuses[$model->payment_status] ?? ['Неизвестно', 'default'];
                 ?>
-                <span class="badge badge-<?= $orderStatus[1] ?> mr-2">Статус заказа: <?= $orderStatus[0] ?></span>
-                <span class="badge badge-<?= $paymentStatus[1] ?>">Статус оплаты: <?= $paymentStatus[0] ?></span>
+                <span class="badge text-bg-<?= $orderStatus[1] ?> mr-2">Статус заказа: <?= $orderStatus[0] ?></span>
+                <span class="badge text-bg-<?= $paymentStatus[1] ?>">Статус оплаты: <?= $paymentStatus[0] ?></span>
             </div>
         </div>
     </div>
@@ -85,7 +86,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         Order::STATUS_CANCELLED => ['Отменен', 'danger'],
                                     ];
                                     $status = $statuses[$model->status] ?? ['Неизвестно', 'default'];
-                                    return Html::tag('span', $status[0], ['class' => 'badge badge-' . $status[1]]);
+                                    return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                                 },
                             ],
                             [
@@ -207,7 +208,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                         Order::PAYMENT_STATUS_FAILED => ['Ошибка оплаты', 'danger'],
                                     ];
                                     $status = $statuses[$model->payment_status] ?? ['Неизвестно', 'default'];
-                                    return Html::tag('span', $status[0], ['class' => 'badge badge-' . $status[1]]);
+                                    return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                                 },
                             ],
                             [

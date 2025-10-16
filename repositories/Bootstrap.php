@@ -17,9 +17,6 @@ use repositories\Product\ProductRepository;
 use Yii;
 use yii\base\BootstrapInterface;
 
-/**
- * Bootstrap для регистрации репозиториев
- */
 class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app): void

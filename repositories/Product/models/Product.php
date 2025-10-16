@@ -33,7 +33,7 @@ use yii\web\UploadedFile;
  */
 class Product extends ActiveRecord
 {
-    public ?UploadedFile $imageFile;
+    public $imageFile;
 
     public static function tableName(): string
     {

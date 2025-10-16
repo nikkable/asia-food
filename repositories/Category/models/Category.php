@@ -28,7 +28,7 @@ use repositories\Product\models\Product;
  */
 class Category extends ActiveRecord
 {
-    public ?UploadedFile $imageFile;
+    public $imageFile;
 
     public static function tableName(): string
     {
@@ -81,15 +81,15 @@ class Category extends ActiveRecord
         return [
             'id' => 'ID',
             'parent_id' => 'Parent ID',
-            'name' => 'Name',
+            'name' => 'Название',
             'slug' => 'Slug',
-            'description' => 'Description',
-            'image' => 'Image',
+            'description' => 'Описание',
+            'image' => 'Изображение',
             'imageFile' => 'Изображение',
             'external_id' => 'Внешний ID (1C)',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'status' => 'Статус',
+            'created_at' => 'Дата создания',
+            'updated_at' => 'Дата обновления',
         ];
     }
 

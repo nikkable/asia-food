@@ -12,26 +12,30 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
-
-    <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'customer_email')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'customer_phone')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'total_cost')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <?= $form->field($model, 'created_at')->textInput() ?>
-
-    <?= $form->field($model, 'updated_at')->textInput() ?>
+    <div class="row mb-3">
+        <?= $form->field($model, 'user_id')->textInput() ?>
+    </div>
+    <div class="row mb-3">
+        <?= $form->field($model, 'customer_name')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="row mb-3">
+        <?= $form->field($model, 'customer_email')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="row mb-3">
+        <?= $form->field($model, 'customer_phone')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="row mb-3">
+        <?= $form->field($model, 'total_cost')->textInput(['maxlength' => true]) ?>
+    </div>
+    <div class="row mb-3">
+        <?= $form->field($model, 'note')->textarea(['rows' => 6]) ?>
+    </div>
+    <div class="row mb-3">
+        <?= $form->field($model, 'status')->textInput() ?>
+    </div>
 
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
