@@ -2,11 +2,13 @@
 
 namespace context\Commerce1C\parsers;
 
+use SimpleXMLElement;
+
 class CatalogXmlParser
 {
     public function parse(string $xmlContent): array
     {
-        $xml = new \SimpleXMLElement($xmlContent);
+        $xml = new SimpleXMLElement($xmlContent);
         
         // Проверяем структуру XML - должен быть Классификатор для каталога
         if (!isset($xml->Классификатор)) {
