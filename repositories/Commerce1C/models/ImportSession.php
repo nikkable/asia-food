@@ -37,13 +37,24 @@ class ImportSession
         return $this->metadata;
     }
 
-    public function addUploadedFile(string $filename, string $content): void
+    public function addUploadedFile(string $filename, string $contentOrPath): void
     {
-        $this->uploadedFiles[$filename] = [
-            'content' => $content,
-            'uploaded_at' => new \DateTime(),
-            'size' => strlen($content)
-        ];
+        // Проверяем, это путь к файлу или содержимое
+        if (file_exists($contentOrPath)) {
+            // Это путь к файлу
+            $this->uploadedFiles[$filename] = [
+                'file_path' => $contentOrPath,
+                'uploaded_at' => new \DateTime(),
+                'size' => filesize($contentOrPath)
+            ];
+        } else {
+            // Это содержимое (старая логика)
+            $this->uploadedFiles[$filename] = [
+                'content' => $contentOrPath,
+                'uploaded_at' => new \DateTime(),
+                'size' => strlen($contentOrPath)
+            ];
+        }
     }
 
     public function markFileAsImported(string $filename): void
@@ -65,7 +76,19 @@ class ImportSession
 
     public function getFileContent(string $filename): ?string
     {
-        return $this->uploadedFiles[$filename]['content'] ?? null;
+        if (!isset($this->uploadedFiles[$filename])) {
+            return null;
+        }
+        
+        $fileData = $this->uploadedFiles[$filename];
+        
+        // Если есть путь к файлу, возвращаем его
+        if (isset($fileData['file_path'])) {
+            return $fileData['file_path'];
+        }
+        
+        // Иначе возвращаем содержимое (старая логика)
+        return $fileData['content'] ?? null;
     }
 
     public function setMetadata(string $key, mixed $value): void
@@ -82,5 +105,21 @@ class ImportSession
     {
         $expiresAt = (clone $this->createdAt)->modify("+{$ttlMinutes} minutes");
         return new \DateTime() > $expiresAt;
+    }
+    
+    /**
+     * Псевдоним для getUploadedFiles() для совместимости с CommerceSessionService
+     */
+    public function getFiles(): array
+    {
+        return $this->uploadedFiles;
+    }
+    
+    /**
+     * Псевдоним для addUploadedFile() для совместимости с CommerceSessionService
+     */
+    public function addFile(string $filename, string $content): void
+    {
+        $this->addUploadedFile($filename, $content);
     }
 }

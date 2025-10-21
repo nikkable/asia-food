@@ -71,4 +71,9 @@ class ProductRepository implements ProductRepositoryInterface
             ->limit($limit)
             ->all();
     }
+    
+    public function findByExternalId(string $externalId): ?Product
+    {
+        return Product::find()->where(['external_id' => $externalId])->one();
+    }
 }

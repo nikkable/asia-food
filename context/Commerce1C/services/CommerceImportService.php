@@ -14,10 +14,18 @@ use context\AbstractService;
 
 class CommerceImportService extends AbstractService implements CommerceImportInterface
 {
+    private string $filesDirectory;
+    
     public function __construct(
         private CommerceSessionInterface $sessionService,
         private Commerce1CSyncRepositoryInterface $syncRepository
-    ) {}
+    ) {
+        // Создаем папку для файлов
+        $this->filesDirectory = dirname(\Yii::getAlias('@app')) . '/context/Commerce1C/files';
+        if (!is_dir($this->filesDirectory)) {
+            mkdir($this->filesDirectory, 0755, true);
+        }
+    }
 
     public function initialize(CommerceRequest $request): CommerceResponse
     {
@@ -63,8 +71,15 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('File too large');
         }
 
-        // Сохраняем файл в сессии
-        $session->addUploadedFile($filename, $content);
+        // Сохраняем файл в файловую систему
+        $filePath = $this->getFilePathForSession($sessionId, $filename);
+        
+        if (file_put_contents($filePath, $content) === false) {
+            return CommerceResponse::failure('Failed to save file');
+        }
+        
+        // Отмечаем файл как загруженный в сессии
+        $session->addUploadedFile($filename, $filePath); // Сохраняем путь к файлу
         $this->sessionService->saveSession($session);
 
         return CommerceResponse::success('File uploaded successfully');
@@ -88,8 +103,15 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('File not found in session');
         }
 
-        // Получаем содержимое файла
-        $xmlContent = $session->getFileContent($filename);
+        // Получаем путь к файлу из сессии
+        $filePath = $session->getFileContent($filename); // Теперь это путь к файлу
+        
+        if (!file_exists($filePath)) {
+            return CommerceResponse::failure('File not found on disk');
+        }
+        
+        // Читаем содержимое файла
+        $xmlContent = file_get_contents($filePath);
         
         try {
             // Парсим XML каталога
@@ -130,8 +152,15 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('File not found in session');
         }
 
-        // Получаем содержимое файла
-        $xmlContent = $session->getFileContent($filename);
+        // Получаем путь к файлу из сессии
+        $filePath = $session->getFileContent($filename); // Теперь это путь к файлу
+        
+        if (!file_exists($filePath)) {
+            return CommerceResponse::failure('File not found on disk');
+        }
+        
+        // Читаем содержимое файла
+        $xmlContent = file_get_contents($filePath);
         
         try {
             // Парсим XML предложений
@@ -154,6 +183,17 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
     private function getSessionIdFromRequest(): ?string
     {
         return $_GET['session_id'] ?? $_POST['session_id'] ?? null;
+    }
+    
+    private function getFilePathForSession(string $sessionId, string $filename): string
+    {
+        // Создаем папку для сессии
+        $sessionDir = $this->filesDirectory . '/' . $sessionId;
+        if (!is_dir($sessionDir)) {
+            mkdir($sessionDir, 0755, true);
+        }
+        
+        return $sessionDir . '/' . $filename;
     }
 
 }

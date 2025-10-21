@@ -40,6 +40,16 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+    [
+        'pattern' => 'connectors/commerceml',
+        'route' => 'commerceml-proxy/index',
+        'verb' => ['GET','POST','PUT','DELETE','OPTIONS'],
+    ],
+    [
+        'pattern' => 'commerceml-proxy',
+        'route' => 'commerceml-proxy/index',
+        'verb' => ['GET','POST','PUT','DELETE','OPTIONS'],
+    ],
             ],
         ],
     ],

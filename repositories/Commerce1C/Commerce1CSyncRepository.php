@@ -89,46 +89,145 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
 
     public function getProductByExternalId(string $externalId): ?object
     {
-        return $this->productRepository->findByCondition(['external_id' => $externalId]);
+        return $this->productRepository->findByExternalId($externalId);
     }
 
     public function getCategoryByExternalId(string $externalId): ?object
     {
-        return $this->categoryRepository->findByCondition(['external_id' => $externalId]);
+        return $this->categoryRepository->findByExternalId($externalId);
     }
 
     private function createCategory(array $categoryData): void
     {
-        // TODO: Реализовать создание категории
-        // Создать объект Category с данными из CommerceML
-        // Сохранить через CategoryRepository
+        $category = new \repositories\Category\models\Category();
+        $category->name = $categoryData['name'];
+        $category->description = $categoryData['description'] ?? '';
+        $category->external_id = $categoryData['external_id'];
+        $category->status = 1; // Активная
+        
+        // Поиск родительской категории
+        if (!empty($categoryData['parent_external_id'])) {
+            $parentCategory = $this->getCategoryByExternalId($categoryData['parent_external_id']);
+            if ($parentCategory) {
+                $category->parent_id = $parentCategory->id;
+            }
+        }
+        
+        if (!$category->save()) {
+            throw new \Exception('Failed to save category: ' . json_encode($category->errors));
+        }
+        
+        \Yii::error("Created category: {$category->name} (ID: {$category->id})", __METHOD__);
     }
 
     private function updateCategory(object $category, array $categoryData): void
     {
-        // TODO: Реализовать обновление категории
-        // Обновить поля категории данными из CommerceML
-        // Сохранить через CategoryRepository
+        $category->name = $categoryData['name'];
+        $category->description = $categoryData['description'] ?? '';
+        
+        // Обновляем родительскую категорию
+        if (!empty($categoryData['parent_external_id'])) {
+            $parentCategory = $this->getCategoryByExternalId($categoryData['parent_external_id']);
+            $category->parent_id = $parentCategory ? $parentCategory->id : null;
+        } else {
+            $category->parent_id = null;
+        }
+        
+        if (!$category->save()) {
+            throw new \Exception('Failed to update category: ' . json_encode($category->errors));
+        }
+        
+        \Yii::error("Updated category: {$category->name} (ID: {$category->id})", __METHOD__);
     }
 
     private function createProduct(array $productData): void
     {
-        // TODO: Реализовать создание товара
-        // Создать объект Product с данными из CommerceML
-        // Сохранить через ProductRepository
+        $product = new \repositories\Product\models\Product();
+        $product->name = $productData['name'];
+        $product->description = $productData['description'] ?? '';
+        $product->article = $productData['article'] ?? '';
+        $product->external_id = $productData['external_id'];
+        $product->price = 0; // Цена будет обновлена в offers
+        $product->quantity = 0; // Остаток будет обновлен в offers
+        $product->status = 1; // Активный
+        
+        // Поиск категории
+        if (!empty($productData['category_external_id'])) {
+            $category = $this->getCategoryByExternalId($productData['category_external_id']);
+            if ($category) {
+                $product->category_id = $category->id;
+            } else {
+                // Если категория не найдена, создаем дефолтную
+                $product->category_id = $this->getOrCreateDefaultCategory();
+            }
+        } else {
+            $product->category_id = $this->getOrCreateDefaultCategory();
+        }
+        
+        if (!$product->save()) {
+            throw new \Exception('Failed to save product: ' . json_encode($product->errors));
+        }
+        
+        \Yii::error("Created product: {$product->name} (ID: {$product->id})", __METHOD__);
     }
 
     private function updateProduct(object $product, array $productData): void
     {
-        // TODO: Реализовать обновление товара
-        // Обновить поля товара данными из CommerceML
-        // Сохранить через ProductRepository
+        $product->name = $productData['name'];
+        $product->description = $productData['description'] ?? '';
+        $product->article = $productData['article'] ?? '';
+        
+        // Обновляем категорию
+        if (!empty($productData['category_external_id'])) {
+            $category = $this->getCategoryByExternalId($productData['category_external_id']);
+            if ($category) {
+                $product->category_id = $category->id;
+            }
+        }
+        
+        if (!$product->save()) {
+            throw new \Exception('Failed to update product: ' . json_encode($product->errors));
+        }
+        
+        \Yii::error("Updated product: {$product->name} (ID: {$product->id})", __METHOD__);
     }
 
     private function updateProductOffer(object $product, array $offerData): void
     {
-        // TODO: Реализовать обновление цен и остатков
-        // Обновить price, quantity и другие поля из предложения
-        // Сохранить через ProductRepository
+        // Обновляем цену
+        if (isset($offerData['price'])) {
+            $product->price = (float)$offerData['price'];
+        }
+        
+        // Обновляем остаток
+        if (isset($offerData['quantity'])) {
+            $product->quantity = (int)$offerData['quantity'];
+        }
+        
+        if (!$product->save()) {
+            throw new \Exception('Failed to update product offer: ' . json_encode($product->errors));
+        }
+        
+        \Yii::error("Updated offer for product: {$product->name} (Price: {$product->price}, Qty: {$product->quantity})", __METHOD__);
+    }
+    
+    private function getOrCreateDefaultCategory(): int
+    {
+        // Поиск дефолтной категории
+        $defaultCategory = \repositories\Category\models\Category::find()
+            ->where(['name' => 'Импорт из 1С'])
+            ->one();
+            
+        if (!$defaultCategory) {
+            // Создаем дефолтную категорию
+            $defaultCategory = new \repositories\Category\models\Category();
+            $defaultCategory->name = 'Импорт из 1С';
+            $defaultCategory->description = 'Категория для товаров, импортированных из 1С';
+            $defaultCategory->external_id = 'default-1c-import';
+            $defaultCategory->status = 1;
+            $defaultCategory->save();
+        }
+        
+        return $defaultCategory->id;
     }
 }

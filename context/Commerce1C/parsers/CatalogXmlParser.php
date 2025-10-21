@@ -8,9 +8,9 @@ class CatalogXmlParser
     {
         $xml = new \SimpleXMLElement($xmlContent);
         
-        // Проверяем структуру XML
-        if (!isset($xml->Каталог)) {
-            throw new \InvalidArgumentException('Invalid catalog XML structure');
+        // Проверяем структуру XML - должен быть Классификатор для каталога
+        if (!isset($xml->Классификатор)) {
+            throw new \InvalidArgumentException('Invalid catalog XML structure - missing Классификатор');
         }
 
         $result = [
@@ -23,9 +23,9 @@ class CatalogXmlParser
             $result['categories'] = $this->parseCategories($xml->Классификатор->Группы->Группа);
         }
 
-        // Парсим товары
-        if (isset($xml->Каталог->Товары->Товар)) {
-            $result['products'] = $this->parseProducts($xml->Каталог->Товары->Товар);
+        // Парсим товары из групп (в CommerceML товары могут быть в группах)
+        if (isset($xml->Классификатор->Группы->Группа)) {
+            $result['products'] = array_merge($result['products'], $this->parseProductsFromGroups($xml->Классификатор->Группы->Группа));
         }
 
         return $result;
@@ -93,5 +93,34 @@ class CatalogXmlParser
         }
 
         return $result;
+    }
+    
+    private function parseProductsFromGroups($groups): array
+    {
+        $products = [];
+        
+        foreach ($groups as $group) {
+            // Парсим товары в текущей группе
+            if (isset($group->Товары->Товар)) {
+                $groupProducts = $this->parseProducts($group->Товары->Товар);
+                
+                // Устанавливаем category_external_id для всех товаров в группе
+                foreach ($groupProducts as &$product) {
+                    if (!$product['category_external_id']) {
+                        $product['category_external_id'] = (string)$group->Ид;
+                    }
+                }
+                
+                $products = array_merge($products, $groupProducts);
+            }
+            
+            // Рекурсивно обрабатываем дочерние группы
+            if (isset($group->Группы->Группа)) {
+                $childProducts = $this->parseProductsFromGroups($group->Группы->Группа);
+                $products = array_merge($products, $childProducts);
+            }
+        }
+        
+        return $products;
     }
 }

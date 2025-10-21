@@ -66,6 +66,6 @@ class CommerceResponse
 
     public static function authSuccess(string $sessionId, string $version = '2.05'): self
     {
-        return new self('success', "success\nsession_id={$sessionId}\nversion={$version}");
+        return new self('success', $sessionId);
     }
 }

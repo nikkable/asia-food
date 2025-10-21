@@ -31,7 +31,7 @@ class CommerceMLController extends Controller
             
             // Создаем объект запроса
             $request = CommerceRequest::fromArray($_GET, $content ?: null);
-            
+
             // Обрабатываем запрос
             $response = $this->commerceProcessor->processRequest($request);
             
