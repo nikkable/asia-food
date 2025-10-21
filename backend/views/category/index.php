@@ -31,12 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'parent_id',
             'name',
             'slug',
+            'external_id',
             [
                 'attribute' => 'image',
                 'format' => 'raw',
                 'value' => function ($model) {
                     if ($model->image) {
-                        return Html::img($model->getImageUrl(), [
+                        return Html::img($model->getCroppedImageUrl(130, 130, 'fit'), [
                             'alt' => Html::encode($model->name),
                             'style' => 'max-width: 50px; max-height: 50px;'
                         ]);

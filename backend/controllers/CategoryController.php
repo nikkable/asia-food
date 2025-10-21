@@ -120,6 +120,12 @@ class CategoryController extends Controller
                 if ($fileUploadService->isValidImage($wrappedFile)) {
                     $fileName = $fileUploadService->uploadImage($wrappedFile, 'categories', $oldImage);
                     if ($fileName) {
+                        // Удаляем старые миниатюры при смене изображения
+                        if ($oldImage && $oldImage !== $fileName) {
+                            $oldModel = new Category();
+                            $oldModel->image = $oldImage;
+                            $oldModel->deleteThumbnails();
+                        }
                         $model->image = $fileName;
                     } else {
                         $model->addError('imageFile', 'Ошибка при загрузке файла');
@@ -150,6 +156,7 @@ class CategoryController extends Controller
         
         if ($model->image) {
             $fileUploadService->deleteFile($model->image, 'categories');
+            $model->deleteThumbnails();
         }
         
         $model->delete();

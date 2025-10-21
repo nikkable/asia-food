@@ -18,7 +18,7 @@ use yii\helpers\Url;
             <?php foreach ($categories as $category): ?>
                 <div class="category-item">
                     <a href="<?= Url::to(['/category/view', 'slug' => $category->slug]) ?>" class="category-item-image">
-                        <img src="<?= $category->getImageUrl() ?>" alt="<?= Html::encode($category->name) ?>">
+                        <img src="<?= $category->getCroppedImageUrl(130, 130, 'fit') ?>" alt="<?= Html::encode($category->name) ?>">
                     </a>
                     <a href="<?= Url::to(['/category/view', 'slug' => $category->slug]) ?>" class="category-item-name">
                         <?= Html::encode($category->name) ?>

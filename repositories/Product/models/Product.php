@@ -9,6 +9,7 @@ use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
 use yii\behaviors\SluggableBehavior;
 use yii\web\UploadedFile;
+use context\File\interfaces\ImageResizeServiceInterface;
 
 /**
  * This is the model class for table "{{%product}}".
@@ -108,5 +109,82 @@ class Product extends ActiveRecord
         }
 
         return $basePath . 'default.png';
+    }
+
+    /**
+     * Получить URL кропленного изображения
+     * @param int $width Ширина
+     * @param int $height Высота
+     * @param string $mode Режим кропа: 'crop', 'fit', 'stretch'
+     * @return string
+     */
+    public function getCroppedImageUrl(int $width, int $height, string $mode = 'crop'): string
+    {
+        if (!$this->image) {
+            // Возвращаем URL дефолтного изображения для указанных размеров
+            $basePath = Yii::$app->id === 'app-backend' ? '@web/uploads/products/' : rtrim(Yii::$app->params['backendUrl'], '/') . '/uploads/products/';
+            return $basePath . 'default.png';
+        }
+
+        // Во фронтенде используем ImageController для динамической генерации
+        if (Yii::$app->id === 'app-frontend') {
+            $originalPath = 'products/' . $this->image;
+            return "/image/resize?path=" . urlencode($originalPath) . "&w={$width}&h={$height}&mode={$mode}";
+        }
+
+        // В бэкенде используем сервис напрямую
+        /** @var ImageResizeServiceInterface $imageService */
+        $imageService = Yii::$container->get(ImageResizeServiceInterface::class);
+        
+        $originalPath = 'products/' . $this->image;
+        return $imageService->getResizedImageUrl($originalPath, $width, $height, $mode);
+    }
+
+    /**
+     * Генерирует миниатюру изображения если она не существует
+     * @param int $width Ширина
+     * @param int $height Высота
+     * @param string $mode Режим кропа
+     * @return bool
+     */
+    public function generateThumbnail(int $width, int $height, string $mode = 'crop'): bool
+    {
+        if (!$this->image) {
+            return false;
+        }
+
+        /** @var ImageResizeServiceInterface $imageService */
+        $imageService = Yii::$container->get(ImageResizeServiceInterface::class);
+        
+        $originalPath = 'products/' . $this->image;
+        $thumbnailUrl = $imageService->getResizedImageUrl($originalPath, $width, $height, $mode);
+        
+        // Проверяем, существует ли миниатюра
+        $thumbnailPath = str_replace('/uploads/', '', parse_url($thumbnailUrl, PHP_URL_PATH));
+        if ($imageService->thumbnailExists($thumbnailPath)) {
+            return true;
+        }
+
+        // Создаем миниатюру
+        $sourceFile = Yii::getAlias('@backend/web/uploads/' . $originalPath);
+        $targetFile = Yii::getAlias('@backend/web/uploads/' . $thumbnailPath);
+        
+        return $imageService->resize($sourceFile, $targetFile, $width, $height, $mode);
+    }
+
+    /**
+     * Удаляет все миниатюры при удалении изображения
+     */
+    public function deleteThumbnails(): bool
+    {
+        if (!$this->image) {
+            return true;
+        }
+
+        /** @var ImageResizeServiceInterface $imageService */
+        $imageService = Yii::$container->get(ImageResizeServiceInterface::class);
+        
+        $originalPath = 'products/' . $this->image;
+        return $imageService->deleteThumbnails($originalPath);
     }
 }

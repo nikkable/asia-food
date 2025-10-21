@@ -132,6 +132,12 @@ class ProductController extends Controller
                 if ($fileUploadService->isValidImage($wrappedFile)) {
                     $fileName = $fileUploadService->uploadImage($wrappedFile, 'products', $oldImage);
                     if ($fileName) {
+                        // Удаляем старые миниатюры при смене изображения
+                        if ($oldImage && $oldImage !== $fileName) {
+                            $oldModel = new \repositories\Product\models\Product();
+                            $oldModel->image = $oldImage;
+                            $oldModel->deleteThumbnails();
+                        }
                         $model->image = $fileName;
                     } else {
                         $model->addError('imageFile', 'Ошибка при загрузке файла');
@@ -166,6 +172,7 @@ class ProductController extends Controller
         if ($model->image) {
             $fileUploadService = \Yii::$container->get(FileUploadServiceInterface::class);
             $fileUploadService->deleteFile($model->image, 'products');
+            $model->deleteThumbnails();
         }
         
         $model->delete();

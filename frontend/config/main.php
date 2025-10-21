@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'context\\Seo\\Bootstrap', 'context\\Favorite\\Bootstrap', 'context\\Product\\Bootstrap', 'context\\Order\\Bootstrap', 'context\\Payment\\Bootstrap', 'repositories\\Bootstrap'],
+    'bootstrap' => ['log', 'context\\File\\Bootstrap', 'context\\Seo\\Bootstrap', 'context\\Favorite\\Bootstrap', 'context\\Product\\Bootstrap', 'context\\Order\\Bootstrap', 'context\\Payment\\Bootstrap', 'repositories\\Bootstrap'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -49,6 +49,16 @@ return [
         'pattern' => 'commerceml-proxy',
         'route' => 'commerceml-proxy/index',
         'verb' => ['GET','POST','PUT','DELETE','OPTIONS'],
+    ],
+    [
+        'pattern' => 'image/resize',
+        'route' => 'image/resize',
+        'verb' => 'GET',
+    ],
+    [
+        'pattern' => 'test-images',
+        'route' => 'site/test-images',
+        'verb' => 'GET',
     ],
             ],
         ],

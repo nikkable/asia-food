@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 <?= SvgHelper::getIcon('favorite'); ?>
                             </button>
                             <div class="product-image">
-                                <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
+                                <img src="<?= $product->getCroppedImageUrl(200, 260, 'fit') ?>" alt="<?= Html::encode($product->name) ?>">
                             </div>
                             <div class="product-info">
                                 <div class="product-price"><?= PriceHelper::formatRub($product->price) ?></div>

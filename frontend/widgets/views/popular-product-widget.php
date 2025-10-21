@@ -30,7 +30,7 @@ use common\helpers\PriceHelper;
                 </div>
             </div>
             <div class="popular-image">
-                <img src="<?= $product->getImageUrl() ?>" alt="<?= Html::encode($product->name) ?>">
+                <img src="<?= $product->getCroppedImageUrl(580, 360, 'fit') ?>" alt="<?= Html::encode($product->name) ?>">
             </div>
         </div>
     </div>
