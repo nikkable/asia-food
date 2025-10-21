@@ -25,9 +25,4 @@ interface CommerceSessionInterface
      * Удаляет сессию
      */
     public function deleteSession(string $sessionId): void;
-    
-    /**
-     * Очищает истекшие сессии
-     */
-    public function cleanExpired(int $ttlMinutes = 60): void;
 }

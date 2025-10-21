@@ -16,9 +16,4 @@ interface CommerceAuthInterface
      * Проверяет валидность сессии
      */
     public function validateSession(string $sessionId): bool;
-    
-    /**
-     * Очищает истекшие сессии
-     */
-    public function cleanExpiredSessions(): void;
 }

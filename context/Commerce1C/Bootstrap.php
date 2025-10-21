@@ -11,41 +11,18 @@ use context\Commerce1C\services\CommerceAuthService;
 use context\Commerce1C\services\CommerceSessionService;
 use context\Commerce1C\services\CommerceImportService;
 use context\Commerce1C\services\CommerceProcessorService;
-use repositories\Commerce1C\interfaces\Commerce1CSyncRepositoryInterface;
-use yii\di\Container;
+use Yii;
 
 class Bootstrap
 {
-    public function __construct(
-        private Commerce1CConfig $config
-    ) {}
-
-    public function bootstrap(Container $container): void
+    public function bootstrap(): void
     {
-        // Регистрируем конфигурацию
-        $container->setSingleton(Commerce1CConfig::class, $this->config);
-
-        // Регистрируем сервисы
-        $container->setSingleton(CommerceSessionInterface::class, CommerceSessionService::class);
-        
-        $container->setSingleton(CommerceAuthInterface::class, function() use ($container) {
-            return new CommerceAuthService(
-                $container->get(CommerceSessionInterface::class)
-            );
-        });
-
-        $container->setSingleton(CommerceImportInterface::class, function() use ($container) {
-            return new CommerceImportService(
-                $container->get(CommerceSessionInterface::class),
-                $container->get(Commerce1CSyncRepositoryInterface::class)
-            );
-        });
-
-        $container->setSingleton(CommerceProcessorInterface::class, function() use ($container) {
-            return new CommerceProcessorService(
-                $container->get(CommerceAuthInterface::class),
-                $container->get(CommerceImportInterface::class)
-            );
-        });
+        Yii::$container->setDefinitions([
+            Commerce1CConfig::class => Commerce1CConfig::class,
+            CommerceSessionInterface::class => CommerceSessionService::class,
+            CommerceAuthInterface::class => CommerceAuthService::class,
+            CommerceImportInterface::class => CommerceImportService::class,
+            CommerceProcessorInterface::class => CommerceProcessorService::class,
+        ]);
     }
 }

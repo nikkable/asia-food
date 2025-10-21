@@ -8,12 +8,12 @@ class Commerce1CConfig extends AbstractConfig
 {
     public function __construct(
         private string $username = '12257247',
-        private string $password = 'dbf61458dc34319eda48ac71f0e12e63', 
-        private int $sessionTtlMinutes = 60,
-        private int $maxFileSize = 1048576, // 1MB
+        private string $password = 'dbf61458dc34319eda48ac71f0e12e63',
+        private int    $sessionTtlMinutes = 60,
+        private int    $maxFileSize = 1048576,
         private string $version = '2.05',
-        private bool $allowZip = false,
-        private array $allowedFileTypes = ['import0_1.xml', 'offers0_1.xml']
+        private bool   $allowZip = false,
+        private array  $allowedFileTypes = ['import0_1.xml', 'offers0_1.xml']
     ) {}
 
     public function getUsername(): string

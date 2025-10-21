@@ -75,11 +75,6 @@ class CommerceAuthService extends AbstractService implements CommerceAuthInterfa
         return true;
     }
 
-    public function cleanExpiredSessions(): void
-    {
-        $this->sessionService->cleanExpired();
-    }
-
     private function validateCredentials(?string $username, ?string $password): bool
     {
         // Используем доступы от 1С

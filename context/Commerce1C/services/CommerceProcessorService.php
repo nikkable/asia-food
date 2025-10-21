@@ -5,8 +5,6 @@ namespace context\Commerce1C\services;
 use context\Commerce1C\interfaces\CommerceProcessorInterface;
 use context\Commerce1C\interfaces\CommerceAuthInterface;
 use context\Commerce1C\interfaces\CommerceImportInterface;
-use context\Commerce1C\enums\CommerceTypeEnum;
-use context\Commerce1C\enums\CommerceModeEnum;
 use context\Commerce1C\enums\ImportFileTypeEnum;
 use repositories\Commerce1C\models\CommerceRequest;
 use repositories\Commerce1C\models\CommerceResponse;
@@ -15,18 +13,16 @@ use context\AbstractService;
 class CommerceProcessorService extends AbstractService implements CommerceProcessorInterface
 {
     public function __construct(
-        private CommerceAuthInterface $authService,
-        private CommerceImportInterface $importService
+        private readonly CommerceAuthInterface   $authService,
+        private readonly CommerceImportInterface $importService
     ) {}
 
     public function processRequest(CommerceRequest $request): CommerceResponse
     {
-        // Проверяем поддержку запроса
         if (!$this->isRequestSupported($request)) {
             return CommerceResponse::failure('Unsupported request type or mode');
         }
 
-        // Обрабатываем по типу и режиму
         return match ([$request->getType()->value, $request->getMode()->value]) {
             ['catalog', 'checkauth'] => $this->authService->checkAuth($request),
             ['catalog', 'init'] => $this->handleAuthenticatedRequest($request, fn() => $this->importService->initialize($request)),
@@ -36,7 +32,7 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
         };
     }
 
-    public function isRequestSupported(CommerceRequest $request): bool
+    private function isRequestSupported(CommerceRequest $request): bool
     {
         $supportedRequests = [
             ['catalog', 'checkauth'],

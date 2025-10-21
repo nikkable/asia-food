@@ -5,7 +5,6 @@ namespace context\Commerce1C\services;
 use context\Commerce1C\interfaces\CommerceImportInterface;
 use context\Commerce1C\interfaces\CommerceSessionInterface;
 use repositories\Commerce1C\interfaces\Commerce1CSyncRepositoryInterface;
-use context\Commerce1C\enums\ImportFileTypeEnum;
 use context\Commerce1C\parsers\CatalogXmlParser;
 use context\Commerce1C\parsers\OffersXmlParser;
 use repositories\Commerce1C\models\CommerceRequest;
@@ -17,10 +16,9 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
     private string $filesDirectory;
     
     public function __construct(
-        private CommerceSessionInterface $sessionService,
-        private Commerce1CSyncRepositoryInterface $syncRepository
+        private readonly CommerceSessionInterface          $sessionService,
+        private readonly Commerce1CSyncRepositoryInterface $syncRepository
     ) {
-        // Создаем папку для файлов
         $this->filesDirectory = dirname(\Yii::getAlias('@app')) . '/context/Commerce1C/files';
         if (!is_dir($this->filesDirectory)) {
             mkdir($this->filesDirectory, 0755, true);
@@ -43,7 +41,7 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         // Устанавливаем метаданные для сессии
         $session->setMetadata('initialized_at', new \DateTime());
         $session->setMetadata('zip', 'no');
-        $session->setMetadata('file_limit', 1024000); // 1MB лимит
+        $session->setMetadata('file_limit', 1024000);
         
         $this->sessionService->saveSession($session);
 
@@ -79,7 +77,7 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         }
         
         // Отмечаем файл как загруженный в сессии
-        $session->addUploadedFile($filename, $filePath); // Сохраняем путь к файлу
+        $session->addUploadedFile($filename, $filePath);
         $this->sessionService->saveSession($session);
 
         return CommerceResponse::success('File uploaded successfully');
@@ -114,14 +112,11 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         $xmlContent = file_get_contents($filePath);
         
         try {
-            // Парсим XML каталога
             $parser = new CatalogXmlParser();
             $catalogData = $parser->parse($xmlContent);
             
-            // Импортируем категории
             $categoriesCount = $this->syncRepository->syncCategories($catalogData['categories']);
             
-            // Импортируем товары
             $productsCount = $this->syncRepository->syncProducts($catalogData['products']);
             
             $session->markFileAsImported($filename);
@@ -159,15 +154,12 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('File not found on disk');
         }
         
-        // Читаем содержимое файла
         $xmlContent = file_get_contents($filePath);
         
         try {
-            // Парсим XML предложений
             $parser = new OffersXmlParser();
             $offersData = $parser->parse($xmlContent);
             
-            // Импортируем остатки и цены
             $offersCount = $this->syncRepository->syncOffers($offersData);
             
             $session->markFileAsImported($filename);
@@ -187,7 +179,6 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
     
     private function getFilePathForSession(string $sessionId, string $filename): string
     {
-        // Создаем папку для сессии
         $sessionDir = $this->filesDirectory . '/' . $sessionId;
         if (!is_dir($sessionDir)) {
             mkdir($sessionDir, 0755, true);

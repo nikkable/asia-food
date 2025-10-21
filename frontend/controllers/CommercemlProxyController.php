@@ -13,7 +13,7 @@ class CommercemlProxyController extends Controller
     /**
      * Проксирует все запросы с /connectors/commerceml/ на backend CommerceMLController
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         Yii::$app->response->format = Response::FORMAT_RAW;
         Yii::$app->response->headers->set('Content-Type', 'text/plain; charset=utf-8');
