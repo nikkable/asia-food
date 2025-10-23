@@ -12,7 +12,11 @@ use common\helpers\PriceHelper;
         <div class="popular-main">
             <div class="popular-info">
                 <div class="popular-title title"><?= Html::encode($title) ?></div>
-                <div class="popular-name"><?= Html::encode($product->name) ?></div>
+                <div class="popular-name">
+                    <?= Html::a(Html::encode($product->name), ['product/view', 'slug' => $product->slug], [
+                        'class' => 'text-decoration-none text-dark'
+                    ]) ?>
+                </div>
                 <div class="popular-price hidden">
                     <?php if ($product->price_discount): ?>
                         <span class="price-old"><?= PriceHelper::formatRub($product->price) ?></span>
@@ -25,6 +29,11 @@ use common\helpers\PriceHelper;
                     <button class="btn btn-secondary btn-big js-add-to-cart-btn"
                             data-product-id="<?= $product->id ?>"
                             data-product-name="<?= Html::encode($product->name) ?>">
+                        <h3>
+                            <?= Html::a(Html::encode($product->name), ['product/view', 'slug' => $product->slug], [
+                                'class' => 'text-decoration-none text-white'
+                            ]) ?>
+                        </h3>
                         Купить
                     </button>
                 </div>

@@ -33,15 +33,21 @@ AppAsset::register($this);
             <a href="/" class="header-logo"><img src="/images/logo.png"></a>
             <div class="header-menu">
                 <ul>
-                    <li>
-                        <a href="<?= Url::to(['/catalog/index']) ?>">Каталог</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= Url::to(['catalog']) ?>">Каталог</a>
                         <ul>
                             <?= HeaderCategoriesWidget::widget() ?>
                         </ul>
                     </li>
-                    <li><a href="<?= Url::to(['/site/delivery']) ?>">О доставке</a></li>
-                    <li><a href="<?= Url::to(['/site/cooperation']) ?>">Сотрудничество</a></li>
-                    <li><a href="<?= Url::to(['/site/contacts']) ?>">Контакты</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= Url::to(['site/delivery']) ?>">О доставке</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= Url::to(['site/cooperation']) ?>">Сотрудничество</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?= Url::to(['site/contacts']) ?>">Контакты</a>
+                    </li>
                 </ul>
             </div>
             <div class="header-work">

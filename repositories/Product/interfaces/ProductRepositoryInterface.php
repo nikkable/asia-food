@@ -40,5 +40,5 @@ interface ProductRepositoryInterface
     /**
      * Поиск товаров по названию
      */
-    public function searchByName(string $query, int $limit = 10): array;
+    public function searchByName(string $name, int $limit = 10): array;
 }

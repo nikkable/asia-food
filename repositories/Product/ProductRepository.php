@@ -65,11 +65,19 @@ class ProductRepository implements ProductRepositoryInterface
         }
         
         return Product::find()
-            ->where(['status' => 1])
-            ->andWhere(['like', 'name', $query])
+            ->where(['like', 'name', $query])
+            ->andWhere(['status' => 1])
             ->orderBy(['id' => SORT_DESC])
             ->limit($limit)
             ->all();
+    }
+
+    public function findBySlug(string $slug): ?Product
+    {
+        return Product::find()
+            ->where(['slug' => $slug])
+            ->with('category')
+            ->one();
     }
     
     public function findByExternalId(string $externalId): ?Product

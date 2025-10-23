@@ -59,6 +59,8 @@ class CommercemlProxyController extends Controller
             'body' => $body,
         ];
 
+        Yii::warning(print_r($_SERVER, true), '1c');
+
         try {
             $response = $client->request($method, $url, $options);
 

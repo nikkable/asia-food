@@ -1,0 +1,44 @@
+### Тестирование ЧПУ (человеко-понятных URL) для сайта
+
+### 1. Главная страница
+GET http://localhost:20080/
+
+### 2. Каталог товаров
+GET http://localhost:20080/catalog
+
+### 3. Поиск товаров
+GET http://localhost:20080/search
+
+### 4. Категория по slug (пример)
+GET http://localhost:20080/category/sushi
+
+### 5. Товар по slug (пример)
+GET http://localhost:20080/product/sous-poke-tamaki-047-ml6stup
+
+### 6. Статические страницы
+GET http://localhost:20080/about
+###
+GET http://localhost:20080/contact
+###
+GET http://localhost:20080/delivery
+###
+GET http://localhost:20080/payment
+
+### 7. Корзина
+GET http://localhost:20080/cart
+
+### 8. Избранное
+GET http://localhost:20080/favorites
+
+### 9. Заказы
+GET http://localhost:20080/orders
+
+### 10. Изображения (динамическое изменение размера)
+GET http://localhost:20080/image/resize?path=categories/example.jpg&w=300&h=200&mode=crop
+
+### Примечания:
+# - Все URL теперь используют ЧПУ без /index.php
+# - Категории доступны по /category/{slug}
+# - Товары доступны по /product/{slug}
+# - Статические страницы имеют короткие URL
+# - Система автоматически генерирует правильные ссылки во всех виджетах

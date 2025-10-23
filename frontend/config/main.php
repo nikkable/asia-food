@@ -39,27 +39,54 @@ return [
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
+            'enableStrictParsing' => false,
             'rules' => [
-    [
-        'pattern' => 'connectors/commerceml',
-        'route' => 'commerceml-proxy/index',
-        'verb' => ['GET','POST','PUT','DELETE','OPTIONS'],
-    ],
-    [
-        'pattern' => 'commerceml-proxy',
-        'route' => 'commerceml-proxy/index',
-        'verb' => ['GET','POST','PUT','DELETE','OPTIONS'],
-    ],
-    [
-        'pattern' => 'image/resize',
-        'route' => 'image/resize',
-        'verb' => 'GET',
-    ],
-    [
-        'pattern' => 'test-images',
-        'route' => 'site/test-images',
-        'verb' => 'GET',
-    ],
+                // Главная страница
+                '' => 'site/index',
+                
+                // Каталог и поиск
+                'catalog' => 'catalog/index',
+                'search' => 'search/index',
+                
+                // Категории (ЧПУ)
+                'category/<slug:[\w\-]+>' => 'category/view',
+                
+                // Товары (ЧПУ) 
+                'product/<slug:[\w\-]+>' => 'product/view',
+                
+                // Корзина
+                'cart' => 'cart/index',
+                'cart/add' => 'cart/add',
+                'cart/update-quantity' => 'cart/update-quantity',
+                'cart/remove' => 'cart/remove',
+                'cart/quick-order' => 'cart/quick-order',
+                
+                // Избранное
+                'favorites' => 'favorite/index',
+                'favorites/add' => 'favorite/add',
+                'favorites/remove' => 'favorite/remove',
+                
+                // Заказы
+                'orders' => 'order/index',
+                'orders/create' => 'order/create',
+                'orders/view/<id:\d+>' => 'order/view',
+                
+                // Статические страницы
+                'about' => 'site/about',
+                'contact' => 'site/contact',
+                'delivery' => 'site/delivery',
+                'payment' => 'site/payment',
+                'privacy' => 'site/privacy',
+                'terms' => 'site/terms',
+                
+                // Прокси для CommerceML
+                'commerceml-proxy/<action:\w+>' => 'commerceml-proxy/<action>',
+                
+                // Изображения
+                'image/resize' => 'image/resize',
+                
+                // Остальные правила
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
     ],

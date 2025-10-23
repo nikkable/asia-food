@@ -9,8 +9,6 @@ use yii\helpers\Url;
 
 <?php foreach ($categories as $category): ?>
     <li<?= $currentCategorySlug === $category->slug ? ' class="active"' : '' ?>>
-        <a href="<?= Url::to(['/category/view', 'slug' => $category->slug]) ?>">
-            <?= Html::encode($category->name) ?>
-        </a>
+        <?= Html::a(Html::encode($category->name), ['category/view', 'slug' => $category->slug]) ?>
     </li>
 <?php endforeach; ?>
