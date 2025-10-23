@@ -43,7 +43,7 @@ class CommerceResponse
     public function toString(): string
     {
         if ($this->status === 'success') {
-            return $this->message ? "success\n{$this->message}" : 'success';
+            return $this->message ?: 'success';
         }
         
         return $this->message ? "failure\n{$this->message}" : 'failure';
@@ -59,13 +59,9 @@ class CommerceResponse
         return new self('failure', $message, [], $httpCode);
     }
 
-    public static function progressSuccess(string $sessionId): self
-    {
-        return new self('success', "progress\nsession_id={$sessionId}");
-    }
-
     public static function authSuccess(string $sessionId, string $version = '2.05'): self
     {
-        return new self('success', $sessionId);
+        $cookieName = 'COMMERCE1C_SESSION';
+        return new self('success', "success\n{$cookieName}\n{$sessionId}");
     }
 }

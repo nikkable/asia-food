@@ -39,7 +39,7 @@ class CommercemlProxyController extends Controller
             if (is_array($value)) $value = implode('; ', $value);
             $guzzleHeaders[$key] = $value;
         }
-        
+
         // Проверяем и передаем HTTP Basic Auth
         if (isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $guzzleHeaders['Authorization'] = $_SERVER['HTTP_AUTHORIZATION'];
@@ -58,8 +58,6 @@ class CommercemlProxyController extends Controller
             'headers' => $guzzleHeaders,
             'body' => $body,
         ];
-
-        Yii::warning(print_r($_SERVER, true), '1c');
 
         try {
             $response = $client->request($method, $url, $options);

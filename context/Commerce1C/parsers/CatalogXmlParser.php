@@ -8,9 +8,9 @@ class CatalogXmlParser
 {
     public function parse(string $xmlContent): array
     {
+        $xmlContent = str_replace('xmlns="urn:1C.ru:commerceml_2"', '', $xmlContent);
         $xml = new SimpleXMLElement($xmlContent);
         
-        // Проверяем структуру XML - должен быть Классификатор для каталога
         if (!isset($xml->Классификатор)) {
             throw new \InvalidArgumentException('Invalid catalog XML structure - missing Классификатор');
         }
@@ -25,9 +25,9 @@ class CatalogXmlParser
             $result['categories'] = $this->parseCategories($xml->Классификатор->Группы->Группа);
         }
 
-        // Парсим товары из групп (в CommerceML товары могут быть в группах)
-        if (isset($xml->Классификатор->Группы->Группа)) {
-            $result['products'] = array_merge($result['products'], $this->parseProductsFromGroups($xml->Классификатор->Группы->Группа));
+        // Парсим товары из каталога
+        if (isset($xml->Каталог->Товары->Товар)) {
+            $result['products'] = array_merge($result['products'], $this->parseProducts($xml->Каталог->Товары->Товар));
         }
 
         return $result;
@@ -47,7 +47,6 @@ class CatalogXmlParser
 
             $categories[] = $category;
 
-            // Рекурсивно обрабатываем дочерние группы
             if (isset($group->Группы->Группа)) {
                 $childCategories = $this->parseCategories($group->Группы->Группа);
                 
@@ -78,9 +77,13 @@ class CatalogXmlParser
                 'category_external_id' => null
             ];
 
-            // Получаем группы товара (категории)
+            // Получаем группы товара
             if (isset($product->Группы->Ид)) {
-                $item['category_external_id'] = (string)$product->Группы->Ид[0];
+                if (is_array($product->Группы->Ид) || $product->Группы->Ид instanceof \Traversable) {
+                    $item['category_external_id'] = (string)$product->Группы->Ид[0];
+                } else {
+                    $item['category_external_id'] = (string)$product->Группы->Ид;
+                }
             }
 
             // Получаем изображения
@@ -95,34 +98,5 @@ class CatalogXmlParser
         }
 
         return $result;
-    }
-    
-    private function parseProductsFromGroups($groups): array
-    {
-        $products = [];
-        
-        foreach ($groups as $group) {
-            // Парсим товары в текущей группе
-            if (isset($group->Товары->Товар)) {
-                $groupProducts = $this->parseProducts($group->Товары->Товар);
-                
-                // Устанавливаем category_external_id для всех товаров в группе
-                foreach ($groupProducts as &$product) {
-                    if (!$product['category_external_id']) {
-                        $product['category_external_id'] = (string)$group->Ид;
-                    }
-                }
-                
-                $products = array_merge($products, $groupProducts);
-            }
-            
-            // Рекурсивно обрабатываем дочерние группы
-            if (isset($group->Группы->Группа)) {
-                $childProducts = $this->parseProductsFromGroups($group->Группы->Группа);
-                $products = array_merge($products, $childProducts);
-            }
-        }
-        
-        return $products;
     }
 }

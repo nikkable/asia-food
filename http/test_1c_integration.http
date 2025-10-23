@@ -1,19 +1,21 @@
-### Тестирование интеграции с 1С через CommerceML
+### Тестирование интеграции с 1С через CommerceML (Cookie-авторизация)
 
 # Настройки
 @baseUrl = https://xn----7sbnkf1eg0g.xn--p1ai/commerceml-proxy
 @username = 12257247
 @password = dbf61458dc34319eda48ac71f0e12e63
 
-### 1. Авторизация (checkauth) - тест .htaccess фикса
+### 1. Авторизация (checkauth) - получаем Cookie
 GET {{baseUrl}}/?type=catalog&mode=checkauth
 Authorization: Basic MTIyNTcyNDc6ZGJmNjE0NThkYzM0MzE5ZWRhNDhhYzcxZjBlMTJlNjM=
 
-### 2. Инициализация (init)
-GET {{baseUrl}}/?type=catalog&mode=init&session_id=commerce1c_68f7ca0e0173f6.19799087
+### 2. Инициализация (init) - используем Cookie из предыдущего ответа
+GET {{baseUrl}}/?type=catalog&mode=init
+Cookie: COMMERCE1C_SESSION=commerce1c_68fa85210b9807.99368436
 
-### 4. Загрузка файла каталога (file)
-POST {{baseUrl}}/?type=catalog&mode=file&session_id=commerce1c_68f7ca0e0173f6.19799087&filename=import0_1.xml
+### 3. Загрузка файла каталога (file) - используем Cookie
+POST {{baseUrl}}/?type=catalog&mode=file&filename=import0_1.xml
+Cookie: COMMERCE1C_SESSION=commerce1c_68fa85210b9807.99368436
 Content-Type: application/xml; charset=utf-8
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -60,11 +62,13 @@ Content-Type: application/xml; charset=utf-8
     </Классификатор>
 </КоммерческаяИнформация>
 
-### 5. Импорт каталога (import)
-GET {{baseUrl}}/?type=catalog&mode=import&session_id=commerce1c_68f7ca0e0173f6.19799087&filename=import0_1.xml
+### 4. Импорт каталога (import) - используем Cookie
+GET {{baseUrl}}/?type=catalog&mode=import&filename=import0_1.xml
+Cookie: COMMERCE1C_SESSION=commerce1c_68fa7ee6dd0ce1.30862458
 
-### 6. Загрузка файла предложений (file)
-POST {{baseUrl}}/?type=catalog&mode=file&session_id=commerce1c_68f7ca0e0173f6.19799087&filename=offers0_1.xml
+### 5. Загрузка файла предложений (file) - используем Cookie
+POST {{baseUrl}}/?type=catalog&mode=file&filename=offers0_1.xml
+Cookie: COMMERCE1C_SESSION=commerce1c_68fa664c435276.16138303
 Content-Type: application/xml; charset=utf-8
 
 <?xml version="1.0" encoding="UTF-8"?>
@@ -108,5 +112,6 @@ Content-Type: application/xml; charset=utf-8
     </ПакетПредложений>
 </КоммерческаяИнформация>
 
-### 7. Импорт предложений (import)
-GET {{baseUrl}}/?type=catalog&mode=import&session_id=commerce1c_68f7ca0e0173f6.19799087&filename=offers0_1.xml
+### 6. Импорт предложений (import) - используем Cookie
+GET {{baseUrl}}/?type=catalog&mode=import&filename=offers0_1.xml
+Cookie: COMMERCE1C_SESSION=commerce1c_68fa8144b41bc2.75000730

@@ -1,3 +1,13 @@
+# Увеличиваем лимиты для загрузки файлов от 1С
+php_value upload_max_filesize 50M
+php_value post_max_size 50M
+php_value max_execution_time 300
+php_value max_input_time 300
+php_value memory_limit 256M
+php_value max_input_vars 10000
+php_value max_input_nesting_level 128
+php_value default_socket_timeout 300
+
 RewriteEngine on
 
 # Передача Authorization заголовка в PHP

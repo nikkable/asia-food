@@ -16,4 +16,9 @@ interface CommerceAuthInterface
      * Проверяет валидность сессии
      */
     public function validateSession(string $sessionId): bool;
+    
+    /**
+     * Получает session_id из текущего запроса (Cookie или параметры)
+     */
+    public function getSessionIdFromRequest(): ?string;
 }

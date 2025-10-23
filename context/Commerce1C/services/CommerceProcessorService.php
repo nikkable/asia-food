@@ -46,8 +46,8 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
 
     private function handleAuthenticatedRequest(CommerceRequest $request, callable $handler): CommerceResponse
     {
-        $sessionId = $_GET['session_id'] ?? $_POST['session_id'] ?? null;
-        
+        $sessionId = $this->authService->getSessionIdFromRequest();
+
         if (!$sessionId || !$this->authService->validateSession($sessionId)) {
             return CommerceResponse::failure('Invalid or expired session', 401);
         }

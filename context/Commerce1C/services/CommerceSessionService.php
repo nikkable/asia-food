@@ -37,10 +37,15 @@ class CommerceSessionService extends AbstractService implements CommerceSessionI
 
         if (isset($sessionData['files'])) {
             foreach ($sessionData['files'] as $filename => $fileData) {
-                if (is_array($fileData) && isset($fileData['content'])) {
-                    $session->addFile($filename, $fileData['content']);
+                if (is_array($fileData)) {
+                    // Если это массив с метаданными, используем addUploadedFile напрямую
+                    if (isset($fileData['file_path'])) {
+                        $session->addUploadedFile($filename, $fileData['file_path']);
+                    } elseif (isset($fileData['content'])) {
+                        $session->addUploadedFile($filename, $fileData['content']);
+                    }
                 } else {
-                    $session->addFile($filename, $fileData);
+                    $session->addUploadedFile($filename, $fileData);
                 }
             }
         }

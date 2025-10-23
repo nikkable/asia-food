@@ -59,6 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'price:currency',
             'quantity',
             'article',
+            'external_id',
             [
                 'attribute' => 'status',
                 'format' => 'raw',

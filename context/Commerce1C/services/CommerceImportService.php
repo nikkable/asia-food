@@ -4,6 +4,7 @@ namespace context\Commerce1C\services;
 
 use context\Commerce1C\interfaces\CommerceImportInterface;
 use context\Commerce1C\interfaces\CommerceSessionInterface;
+use context\Commerce1C\interfaces\CommerceAuthInterface;
 use repositories\Commerce1C\interfaces\Commerce1CSyncRepositoryInterface;
 use context\Commerce1C\parsers\CatalogXmlParser;
 use context\Commerce1C\parsers\OffersXmlParser;
@@ -17,7 +18,8 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
     
     public function __construct(
         private readonly CommerceSessionInterface          $sessionService,
-        private readonly Commerce1CSyncRepositoryInterface $syncRepository
+        private readonly Commerce1CSyncRepositoryInterface $syncRepository,
+        private readonly CommerceAuthInterface             $authService
     ) {
         $this->filesDirectory = dirname(\Yii::getAlias('@app')) . '/context/Commerce1C/files';
         if (!is_dir($this->filesDirectory)) {
@@ -27,7 +29,7 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
 
     public function initialize(CommerceRequest $request): CommerceResponse
     {
-        $sessionId = $this->getSessionIdFromRequest();
+        $sessionId = $this->authService->getSessionIdFromRequest();
         
         if (!$sessionId) {
             return CommerceResponse::failure('Session ID required');
@@ -41,16 +43,16 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         // Устанавливаем метаданные для сессии
         $session->setMetadata('initialized_at', new \DateTime());
         $session->setMetadata('zip', 'no');
-        $session->setMetadata('file_limit', 1024000);
+        $session->setMetadata('file_limit', 52428800); // 50MB в байтах
         
         $this->sessionService->saveSession($session);
 
-        return CommerceResponse::progressSuccess($sessionId);
+        return CommerceResponse::success("zip=no\nfile_limit=52428800");
     }
 
     public function saveFile(CommerceRequest $request): CommerceResponse
     {
-        $sessionId = $this->getSessionIdFromRequest();
+        $sessionId = $this->authService->getSessionIdFromRequest();
         $filename = $request->getFilename();
         $content = $request->getContent();
 
@@ -63,29 +65,21 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('Invalid session');
         }
 
-        // Проверяем размер файла
-        $fileLimit = $session->getMetadataValue('file_limit') ?? 1024000;
-        if (strlen($content) > $fileLimit) {
-            return CommerceResponse::failure('File too large');
-        }
-
-        // Сохраняем файл в файловую систему
         $filePath = $this->getFilePathForSession($sessionId, $filename);
         
         if (file_put_contents($filePath, $content) === false) {
             return CommerceResponse::failure('Failed to save file');
         }
         
-        // Отмечаем файл как загруженный в сессии
         $session->addUploadedFile($filename, $filePath);
         $this->sessionService->saveSession($session);
 
-        return CommerceResponse::success('File uploaded successfully');
+        return CommerceResponse::success();
     }
 
     public function importCatalog(CommerceRequest $request): CommerceResponse
     {
-        $sessionId = $this->getSessionIdFromRequest();
+        $sessionId = $this->authService->getSessionIdFromRequest();
         $filename = $request->getFilename();
 
         if (!$sessionId || !$filename) {
@@ -101,14 +95,12 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('File not found in session');
         }
 
-        // Получаем путь к файлу из сессии
-        $filePath = $session->getFileContent($filename); // Теперь это путь к файлу
+        $filePath = $session->getFileContent($filename);
         
         if (!file_exists($filePath)) {
             return CommerceResponse::failure('File not found on disk');
         }
         
-        // Читаем содержимое файла
         $xmlContent = file_get_contents($filePath);
         
         try {
@@ -131,7 +123,7 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
 
     public function importOffers(CommerceRequest $request): CommerceResponse
     {
-        $sessionId = $this->getSessionIdFromRequest();
+        $sessionId = $this->authService->getSessionIdFromRequest();
         $filename = $request->getFilename();
 
         if (!$sessionId || !$filename) {
@@ -147,7 +139,6 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('File not found in session');
         }
 
-        // Получаем путь к файлу из сессии
         $filePath = $session->getFileContent($filename); // Теперь это путь к файлу
         
         if (!file_exists($filePath)) {
@@ -172,10 +163,6 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         }
     }
 
-    private function getSessionIdFromRequest(): ?string
-    {
-        return $_GET['session_id'] ?? $_POST['session_id'] ?? null;
-    }
     
     private function getFilePathForSession(string $sessionId, string $filename): string
     {

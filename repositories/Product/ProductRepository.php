@@ -72,16 +72,13 @@ class ProductRepository implements ProductRepositoryInterface
             ->all();
     }
 
-    public function findBySlug(string $slug): ?Product
-    {
-        return Product::find()
-            ->where(['slug' => $slug])
-            ->with('category')
-            ->one();
-    }
-    
     public function findByExternalId(string $externalId): ?Product
     {
         return Product::find()->where(['external_id' => $externalId])->one();
+    }
+    
+    public function findByName(string $name): ?Product
+    {
+        return Product::find()->where(['name' => $name])->one();
     }
 }

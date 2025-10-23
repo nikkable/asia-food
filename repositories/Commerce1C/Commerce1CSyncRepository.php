@@ -23,7 +23,7 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
         foreach ($categoriesData as $categoryData) {
             try {
                 $existingCategory = $this->getCategoryByExternalId($categoryData['external_id']);
-                
+
                 if ($existingCategory) {
                     $this->updateCategory($existingCategory, $categoryData);
                 } else {
@@ -46,7 +46,7 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
         foreach ($productsData as $productData) {
             try {
                 $existingProduct = $this->getProductByExternalId($productData['external_id']);
-                
+
                 if ($existingProduct) {
                     $this->updateProduct($existingProduct, $productData);
                 } else {
@@ -55,7 +55,7 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
                 
                 $syncedCount++;
             } catch (Exception $e) {
-                error_log("Failed to sync product {$productData['external_id']}: " . $e->getMessage());
+                \Yii::error("Failed to sync product {$productData['external_id']}: " . $e->getMessage());
             }
         }
         
@@ -69,13 +69,15 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
         foreach ($offersData as $offerData) {
             try {
                 $product = $this->getProductByExternalId($offerData['external_id']);
-                
+
                 if ($product) {
                     $this->updateProductOffer($product, $offerData);
                     $syncedCount++;
+                } else {
+                    \Yii::error("Product not found: name='{$offerData['name']}', external_id='{$offerData['external_id']}'", __METHOD__);
                 }
             } catch (Exception $e) {
-                error_log("Failed to sync offer {$offerData['external_id']}: " . $e->getMessage());
+                \Yii::error("Failed to sync offer {$offerData['external_id']}: " . $e->getMessage());
             }
         }
         
@@ -87,9 +89,19 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
         return $this->productRepository->findByExternalId($externalId);
     }
 
+    public function getProductByName(string $name): ?object
+    {
+        return $this->productRepository->findByName($name);
+    }
+
     public function getCategoryByExternalId(string $externalId): ?object
     {
         return $this->categoryRepository->findByExternalId($externalId);
+    }
+
+    public function getCategoryByName(string $name): ?object
+    {
+        return $this->categoryRepository->findByName($name);
     }
 
     /**
@@ -122,6 +134,7 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
     {
         $category->name = $categoryData['name'];
         $category->description = $categoryData['description'] ?? '';
+        $category->external_id = $categoryData['external_id'];
         
         if (!empty($categoryData['parent_external_id'])) {
             $parentCategory = $this->getCategoryByExternalId($categoryData['parent_external_id']);
@@ -142,12 +155,18 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
     {
         $product = new Product();
         $product->name = $productData['name'];
-        $product->description = $productData['description'] ?? '';
-        $product->article = $productData['article'] ?? '';
         $product->external_id = $productData['external_id'];
         $product->price = 0;
         $product->quantity = 0;
         $product->status = 1;
+
+        if ($productData['description']) {
+            $product->description = $productData['description'];
+        }
+
+        if ($productData['article']) {
+            $product->article = $productData['article'];
+        }
         
         if (!empty($productData['category_external_id'])) {
             $category = $this->getCategoryByExternalId($productData['category_external_id']);
@@ -171,8 +190,15 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
     private function updateProduct(object $product, array $productData): void
     {
         $product->name = $productData['name'];
-        $product->description = $productData['description'] ?? '';
-        $product->article = $productData['article'] ?? '';
+        $product->external_id = $productData['external_id'];
+
+        if ($productData['description']) {
+            $product->description = $productData['description'];
+        }
+
+        if ($productData['article']) {
+            $product->article = $productData['article'];
+        }
         
         if (!empty($productData['category_external_id'])) {
             $category = $this->getCategoryByExternalId($productData['category_external_id']);
@@ -191,8 +217,10 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
      */
     private function updateProductOffer(object $product, array $offerData): void
     {
-        if (isset($offerData['price'])) {
-            $product->price = (float)$offerData['price'];
+        if (isset($offerData['prices']) && !empty($offerData['prices'])) {
+            // Берем первую цену как основную
+            $mainPrice = $offerData['prices'][0];
+            $product->price = (float)$mainPrice['value'];
         }
         
         if (isset($offerData['quantity'])) {

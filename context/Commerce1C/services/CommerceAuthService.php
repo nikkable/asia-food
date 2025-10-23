@@ -16,21 +16,13 @@ class CommerceAuthService extends AbstractService implements CommerceAuthInterfa
 
     public function checkAuth(CommerceRequest $request): CommerceResponse
     {
-        // Получаем данные авторизации из запроса
         $username = $_SERVER['PHP_AUTH_USER'] ?? null;
         $password = $_SERVER['PHP_AUTH_PW'] ?? null;
 
 
-        // Если нет в $_SERVER, проверяем Authorization заголовок
         if (!$username && !$password) {
-            // Проверяем через $_SERVER
             $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-            
-            // Если нет в $_SERVER, проверяем через Yii request
-            if (!$authHeader) {
-                $authHeader = \Yii::$app->request->headers->get('Authorization', '');
-            }
-            
+
             if ($authHeader && preg_match('/Basic\s+(.*)$/i', $authHeader, $matches)) {
                 $credentials = base64_decode($matches[1]);
                 if (strpos($credentials, ':') !== false) {
@@ -39,17 +31,13 @@ class CommerceAuthService extends AbstractService implements CommerceAuthInterfa
             }
         }
 
-        // Проверяем авторизацию
         if (!$this->validateCredentials($username, $password)) {
             return CommerceResponse::failure('Invalid credentials', 401);
         }
 
-        // Создаем новую сессию
         $session = $this->sessionService->createSession();
         $this->sessionService->saveSession($session);
         
-        \Yii::error("Created and saved session: " . $session->getSessionId(), __METHOD__);
-
         return CommerceResponse::authSuccess($session->getSessionId());
     }
 
@@ -58,26 +46,31 @@ class CommerceAuthService extends AbstractService implements CommerceAuthInterfa
         $session = $this->sessionService->getSession($sessionId);
 
         if (!$session) {
-            \Yii::error("Session not found: $sessionId", __METHOD__);
             return false;
         }
         
-        \Yii::error("Session found, checking expiration", __METHOD__);
-
-        // Проверяем не истекла ли сессия
         if ($session->isExpired()) {
-            \Yii::error("Session expired: $sessionId", __METHOD__);
             $this->sessionService->deleteSession($sessionId);
             return false;
         }
         
-        \Yii::error("Session is valid: $sessionId", __METHOD__);
         return true;
+    }
+
+    public function getSessionIdFromRequest(): ?string
+    {
+        $cookieName = 'COMMERCE1C_SESSION';
+        
+        $cookies = $_COOKIE ?? [];
+        if (isset($cookies[$cookieName])) {
+            return $cookies[$cookieName];
+        }
+
+        return null;
     }
 
     private function validateCredentials(?string $username, ?string $password): bool
     {
-        // Используем доступы от 1С
         return $username === '12257247' && $password === 'dbf61458dc34319eda48ac71f0e12e63';
     }
 }

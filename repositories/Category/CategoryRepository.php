@@ -21,4 +21,9 @@ class CategoryRepository implements CategoryRepositoryInterface
     {
         return Category::find()->where(['external_id' => $externalId])->one();
     }
+    
+    public function findByName(string $name): ?Category
+    {
+        return Category::find()->where(['name' => $name])->one();
+    }
 }

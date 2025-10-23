@@ -8,6 +8,7 @@ class OffersXmlParser
 {
     public function parse(string $xmlContent): array
     {
+        $xmlContent = str_replace('xmlns="urn:1C.ru:commerceml_2"', '', $xmlContent);
         $xml = new SimpleXMLElement($xmlContent);
         
         // Проверяем структуру XML
@@ -22,6 +23,7 @@ class OffersXmlParser
             foreach ($xml->ПакетПредложений->Предложения->Предложение as $offer) {
                 $offerData = [
                     'external_id' => (string)$offer->Ид,
+                    'name' => (string)($offer->Наименование ?? ''),
                     'quantity' => 0,
                     'prices' => []
                 ];
@@ -29,6 +31,19 @@ class OffersXmlParser
                 // Парсим количество
                 if (isset($offer->Количество)) {
                     $offerData['quantity'] = (int)$offer->Количество;
+                }
+                
+                // Парсим складские остатки (новая структура CommerceML 2.07)
+                if (isset($offer->Склад)) {
+                    $totalQuantity = 0;
+                    foreach ($offer->Склад as $warehouse) {
+                        $warehouseQuantity = (int)($warehouse['КоличествоНаСкладе'] ?? 0);
+                        $totalQuantity += $warehouseQuantity;
+                    }
+                    // Если есть складские остатки, используем их вместо общего количества
+                    if ($totalQuantity > 0) {
+                        $offerData['quantity'] = $totalQuantity;
+                    }
                 }
 
                 // Парсим цены
