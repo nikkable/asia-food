@@ -8,8 +8,9 @@ use frontend\models\QuickOrderForm;
 
 /** @var context\Cart\models\Cart $cart */
 
-// Создаем модель для формы
+// Создаем модель для формы и заполняем данными пользователя
 $model = new QuickOrderForm();
+$model->fillFromUser();
 ?>
 
 <?php if ($cart->getAmount() > 0): ?>
@@ -85,6 +86,14 @@ $model = new QuickOrderForm();
 
     <!-- Форма быстрого заказа -->
     <div class="quick-order-form">
+        <?php if (!Yii::$app->user->isGuest && $model->hasUserData()): ?>
+            <div class="alert alert-info mb-3">
+                <i class="fas fa-info-circle"></i>
+                Данные заполнены из вашего профиля. Вы можете их изменить при необходимости.
+                <a href="<?= Url::to(['/profile/edit']) ?>" class="alert-link">Редактировать профиль</a>
+            </div>
+        <?php endif; ?>
+        
         <?php $form = ActiveForm::begin([
             'id' => 'quick-order-form',
             'action' => Url::to(['/order/create']),

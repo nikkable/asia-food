@@ -1,10 +1,13 @@
 <?php
 
 use frontend\models\QuickOrderForm;
+use Yii;
 
 /** @var context\Cart\models\Cart $cart */
 
 $model = new QuickOrderForm();
+// Автоматически заполняем данные из профиля пользователя
+$model->fillFromUser();
 ?>
 
 <!-- Кнопка корзины -->

@@ -12,6 +12,9 @@ use yii\bootstrap5\Html;
 use yii\helpers\Url;
 
 AppAsset::register($this);
+
+// Подключаем FontAwesome для иконок
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 ?>
 
 <?php $this->beginPage() ?>
@@ -55,11 +58,34 @@ AppAsset::register($this);
                 <p>Пн-Сб 09:00-18:00</p>
                 <p>Вс 09:00-15:00</p>
             </div>
-            <!--
-            <div class="header-buttons">
-                <button class="btn btn-primary">Войти</button>
+            <div class="header-auth">
+                <?php if (Yii::$app->user->isGuest): ?>
+                    <a href="<?= Url::to(['/site/login']) ?>" class="auth-link" title="Войти">
+                        <i class="fas fa-user"></i>
+                        <span>Войти</span>
+                    </a>
+                <?php else: ?>
+                    <div class="user-menu">
+                        <a href="<?= Url::to(['/profile']) ?>" class="auth-link" title="Личный кабинет">
+                            <i class="fas fa-user-circle"></i>
+                            <span><?= Html::encode(Yii::$app->user->identity->getDisplayName()) ?></span>
+                        </a>
+                        <div class="user-dropdown">
+                            <a href="<?= Url::to(['/profile']) ?>" class="dropdown-item">
+                                <i class="fas fa-user"></i> Профиль
+                            </a>
+                            <a href="<?= Url::to(['/profile/orders']) ?>" class="dropdown-item">
+                                <i class="fas fa-shopping-bag"></i> Мои заказы
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <?= Html::a('<i class="fas fa-sign-out-alt"></i> Выйти', ['/site/logout'], [
+                                'class' => 'dropdown-item',
+                                'data-method' => 'post'
+                            ]) ?>
+                        </div>
+                    </div>
+                <?php endif; ?>
             </div>
-            -->
             <div class="header-app js-header-app">
                 <span></span>
                 <span></span>

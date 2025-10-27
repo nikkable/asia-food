@@ -2,6 +2,8 @@
 
 namespace frontend\models;
 
+use common\models\User;
+use Yii;
 use yii\base\Model;
 
 /**
@@ -62,5 +64,42 @@ class QuickOrderForm extends Model
             self::PAYMENT_METHOD_CASH => 'Наличными при получении',
             self::PAYMENT_METHOD_CARD => 'Оплата картой онлайн',
         ];
+    }
+    
+    /**
+     * Заполнить форму данными авторизованного пользователя
+     */
+    public function fillFromUser()
+    {
+        if (!Yii::$app->user->isGuest) {
+            /** @var User $user */
+            $user = Yii::$app->user->identity;
+            
+            // Заполняем поля только если они пустые
+            if (empty($this->customerName) && !empty($user->full_name)) {
+                $this->customerName = $user->full_name;
+            }
+            
+            if (empty($this->customerPhone) && !empty($user->phone)) {
+                $this->customerPhone = $user->phone;
+            }
+            
+            if (empty($this->customerEmail) && !empty($user->email)) {
+                $this->customerEmail = $user->email;
+            }
+            
+            if (empty($this->deliveryAddress) && !empty($user->delivery_address)) {
+                $this->deliveryAddress = $user->delivery_address;
+            }
+        }
+    }
+    
+    /**
+     * Проверить, заполнены ли основные поля из профиля пользователя
+     * @return bool
+     */
+    public function hasUserData()
+    {
+        return !empty($this->customerName) || !empty($this->customerPhone) || !empty($this->deliveryAddress);
     }
 }

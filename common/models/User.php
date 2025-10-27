@@ -21,6 +21,11 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $full_name
+ * @property string $phone
+ * @property string $delivery_address
+ * @property string $birth_date
+ * @property integer $gender
  * @property string $password write-only password
  */
 class User extends ActiveRecord implements IdentityInterface
@@ -28,6 +33,10 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_INACTIVE = 9;
     const STATUS_ACTIVE = 10;
+    
+    const GENDER_NOT_SPECIFIED = 0;
+    const GENDER_MALE = 1;
+    const GENDER_FEMALE = 2;
 
 
     /**
@@ -56,6 +65,16 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_INACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
+            
+            // Профильные поля
+            [['full_name', 'phone', 'delivery_address'], 'string'],
+            ['full_name', 'string', 'max' => 255],
+            ['phone', 'string', 'max' => 20],
+            ['phone', 'match', 'pattern' => '/^[\+]?[0-9\s\-\(\)]{10,20}$/', 'message' => 'Неверный формат телефона'],
+            ['birth_date', 'date', 'format' => 'php:Y-m-d'],
+            ['gender', 'integer'],
+            ['gender', 'in', 'range' => [self::GENDER_NOT_SPECIFIED, self::GENDER_MALE, self::GENDER_FEMALE]],
+            ['gender', 'default', 'value' => self::GENDER_NOT_SPECIFIED],
         ];
     }
 
@@ -209,5 +228,46 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+    
+    /**
+     * Получить отображаемое имя пользователя
+     * @return string
+     */
+    public function getDisplayName()
+    {
+        return $this->full_name ?: $this->username;
+    }
+    
+    /**
+     * Получить список полов для выпадающего списка
+     * @return array
+     */
+    public static function getGenderList()
+    {
+        return [
+            self::GENDER_NOT_SPECIFIED => 'Не указан',
+            self::GENDER_MALE => 'Мужской',
+            self::GENDER_FEMALE => 'Женский',
+        ];
+    }
+    
+    /**
+     * Получить текстовое представление пола
+     * @return string
+     */
+    public function getGenderText()
+    {
+        $genders = self::getGenderList();
+        return $genders[$this->gender] ?? 'Не указан';
+    }
+    
+    /**
+     * Проверить, заполнен ли профиль пользователя
+     * @return bool
+     */
+    public function isProfileComplete()
+    {
+        return !empty($this->full_name) && !empty($this->phone);
     }
 }

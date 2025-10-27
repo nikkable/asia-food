@@ -15,6 +15,7 @@ class AppAsset extends AssetBundle
         'css/swiper-bundle.min.css',
         'css/style.min.css',
         'css/responsive-images.css',
+        'css/header-auth.css',
     ];
     public $js = [
         'js/swiper-bundle.min.js',
@@ -23,6 +24,7 @@ class AppAsset extends AssetBundle
         'js/cart.js',
         'js/price-formatter.js',
         'js/add-to-cart.js',
+        'js/profile-autofill.js',
         'js/main.min.js',
     ];
     public $depends = [
