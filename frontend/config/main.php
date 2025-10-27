@@ -71,6 +71,13 @@ return [
                 'orders/create' => 'order/create',
                 'orders/view/<id:\d+>' => 'order/view',
                 
+                // Оплата
+                'checkout' => 'payment/webhook', // Webhook для ЮKassa (алиас)
+                'payment/pay/<orderId:\d+>' => 'payment/pay',
+                'payment/success' => 'payment/success',
+                'payment/fail' => 'payment/fail',
+                'payment/webhook' => 'payment/webhook',
+                
                 // Статические страницы
                 'about' => 'site/about',
                 'contact' => 'site/contact',

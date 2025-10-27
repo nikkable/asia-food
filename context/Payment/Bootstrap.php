@@ -3,7 +3,7 @@
 namespace context\Payment;
 
 use context\Payment\interfaces\PaymentServiceInterface;
-use context\Payment\services\MockPaymentService;
+use context\Payment\services\YooKassaPaymentService;
 use Yii;
 use yii\base\BootstrapInterface;
 
@@ -12,7 +12,7 @@ class Bootstrap implements BootstrapInterface
     public function bootstrap($app): void
     {
         Yii::$container->setDefinitions([
-            PaymentServiceInterface::class => MockPaymentService::class,
+            PaymentServiceInterface::class => YooKassaPaymentService::class,
         ]);
     }
 }

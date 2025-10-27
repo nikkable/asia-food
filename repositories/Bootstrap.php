@@ -7,6 +7,8 @@ use repositories\Favorite\FavoriteRepository;
 use repositories\Favorite\interfaces\FavoriteRepositoryInterface;
 use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\OrderRepository;
+use repositories\Payment\interfaces\PaymentRepositoryInterface;
+use repositories\Payment\PaymentRepository;
 use repositories\Product\BestsellerRepository;
 use repositories\Product\interfaces\BestsellerRepositoryInterface;
 use repositories\Product\interfaces\ProductRepositoryInterface;
@@ -26,6 +28,7 @@ class Bootstrap implements BootstrapInterface
             Commerce1CSyncRepositoryInterface::class => Commerce1CSyncRepository::class,
             FavoriteRepositoryInterface::class => FavoriteRepository::class,
             OrderRepositoryInterface::class => OrderRepository::class,
+            PaymentRepositoryInterface::class => PaymentRepository::class,
             ProductRepositoryInterface::class => ProductRepository::class,
             BestsellerRepositoryInterface::class => BestsellerRepository::class,
         ]);

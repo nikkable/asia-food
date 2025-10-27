@@ -6,7 +6,6 @@ use context\Cart\interfaces\CartServiceInterface;
 use context\Order\interfaces\OrderServiceInterface;
 use context\Payment\interfaces\PaymentServiceInterface;
 use frontend\models\QuickOrderForm;
-use repositories\Order\models\Order;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
@@ -56,35 +55,38 @@ class OrderController extends Controller
         
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             try {
-                // Детальное логирование данных формы для отладки
-                Yii::info('QuickOrderForm data: ' . json_encode($model->attributes), 'order');
-                
-                // Создаем заказ через сервис
                 $order = $this->orderService->create($cart, $model->attributes);
                 
-                // Очищаем корзину после успешного оформления заказа
                 $cart->clear();
                 
-                // Проверяем способ оплаты
                 if ($model->paymentMethod === QuickOrderForm::PAYMENT_METHOD_CARD) {
-                    // Инициализируем платеж через эквайринг
                     $paymentResult = $this->paymentService->initPayment($order);
                     
-                    if (Yii::$app->request->isAjax) {
-                        Yii::$app->response->format = Response::FORMAT_JSON;
-                        return [
-                            'success' => true,
-                            'message' => 'Заказ создан, перенаправление на страницу оплаты',
-                            'orderId' => $order->id,
-                            'paymentUrl' => $paymentResult['payment_url'],
-                            'requiresRedirect' => true
-                        ];
+                    if ($paymentResult['success']) {
+                        if (Yii::$app->request->isAjax) {
+                            Yii::$app->response->format = Response::FORMAT_JSON;
+                            return [
+                                'success' => true,
+                                'message' => 'Заказ создан, перенаправление на страницу оплаты',
+                                'orderId' => $order->id,
+                                'paymentUrl' => $paymentResult['payment_url'],
+                                'requiresRedirect' => true
+                            ];
+                        }
+                        
+                        return $this->redirect($paymentResult['payment_url']);
+                    } else {
+                        if (Yii::$app->request->isAjax) {
+                            Yii::$app->response->format = Response::FORMAT_JSON;
+                            return [
+                                'success' => false,
+                                'message' => 'Ошибка инициации платежа: ' . $paymentResult['message']
+                            ];
+                        }
+                        
+                        return $this->redirect(['/site/index']);
                     }
-                    
-                    // Для обычного запроса перенаправляем на страницу оплаты
-                    return $this->redirect($paymentResult['payment_url']);
                 } else {
-                    // Для оплаты наличными просто показываем сообщение об успехе
                     if (Yii::$app->request->isAjax) {
                         Yii::$app->response->format = Response::FORMAT_JSON;
                         return [
@@ -99,15 +101,10 @@ class OrderController extends Controller
                     return $this->redirect(['/catalog/index']);
                 }
             } catch (\Exception $e) {
-                // Детальное логирование ошибки
-                Yii::error('Order creation error: ' . $e->getMessage() . '\nTrace: ' . $e->getTraceAsString(), 'order');
-                
                 if (Yii::$app->request->isAjax) {
                     Yii::$app->response->format = Response::FORMAT_JSON;
                     
-                    // Получаем детали ошибки для отображения пользователю
                     $errorMessage = $e->getMessage();
-                    // Удаляем технические детали из сообщения об ошибке
                     if (strpos($errorMessage, 'Details:') !== false) {
                         $errorMessage = 'Произошла ошибка при оформлении заказа. Пожалуйста, проверьте введенные данные.';
                     }
@@ -121,7 +118,6 @@ class OrderController extends Controller
                 Yii::$app->session->setFlash('error', 'Произошла ошибка при оформлении заказа.');
             }
         } elseif (Yii::$app->request->isAjax) {
-            // Если есть ошибки валидации и запрос через AJAX
             Yii::$app->response->format = Response::FORMAT_JSON;
             return [
                 'success' => false,

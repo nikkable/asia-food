@@ -15,8 +15,15 @@ class OrderRepository implements OrderRepositoryInterface
     {
         if (!$order->save()) {
             $errors = json_encode($order->getErrors());
-            \Yii::error("Ошибка сохранения заказа: {$errors}", 'order');
             throw new \RuntimeException("Saving error. Details: {$errors}");
         }
+    }
+    
+    public function findById(int $id): ?Order
+    {
+        return Order::find()
+            ->where(['id' => $id])
+            ->with('orderItems')
+            ->one();
     }
 }
