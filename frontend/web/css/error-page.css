@@ -1,0 +1,408 @@
+/* Страница ошибок */
+.error-page {
+    padding: 0 0 80px 0;
+    background: #f8f9fa;
+}
+
+.error-page-head {
+    text-align: center;
+    padding: 60px 0;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+    margin-bottom: 60px;
+}
+
+.error-page-head .error-icon {
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    animation: errorFloat 3s ease-in-out infinite;
+}
+
+.error-page-head .error-icon i {
+    font-size: 48px;
+    color: white;
+}
+
+@keyframes errorFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+}
+
+.error-page-head .error-code {
+    font-size: 72px;
+    font-weight: 900;
+    margin-bottom: 10px;
+    line-height: 1;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.error-page-head .title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    line-height: 1.2;
+}
+
+.error-page-head .subtitle {
+    font-size: 18px;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.error-page-main {
+    margin-top: -30px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Детали ошибки */
+.error-details {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.error-message h4 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.message-content {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #ff6b6b;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* Предложения */
+.error-suggestions {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.error-suggestions h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.suggestions-list {
+    display: grid;
+    gap: 20px;
+}
+
+.suggestion-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.suggestion-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.suggestion-icon i {
+    font-size: 20px;
+    color: white;
+}
+
+.suggestion-text strong {
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.suggestion-text p {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Действия */
+.error-actions {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.actions-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+}
+
+.actions-buttons .btn {
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.actions-buttons .btn-primary {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    border: none;
+    color: white;
+}
+
+.actions-buttons .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 107, 107, 0.3);
+}
+
+.actions-buttons .btn-outline-primary {
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    background: transparent;
+}
+
+.actions-buttons .btn-outline-primary:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.actions-buttons .btn-outline-secondary {
+    border: 2px solid #6c757d;
+    color: #6c757d;
+    background: transparent;
+}
+
+.actions-buttons .btn-outline-secondary:hover {
+    background: #6c757d;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Секция помощи */
+.help-section {
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.help-icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.help-icon i {
+    font-size: 32px;
+    color: white;
+}
+
+.help-content h5 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.help-content p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.help-contacts {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.help-contact {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.help-contact:hover {
+    color: #ee5a24;
+}
+
+.help-contact i {
+    font-size: 16px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .error-page-head {
+        padding: 40px 0;
+        margin-bottom: 40px;
+    }
+    
+    .error-page-head .error-icon {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 15px;
+    }
+    
+    .error-page-head .error-icon i {
+        font-size: 40px;
+    }
+    
+    .error-page-head .error-code {
+        font-size: 56px;
+    }
+    
+    .error-page-head .title {
+        font-size: 28px;
+    }
+    
+    .error-page-head .subtitle {
+        font-size: 16px;
+    }
+    
+    .error-details,
+    .error-suggestions,
+    .error-actions,
+    .help-section {
+        padding: 30px 20px;
+        margin-bottom: 20px;
+    }
+    
+    .suggestion-item {
+        padding: 15px;
+    }
+    
+    .suggestion-icon {
+        width: 45px;
+        height: 45px;
+        margin-right: 12px;
+    }
+    
+    .suggestion-icon i {
+        font-size: 18px;
+    }
+    
+    .actions-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .actions-buttons .btn {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+    
+    .help-section {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .help-contacts {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-page-head .error-code {
+        font-size: 48px;
+    }
+    
+    .error-page-head .title {
+        font-size: 24px;
+    }
+    
+    .error-details,
+    .error-suggestions,
+    .error-actions,
+    .help-section {
+        padding: 20px 15px;
+    }
+    
+    .error-suggestions h4 {
+        font-size: 20px;
+    }
+    
+    .help-content h5 {
+        font-size: 18px;
+    }
+    
+    .help-contacts {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .message-content {
+        padding: 15px;
+        font-size: 13px;
+    }
+}
+
+/* Специальные стили для разных типов ошибок */
+.error-page[data-error="404"] .error-page-head {
+    background: linear-gradient(135deg, #6f42c1, #e83e8c);
+}
+
+.error-page[data-error="403"] .error-page-head {
+    background: linear-gradient(135deg, #dc3545, #fd7e14);
+}
+
+.error-page[data-error="500"] .error-page-head {
+    background: linear-gradient(135deg, #6c757d, #495057);
+}

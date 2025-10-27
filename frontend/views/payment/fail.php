@@ -6,63 +6,136 @@ use yii\helpers\Html;
 /* @var $order repositories\Order\models\Order */
 
 $this->title = 'Ошибка оплаты';
+
+// Подключаем FontAwesome для иконок
+$this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
+
+// Подключаем CSS для страницы ошибки оплаты
+$this->registerCssFile('@web/css/payment-fail.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="payment-fail">
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <div class="error-icon mb-4">
-                            <i class="fas fa-times-circle text-danger" style="font-size: 4rem;"></i>
+        <div class="payment-fail-head">
+            <div class="error-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="title">Оплата не прошла</div>
+            <div class="subtitle">Не переживайте, мы поможем решить проблему</div>
+        </div>
+        
+        <div class="payment-fail-main">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <!-- Информация о заказе -->
+                    <div class="order-summary">
+                        <div class="order-summary-header">
+                            <h3>Заказ №<?= Html::encode($order->id) ?></h3>
+                            <div class="order-amount"><?= number_format($order->total_cost, 0, '.', ' ') ?> ₽</div>
                         </div>
                         
-                        <h1 class="h3 mb-3 text-danger">Ошибка оплаты</h1>
-                        
-                        <div class="order-info mb-4">
-                            <h4>Заказ №<?= Html::encode($order->id) ?></h4>
-                            <p class="text-muted">
-                                Сумма: <strong><?= number_format($order->total_cost, 0, '.', ' ') ?> ₽</strong>
-                            </p>
-                        </div>
-                        
-                        <div class="error-message mb-4">
-                            <p class="text-muted">
-                                К сожалению, платеж не был завершен. Это могло произойти по следующим причинам:
-                            </p>
-                            <ul class="text-start text-muted">
-                                <li>Недостаточно средств на карте</li>
-                                <li>Операция была отменена</li>
-                                <li>Технические проблемы банка</li>
-                                <li>Превышено время ожидания</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="next-steps">
-                            <p class="text-muted mb-3">
-                                Вы можете попробовать оплатить заказ еще раз или связаться с нами для помощи.
-                            </p>
-                            
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
-                                <?= Html::a('Попробовать еще раз', ['/payment/pay', 'orderId' => $order->id], [
-                                    'class' => 'btn btn-primary'
-                                ]) ?>
-                                <?= Html::a('Связаться с нами', ['/contact'], [
-                                    'class' => 'btn btn-outline-primary'
-                                ]) ?>
-                                <?= Html::a('На главную', ['/'], [
-                                    'class' => 'btn btn-outline-secondary'
-                                ]) ?>
+                        <div class="order-details">
+                            <div class="order-detail-item">
+                                <span class="label">Получатель:</span>
+                                <span class="value"><?= Html::encode($order->customer_name) ?></span>
+                            </div>
+                            <div class="order-detail-item">
+                                <span class="label">Телефон:</span>
+                                <span class="value"><?= Html::encode($order->customer_phone) ?></span>
+                            </div>
+                            <div class="order-detail-item">
+                                <span class="label">Email:</span>
+                                <span class="value"><?= Html::encode($order->customer_email) ?></span>
                             </div>
                         </div>
+                    </div>
+                    
+                    <!-- Причины ошибки -->
+                    <div class="error-reasons">
+                        <h4>Возможные причины:</h4>
+                        <div class="reasons-list">
+                            <div class="reason-item">
+                                <div class="reason-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                <div class="reason-text">
+                                    <strong>Недостаточно средств</strong>
+                                    <p>На карте недостаточно средств для оплаты</p>
+                                </div>
+                            </div>
+                            
+                            <div class="reason-item">
+                                <div class="reason-icon">
+                                    <i class="fas fa-ban"></i>
+                                </div>
+                                <div class="reason-text">
+                                    <strong>Операция отменена</strong>
+                                    <p>Платеж был отменен пользователем или банком</p>
+                                </div>
+                            </div>
+                            
+                            <div class="reason-item">
+                                <div class="reason-icon">
+                                    <i class="fas fa-clock"></i>
+                                </div>
+                                <div class="reason-text">
+                                    <strong>Превышено время</strong>
+                                    <p>Время ожидания подтверждения истекло</p>
+                                </div>
+                            </div>
+                            
+                            <div class="reason-item">
+                                <div class="reason-icon">
+                                    <i class="fas fa-exclamation-circle"></i>
+                                </div>
+                                <div class="reason-text">
+                                    <strong>Технические проблемы</strong>
+                                    <p>Временные неполадки в работе банка</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Действия -->
+                    <div class="payment-actions">
+                        <div class="actions-header">
+                            <h4>Что делать дальше?</h4>
+                            <p>Выберите один из вариантов ниже</p>
+                        </div>
                         
-                        <div class="contact-info mt-4">
-                            <small class="text-muted">
-                                Если у вас возникли вопросы, свяжитесь с нами:<br>
-                                <strong>Телефон:</strong> +7 (XXX) XXX-XX-XX<br>
-                                <strong>Email:</strong> support@азия-фуд.рф
-                            </small>
+                        <div class="actions-buttons">
+                            <?= Html::a('<i class="fas fa-redo"></i> Попробовать еще раз', ['/payment/pay', 'orderId' => $order->id], [
+                                'class' => 'btn btn-primary btn-lg'
+                            ]) ?>
+                            
+                            <?= Html::a('<i class="fas fa-phone"></i> Связаться с нами', ['/contact'], [
+                                'class' => 'btn btn-outline-primary btn-lg'
+                            ]) ?>
+                            
+                            <?= Html::a('<i class="fas fa-home"></i> На главную', ['/'], [
+                                'class' => 'btn btn-outline-secondary btn-lg'
+                            ]) ?>
+                        </div>
+                    </div>
+                    
+                    <!-- Контактная информация -->
+                    <div class="help-section">
+                        <div class="help-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="help-content">
+                            <h5>Нужна помощь?</h5>
+                            <p>Наша служба поддержки готова помочь вам 24/7</p>
+                            <div class="help-contacts">
+                                <a href="tel:+79228111503" class="help-contact">
+                                    <i class="fas fa-phone"></i>
+                                    +7 922 811 15 03
+                                </a>
+                                <a href="mailto:albekovn@bk.ru" class="help-contact">
+                                    <i class="fas fa-envelope"></i>
+                                    albekovn@bk.ru
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,49 +143,3 @@ $this->title = 'Ошибка оплаты';
         </div>
     </div>
 </div>
-
-<style>
-.payment-fail {
-    padding: 2rem 0;
-    min-height: 60vh;
-    display: flex;
-    align-items: center;
-}
-
-.error-icon {
-    animation: errorShake 0.5s ease-in-out;
-}
-
-@keyframes errorShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-}
-
-.card {
-    border: none;
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    border-radius: 1rem;
-}
-
-.order-info {
-    background-color: #f8f9fa;
-    padding: 1rem;
-    border-radius: 0.5rem;
-}
-
-.error-message ul {
-    max-width: 300px;
-    margin: 0 auto;
-}
-
-.next-steps {
-    border-top: 1px solid #dee2e6;
-    padding-top: 1rem;
-}
-
-.contact-info {
-    border-top: 1px solid #dee2e6;
-    padding-top: 1rem;
-}
-</style>
