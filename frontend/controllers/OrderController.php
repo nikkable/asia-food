@@ -5,10 +5,14 @@ namespace frontend\controllers;
 use context\Cart\interfaces\CartServiceInterface;
 use context\Order\interfaces\OrderServiceInterface;
 use context\Payment\interfaces\PaymentServiceInterface;
+use repositories\Order\interfaces\OrderRepositoryInterface;
 use frontend\models\QuickOrderForm;
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
+use yii\web\NotFoundHttpException;
+use yii\filters\AccessControl;
+use repositories\Order\models\Order as OrderModel;
 
 /**
  * OrderController обрабатывает быстрые заказы из модального окна корзины
@@ -18,19 +22,29 @@ class OrderController extends Controller
     private $cartService;
     private $orderService;
     private $paymentService;
+    private $orderRepository;
 
     public function __construct(
         $id, 
         $module, 
         CartServiceInterface $cartService, 
         OrderServiceInterface $orderService, 
-        PaymentServiceInterface $paymentService, 
+        PaymentServiceInterface $paymentService,
+        OrderRepositoryInterface $orderRepository,
         $config = []
     ) {
         $this->cartService = $cartService;
         $this->orderService = $orderService;
         $this->paymentService = $paymentService;
+        $this->orderRepository = $orderRepository;
         parent::__construct($id, $module, $config);
+    }
+
+    public function behaviors()
+    {
+        return [
+            // Убираем проверку авторизации для actionView - теперь доступ по UUID
+        ];
     }
 
     /**
@@ -93,12 +107,14 @@ class OrderController extends Controller
                             'success' => true,
                             'message' => 'Заказ успешно оформлен',
                             'orderId' => $order->id,
-                            'requiresRedirect' => false
+                            'orderUuid' => $order->uuid,
+                            'requiresRedirect' => true,
+                            'redirectUrl' => '/order/view?uuid=' . $order->uuid
                         ];
                     }
                     
                     Yii::$app->session->setFlash('success', 'Ваш заказ #' . $order->id . ' успешно создан.');
-                    return $this->redirect(['/catalog/index']);
+                    return $this->redirect(['/order/view', 'uuid' => $order->uuid]);
                 }
             } catch (\Exception $e) {
                 if (Yii::$app->request->isAjax) {
@@ -127,5 +143,24 @@ class OrderController extends Controller
         }
         
         return $this->redirect(['/site/index']);
+    }
+
+    /**
+     * Просмотр заказа по UUID (доступен всем)
+     */
+    public function actionView($uuid)
+    {
+        $order = $this->orderService->findOrderByUuid($uuid);
+        
+        if (!$order) {
+            throw new NotFoundHttpException('Заказ не найден.');
+        }
+
+        $viewData = $this->orderService->prepareViewData($order);
+
+        return $this->render('view', array_merge(
+            ['order' => $order],
+            $viewData
+        ));
     }
 }

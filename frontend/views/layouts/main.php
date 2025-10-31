@@ -60,26 +60,26 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             </div>
             <div class="header-auth">
                 <?php if (Yii::$app->user->isGuest): ?>
-                    <a href="<?= Url::to(['/site/login']) ?>" class="auth-link" title="Войти">
+                    <a href="<?= Url::to(['/site/login']) ?>" class="header-auth-link" title="Войти">
                         <i class="fas fa-user"></i>
                         <span>Войти</span>
                     </a>
                 <?php else: ?>
-                    <div class="user-menu">
-                        <a href="<?= Url::to(['/profile']) ?>" class="auth-link" title="Личный кабинет">
+                    <div class="header-auth-menu">
+                        <a href="<?= Url::to(['/profile']) ?>" class="header-auth-link" title="Личный кабинет">
                             <i class="fas fa-user-circle"></i>
                             <span><?= Html::encode(Yii::$app->user->identity->getDisplayName()) ?></span>
                         </a>
-                        <div class="user-dropdown">
-                            <a href="<?= Url::to(['/profile']) ?>" class="dropdown-item">
+                        <div class="header-auth-dropdown">
+                            <a href="<?= Url::to(['/profile']) ?>" class="header-auth-dropdown-item">
                                 <i class="fas fa-user"></i> Профиль
                             </a>
-                            <a href="<?= Url::to(['/profile/orders']) ?>" class="dropdown-item">
+                            <a href="<?= Url::to(['/profile/orders']) ?>" class="header-auth-dropdown-item">
                                 <i class="fas fa-shopping-bag"></i> Мои заказы
                             </a>
-                            <div class="dropdown-divider"></div>
+                            <div class="header-auth-dropdown-divider"></div>
                             <?= Html::a('<i class="fas fa-sign-out-alt"></i> Выйти', ['/site/logout'], [
-                                'class' => 'dropdown-item',
+                                'class' => 'header-auth-dropdown-item',
                                 'data-method' => 'post'
                             ]) ?>
                         </div>

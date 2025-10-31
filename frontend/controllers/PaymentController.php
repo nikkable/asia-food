@@ -96,9 +96,9 @@ class PaymentController extends Controller
             if ($statusResult['success']) {
                 $paymentStatus = $statusResult['status'];
                 
-                // Если платеж не успешен, перенаправляем на страницу ошибки
+                // Если платеж не успешен, перенаправляем на страницу заказа
                 if ($paymentStatus !== 'succeeded') {
-                    return $this->redirect(['/payment/fail', 'order_id' => $orderId]);
+                    return $this->redirect(['/order/view', 'uuid' => $order->uuid]);
                 }
                 
                 // Обновляем статус платежа в БД, если он изменился
@@ -116,16 +116,14 @@ class PaymentController extends Controller
             }
         }
         
-        return $this->render('success', [
-            'order' => $order,
-            'payment' => $payment
-        ]);
+        // Перенаправляем на страницу заказа с UUID
+        return $this->redirect(['/order/view', 'uuid' => $order->uuid]);
     }
     
     /**
      * Страница неудачной оплаты
      */
-    public function actionFail(): string
+    public function actionFail(): Response
     {
         $orderId = Yii::$app->request->get('order_id');
         if (!$orderId) {
@@ -137,9 +135,8 @@ class PaymentController extends Controller
             throw new NotFoundHttpException('Заказ не найден');
         }
         
-        return $this->render('fail', [
-            'order' => $order
-        ]);
+        // Перенаправляем на страницу заказа с UUID
+        return $this->redirect(['/order/view', 'uuid' => $order->uuid]);
     }
     
     /**
@@ -194,7 +191,7 @@ class PaymentController extends Controller
         // Проверяем, что заказ еще не оплачен
         if ($order->payment_status == Order::PAYMENT_STATUS_PAID) {
             Yii::$app->session->setFlash('info', 'Заказ уже оплачен');
-            return $this->redirect(['/order/view', 'id' => $orderId]);
+            return $this->redirect(['/order/view', 'uuid' => $order->uuid]);
         }
         
         // Инициируем платеж
@@ -204,7 +201,7 @@ class PaymentController extends Controller
             return $this->redirect($paymentResult['payment_url']);
         } else {
             Yii::$app->session->setFlash('error', 'Ошибка инициации платежа: ' . $paymentResult['message']);
-            return $this->redirect(['/order/view', 'id' => $orderId]);
+            return $this->redirect(['/order/view', 'uuid' => $order->uuid]);
         }
     }
 }

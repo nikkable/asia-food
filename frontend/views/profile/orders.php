@@ -19,11 +19,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
 <div class="profile-page">
     <div class="container">
         <div class="profile-page-head">
-            <div class="profile-icon">
-                <i class="fas fa-history"></i>
-            </div>
             <div class="title">История заказов</div>
-            <div class="subtitle">Все ваши заказы в одном месте</div>
         </div>
         
         <div class="profile-page-main">
@@ -105,20 +101,20 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                             
                             <div class="order-card-footer">
                                 <div class="order-actions">
-                                    <a href="<?= Url::to(['/profile/order-view', 'id' => $order->id]) ?>" class="btn btn-primary">
+                                    <a href="<?= Url::to(['/order/view', 'uuid' => $order->uuid]) ?>" class="btn btn-secondary">
                                         <i class="fas fa-eye"></i> Подробнее
                                     </a>
                                     
                                     <?php if ($order->payment_status == 0): ?>
-                                    <a href="<?= Url::to(['/payment/pay', 'orderId' => $order->id]) ?>" class="btn btn-success">
-                                        <i class="fas fa-credit-card"></i> Оплатить
-                                    </a>
+                                        <a href="<?= Url::to(['/payment/pay', 'orderId' => $order->id]) ?>" class="btn btn-three">
+                                            <i class="fas fa-credit-card"></i> Оплатить
+                                        </a>
                                     <?php endif; ?>
                                     
                                     <?php if ($order->status == 2): ?>
-                                    <button class="btn btn-outline-primary" onclick="reorderItems(<?= $order->id ?>)">
-                                        <i class="fas fa-redo"></i> Повторить заказ
-                                    </button>
+                                        <button class="btn btn-three" onclick="reorderItems(<?= $order->id ?>)">
+                                            <i class="fas fa-redo"></i> Повторить заказ
+                                        </button>
                                     <?php endif; ?>
                                 </div>
                             </div>
@@ -158,9 +154,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
 
 <script>
 function reorderItems(orderId) {
-    // Здесь можно добавить AJAX запрос для повторного заказа
     if (confirm('Добавить товары из этого заказа в корзину?')) {
-        // Реализация повторного заказа
         alert('Функция в разработке');
     }
 }

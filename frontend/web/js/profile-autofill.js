@@ -2,12 +2,6 @@
  * Скрипт для автоматического заполнения форм данными пользователя
  */
 $(document).ready(function() {
-    // Маска для телефона
-    if (typeof $.fn.mask !== 'undefined') {
-        $('input[name="QuickOrderForm[customerPhone]"], input[name="User[phone]"]').mask('+7 (999) 999-99-99', {
-            placeholder: '+7 (___) ___-__-__'
-        });
-    }
     
     // Подсветка автозаполненных полей
     function highlightAutofilledFields() {
@@ -65,7 +59,7 @@ $(document).ready(function() {
     });
     
     // Валидация телефона в реальном времени
-    $('input[name="QuickOrderForm[customerPhone]"], input[name="User[phone]"]').on('input blur', function() {
+    $(document).on('input blur', 'input[name="QuickOrderForm[customerPhone]"], input[name="User[phone]"]', function() {
         var $field = $(this);
         var phone = $field.val().replace(/\D/g, '');
         var $feedback = $field.siblings('.invalid-feedback');
@@ -82,7 +76,7 @@ $(document).ready(function() {
     });
     
     // Автоматическое заполнение email при вводе
-    $('input[name="QuickOrderForm[customerEmail]"], input[name="User[email]"]').on('blur', function() {
+    $(document).on('blur', 'input[name="QuickOrderForm[customerEmail]"], input[name="User[email]"]', function() {
         var $field = $(this);
         var email = $field.val().trim();
         

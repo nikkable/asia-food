@@ -9,12 +9,11 @@ class ProductSearchWidget {
         this.resultsContainer = container.querySelector('.search-results');
         this.noResultsContainer = container.querySelector('.search-no-results');
         this.loadingContainer = container.querySelector('.search-loading');
-        this.submitBtn = container.querySelector('.search-submit-btn');
-        
+
         this.searchUrl = container.dataset.searchUrl;
         this.debounceTimeout = null;
         this.currentRequest = null;
-        
+
         this.bindEvents();
     }
     
@@ -53,15 +52,7 @@ class ProductSearchWidget {
                 this.showDropdown();
             }
         });
-        
-        // Поиск по клику на кнопку
-        this.submitBtn.addEventListener('click', () => {
-            const query = this.input.value.trim();
-            if (query.length >= 2) {
-                this.performSearch(query);
-            }
-        });
-        
+
         // Поиск по Enter
         this.input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter') {

@@ -163,10 +163,21 @@ $(document).ready(function() {
                         // Показываем уведомление об успехе
                         showNotification('success', 'Заказ успешно оформлен!');
                         
-                        // Очищаем корзину и перезагружаем страницу
-                        setTimeout(function() {
-                            location.reload();
-                        }, 1500);
+                        // Перенаправляем на страницу заказа
+                        if (response.requiresRedirect && response.redirectUrl) {
+                            setTimeout(function() {
+                                window.location.href = response.redirectUrl;
+                            }, 1500);
+                        } else if (response.orderUuid) {
+                            setTimeout(function() {
+                                window.location.href = '/order/view?uuid=' + response.orderUuid;
+                            }, 1500);
+                        } else {
+                            // Fallback - перезагружаем страницу
+                            setTimeout(function() {
+                                location.reload();
+                            }, 1500);
+                        }
                     }
                 } else {
                     // Разблокируем кнопку

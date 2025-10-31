@@ -17,6 +17,20 @@ class OrderService extends AbstractService implements OrderServiceInterface
         private readonly OrderRepositoryInterface $orderRepository
     ) {}
 
+    public function findOrderByUuid(string $uuid): ?Order
+    {
+        return $this->orderRepository->findByUuid($uuid);
+    }
+
+    public function prepareViewData(Order $order): array
+    {
+        return [
+            'statusInfo' => Order::getStatusInfo($order->status),
+            'paymentStatusInfo' => Order::getPaymentStatusInfo($order->payment_status),
+            'paymentMethodText' => Order::getPaymentMethodText($order->payment_method),
+        ];
+    }
+
     /**
      * @throws Exception
      */

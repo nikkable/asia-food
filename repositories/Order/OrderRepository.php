@@ -26,4 +26,12 @@ class OrderRepository implements OrderRepositoryInterface
             ->with('orderItems')
             ->one();
     }
+    
+    public function findByUuid(string $uuid): ?Order
+    {
+        return Order::find()
+            ->where(['uuid' => $uuid])
+            ->with('orderItems')
+            ->one();
+    }
 }

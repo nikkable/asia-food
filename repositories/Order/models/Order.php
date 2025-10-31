@@ -10,6 +10,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the model class for table "{{%order}}".
  *
  * @property int $id
+ * @property string $uuid
  * @property int|null $user_id
  * @property string $customer_name
  * @property string $customer_email
@@ -61,6 +62,8 @@ class Order extends ActiveRecord
             [['user_id', 'status', 'payment_status', 'created_at', 'updated_at'], 'integer'],
             [['total_cost'], 'number'],
             [['note'], 'string'],
+            [['uuid'], 'string', 'max' => 36],
+            [['uuid'], 'unique'],
             [['customer_name', 'customer_email', 'customer_phone', 'payment_method', 'payment_transaction_id'], 'string', 'max' => 255],
             [['customer_email'], 'email'],
             ['payment_method', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD]],
@@ -87,5 +90,57 @@ class Order extends ActiveRecord
     public function getOrderItems(): ActiveQuery
     {
         return $this->hasMany(OrderItem::class, ['order_id' => 'id']);
+    }
+
+    public static function getStatusInfo(int $status): array
+    {
+        $statuses = [
+            self::STATUS_NEW => ['text' => 'Новый', 'class' => 'new', 'icon' => 'fa-file-alt'],
+            self::STATUS_PROCESSING => ['text' => 'В обработке', 'class' => 'processing', 'icon' => 'fa-cogs'],
+            self::STATUS_COMPLETED => ['text' => 'Выполнен', 'class' => 'completed', 'icon' => 'fa-check-circle'],
+            self::STATUS_CANCELLED => ['text' => 'Отменен', 'class' => 'cancelled', 'icon' => 'fa-times-circle'],
+        ];
+        return $statuses[$status] ?? ['text' => 'Неизвестно', 'class' => 'unknown', 'icon' => 'fa-question-circle'];
+    }
+
+    public static function getPaymentStatusInfo(int $status): array
+    {
+        $statuses = [
+            self::PAYMENT_STATUS_PENDING => ['text' => 'Ожидает оплаты', 'class' => 'pending'],
+            self::PAYMENT_STATUS_PAID => ['text' => 'Оплачен', 'class' => 'paid'],
+            self::PAYMENT_STATUS_FAILED => ['text' => 'Ошибка оплаты', 'class' => 'failed'],
+        ];
+        return $statuses[$status] ?? ['text' => 'Неизвестно', 'class' => 'unknown'];
+    }
+
+    public static function getPaymentMethodText(string $method): string
+    {
+        $methods = [
+            self::PAYMENT_METHOD_CASH => 'Наличными',
+            self::PAYMENT_METHOD_CARD => 'Картой онлайн',
+        ];
+        return $methods[$method] ?? 'Неизвестно';
+    }
+
+    /**
+     * Генерирует UUID перед сохранением
+     */
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($insert && empty($this->uuid)) {
+                $this->uuid = $this->generateUuid();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Генерирует UUID v4 с использованием Yii2 Security
+     */
+    private function generateUuid(): string
+    {
+        return \Yii::$app->security->generateRandomString(36);
     }
 }

@@ -1,0 +1,270 @@
+.profile-page {
+  &-head {
+    margin-bottom: 3rem;
+  }
+  &-main {
+    position: relative;
+  }
+}
+
+.profile-stats {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+  }
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.stat-icon {
+  width: 60px;
+  height: 60px;
+  background: $color-red;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+  flex-shrink: 0;
+  i {
+    font-size: 24px;
+    color: white;
+  }
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Быстрые действия */
+.profile-actions {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+  }
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.action-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    color: #333;
+    text-decoration: none;
+  }
+}
+
+.action-icon {
+  width: 50px;
+  height: 50px;
+  background: $color-red;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+  i {
+    font-size: 20px;
+    color: white;
+  }
+}
+
+.action-content {
+  &-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  &-desc {
+    font-size: 14px;
+    color: #666;
+    margin: 0;
+  }
+}
+
+/* Последние заказы */
+.recent-orders {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  h4 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0;
+  }
+}
+
+.view-all-link {
+  color: $color-red;
+  text-decoration: none;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.3s ease;
+  &:hover {
+    color: $color-red;
+    text-decoration: none;
+  }
+}
+
+.orders-list {
+  display: grid;
+  gap: 15px;
+}
+
+.order-item {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  &:hover {
+    background: #e9ecef;
+  }
+}
+
+.order-info {
+  flex: 1;
+}
+
+.order-number {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.order-date {
+  font-size: 14px;
+  color: #666;
+}
+
+.order-status {
+  margin: 0 20px;
+}
+
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-0 { background: #ffc107; color: #856404; }
+.status-1 { background: #17a2b8; color: white; }
+.status-2 { background: #28a745; color: white; }
+.status-3 { background: #dc3545; color: white; }
+
+.order-amount {
+  margin: 0 20px;
+  font-size: 18px;
+  color: #333;
+}
+
+.order-actions {
+  .btn {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+}
+
+/* Нет заказов */
+.no-orders {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-top: 30px;
+  &-icon {
+    width: 100px;
+    height: 100px;
+    background: $color-red;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 30px;
+    i {
+      font-size: 40px;
+      color: white;
+    }
+  }
+  h4 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  p {
+    font-size: 16px;
+    color: #666;
+    margin-bottom: 30px;
+  }
+}

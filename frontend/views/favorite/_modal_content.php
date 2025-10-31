@@ -14,15 +14,9 @@ use common\helpers\PriceHelper;
             <?php $product = $item->getProduct(); ?>
             <div class="favorite-item js-favorite-item" data-product-id="<?= $product->id ?>">
                 <div class="favorite-item-image">
-                    <?php if ($product->image): ?>
-                        <img src="<?= $product->getImageUrl() ?>"
-                             alt="<?= Html::encode($product->name) ?>"
-                             style="width: 60px; height: 60px; object-fit: cover;">
-                    <?php else: ?>
-                        <div style="width: 60px; height: 60px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
-                            Нет фото
-                        </div>
-                    <?php endif; ?>
+                    <img src="<?= $product->getCroppedImageUrl(200, 260, 'fit') ?>"
+                         alt="<?= Html::encode($product->name) ?>"
+                         style="width: 60px; height: 60px; object-fit: cover;">
                 </div>
 
                 <div class="favorite-item-info">

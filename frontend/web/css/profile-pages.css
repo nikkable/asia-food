@@ -1,334 +1,145 @@
-/* Страницы личного кабинета */
-.profile-page {
-    padding: 0 0 80px 0;
-    background: #f8f9fa;
-}
-
-.profile-page-head {
-    text-align: center;
-    padding: 60px 0;
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-    color: white;
-    margin-bottom: 60px;
-}
-
-.profile-page-head .profile-icon {
-    width: 120px;
-    height: 120px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 30px;
-    animation: profilePulse 2s infinite;
-}
-
-.profile-page-head .profile-icon i {
-    font-size: 48px;
-    color: white;
-}
-
-@keyframes profilePulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-    100% { transform: scale(1); }
-}
-
-.profile-page-head .title {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 15px;
-    line-height: 1.2;
-}
-
-.profile-page-head .subtitle {
-    font-size: 18px;
-    opacity: 0.9;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.profile-page-main {
-    margin-top: -30px;
-    position: relative;
-    z-index: 2;
-}
-
 /* Статистика пользователя */
 .profile-stats {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    height: 100%;
+
 }
 
 .profile-stats h4 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 25px;
-    text-align: center;
+
 }
 
-.stat-item {
-    display: flex;
-    align-items: center;
-    padding: 20px 0;
-    border-bottom: 1px solid #f0f0f0;
-}
+
 
 .stat-item:last-child {
-    border-bottom: none;
+
 }
 
-.stat-icon {
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-    border-radius: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 20px;
-    flex-shrink: 0;
-}
+
 
 .stat-icon i {
-    font-size: 24px;
-    color: white;
+
 }
 
-.stat-content {
-    flex: 1;
-}
 
-.stat-number {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    line-height: 1;
-}
 
-.stat-label {
-    font-size: 14px;
-    color: #666;
-    margin-top: 5px;
-}
 
-/* Быстрые действия */
-.profile-actions {
-    background: white;
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    height: 100%;
-}
 
-.profile-actions h4 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 25px;
-    text-align: center;
-}
 
-.actions-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
 
-.action-item {
-    display: flex;
-    align-items: center;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 15px;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.3s ease;
-}
 
-.action-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    color: #333;
-    text-decoration: none;
-}
+.action-item
 
-.action-icon {
-    width: 50px;
-    height: 50px;
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 15px;
-    flex-shrink: 0;
-}
 
-.action-icon i {
-    font-size: 20px;
-    color: white;
-}
 
-.action-content h5 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 5px;
-    color: #333;
-}
+.action-icon
 
-.action-content p {
-    font-size: 14px;
-    color: #666;
-    margin: 0;
-}
+
+
+.action-content
 
 /* Последние заказы */
-.recent-orders {
-    background: white;
-    border-radius: 20px;
-    padding: 40px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
-}
 
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+
+
+
+.section-header
+
+
+
+
+
+
+
+.order-item
+
+
+
+
+
+/* New Order View Page Styles */
+.order-view-page .profile-page-head {
+    color: #fff;
+    padding: 40px 0;
     margin-bottom: 30px;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.section-header h4 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-    margin: 0;
+.order-view-page .new-gradient { background: linear-gradient(45deg, #6f42c1, #e83e8c); }
+.order-view-page .processing-gradient { background: linear-gradient(45deg, #007bff, #00c6ff); }
+.order-view-page .completed-gradient { background: linear-gradient(45deg, #28a745, #20c997); }
+.order-view-page .cancelled-gradient { background: linear-gradient(45deg, #dc3545, #ff6b6b); }
+
+.card-style {
+    background-color: #fff;
+    border-radius: 20px;
+    border: 1px solid #eee;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    margin-bottom: 25px;
 }
 
-.view-all-link {
-    color: #6f42c1;
-    text-decoration: none;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: color 0.3s ease;
+.card-style .card-header {
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
 }
 
-.view-all-link:hover {
-    color: #e83e8c;
-    text-decoration: none;
+.card-style .card-body {
+    padding: 25px;
 }
 
-.orders-list {
+.info-grid-new {
     display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px;
 }
 
-.order-item {
+.info-item {
     display: flex;
     align-items: center;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    font-size: 15px;
 }
 
-.order-item:hover {
-    background: #e9ecef;
-}
-
-.order-info {
-    flex: 1;
-}
-
-.order-number {
-    font-size: 16px;
-    margin-bottom: 5px;
-}
-
-.order-date {
-    font-size: 14px;
-    color: #666;
-}
-
-.order-status {
-    margin: 0 20px;
-}
-
-.status-badge {
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.status-0 { background: #ffc107; color: #856404; }
-.status-1 { background: #17a2b8; color: white; }
-.status-2 { background: #28a745; color: white; }
-.status-3 { background: #dc3545; color: white; }
-
-.order-amount {
-    margin: 0 20px;
-    font-size: 18px;
-    color: #333;
-}
-
-.order-actions .btn {
-    padding: 8px 16px;
-    font-size: 14px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-/* Нет заказов */
-.no-orders {
+.info-item i {
+    color: #6f42c1;
+    margin-right: 12px;
+    width: 20px;
     text-align: center;
-    padding: 60px 20px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    margin-top: 30px;
 }
 
-.no-orders-icon {
-    width: 100px;
-    height: 100px;
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-    border-radius: 50%;
+.info-item strong { color: #333; }
+
+.order-items-list .order-item {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin: 0 auto 30px;
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+}
+.order-items-list .order-item:last-child { border-bottom: none; }
+
+.order-items-list .item-image img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-right: 15px;
 }
 
-.no-orders-icon i {
-    font-size: 40px;
-    color: white;
-}
+.order-items-list .item-info { flex-grow: 1; }
+.order-items-list .item-name a { font-weight: 600; color: #333; text-decoration: none; }
+.order-items-list .item-details { color: #777; font-size: 14px; }
+.order-items-list .item-total { font-weight: 700; font-size: 16px; }
 
-.no-orders h4 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #333;
+.contact-item {
+    display: flex;
+    align-items: center;
     margin-bottom: 15px;
 }
 
-.no-orders p {
-    font-size: 16px;
-    color: #666;
-    margin-bottom: 30px;
-}
+.contact-item:last-child { margin-bottom: 0; }
+.contact-item i { color: #6f42c1; margin-right: 10px; }
+
+.action-buttons { display: grid; gap: 10px; }
+.action-buttons .btn { width: 100%; }
 
 /* Адаптивность */
 @media (max-width: 768px) {
@@ -718,8 +529,11 @@
 
 .profile-form .input-icon {
     position: absolute;
+    display: flex;
+    align-content: center;
+    justify-content: center;
     left: 15px;
-    top: 38px;
+    top: 44px;
     z-index: 2;
     color: #999;
     font-size: 16px;
@@ -773,41 +587,6 @@
     gap: 15px;
     margin-top: 40px;
     flex-wrap: wrap;
-}
-
-.form-actions .btn {
-    padding: 15px 30px;
-    font-size: 16px;
-    font-weight: 600;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.3s ease;
-}
-
-.form-actions .btn:hover {
-    transform: translateY(-2px);
-}
-
-.form-actions .btn-primary {
-    background: linear-gradient(135deg, #6f42c1, #e83e8c);
-    border: none;
-}
-
-.form-actions .btn-primary:hover {
-    box-shadow: 0 8px 25px rgba(111, 66, 193, 0.3);
-}
-
-.form-actions .btn-outline-secondary {
-    border: 2px solid #6c757d;
-    color: #6c757d;
-    background: transparent;
-}
-
-.form-actions .btn-outline-secondary:hover {
-    background: #6c757d;
-    color: white;
 }
 
 /* Информационная секция */
@@ -929,6 +708,7 @@
     border-radius: 15px;
     margin-bottom: 25px;
     overflow: hidden;
+    padding: 20px;
 }
 
 .card-header {

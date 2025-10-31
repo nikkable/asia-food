@@ -84,18 +84,19 @@
     }
   }
   &-foo {
-    background: $color-black;
+    background: linear-gradient(135deg, rgb(111, 66, 193), rgb(232, 62, 140));
     color: $color-white;
     &:hover, &:focus {
-      background: rgba($color-black, 0.8);
+      background: linear-gradient(135deg, rgb(111, 66, 193), rgb(232, 62, 140));
       color: $color-white;
     }
     &:hover {
-      background: rgba($color-black, 0.8);
+      background: linear-gradient(135deg, rgb(111, 66, 193), rgb(232, 62, 140));
       color: $color-white;
+      transform: translateY(-2px);
     }
     &:active {
-      background: $color-black;
+      background: linear-gradient(135deg, rgb(111, 66, 193), rgb(232, 62, 140));
       color: $color-white;
     }
     &:disabled, &.disabled {

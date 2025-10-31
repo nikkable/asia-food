@@ -15,17 +15,13 @@ $this->title = 'Личный кабинет';
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
 // Подключаем CSS для личного кабинета
-$this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\YiiAsset::class]]);
+//$this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="profile-page">
     <div class="container">
         <div class="profile-page-head">
-            <div class="profile-icon">
-                <i class="fas fa-user-circle"></i>
-            </div>
-            <div class="title">Добро пожаловать, <?= Html::encode($user->getDisplayName()) ?>!</div>
-            <div class="subtitle">Управляйте своим профилем и заказами</div>
+            <div class="title">Профиль</div>
         </div>
         
         <div class="profile-page-main">
@@ -78,8 +74,8 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                                     <i class="fas fa-user-edit"></i>
                                 </div>
                                 <div class="action-content">
-                                    <h5>Редактировать профиль</h5>
-                                    <p>Изменить личные данные</p>
+                                    <div class="action-content-title">Редактировать</div>
+                                    <div class="action-content-desc">Изменить личные данные</div>
                                 </div>
                             </a>
                             
@@ -88,8 +84,8 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                                     <i class="fas fa-history"></i>
                                 </div>
                                 <div class="action-content">
-                                    <h5>История заказов</h5>
-                                    <p>Посмотреть все заказы</p>
+                                    <div class="action-content-title">История заказов</div>
+                                    <div class="action-content-desc">Посмотреть все заказы</div>
                                 </div>
                             </a>
                             
@@ -98,8 +94,8 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                                     <i class="fas fa-utensils"></i>
                                 </div>
                                 <div class="action-content">
-                                    <h5>Каталог</h5>
-                                    <p>Сделать новый заказ</p>
+                                    <div class="action-content-title">Каталог</div>
+                                    <div class="action-content-desc">Сделать новый заказ</div>
                                 </div>
                             </a>
                             
@@ -108,8 +104,8 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                                     <i class="fas fa-phone"></i>
                                 </div>
                                 <div class="action-content">
-                                    <h5>Поддержка</h5>
-                                    <p>Связаться с нами</p>
+                                    <div class="action-content-title">Поддержка</div>
+                                    <div class="action-content-desc">Связаться с нами</div>
                                 </div>
                             </a>
                         </div>
@@ -158,7 +154,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                         </div>
                         
                         <div class="order-actions">
-                            <a href="<?= Url::to(['/profile/order-view', 'id' => $order->id]) ?>" class="btn btn-sm btn-outline-primary">
+                            <a href="<?= Url::to(['/order/view', 'uuid' => $order->uuid]) ?>" class="btn btn-secondary">
                                 <i class="fas fa-eye"></i> Подробнее
                             </a>
                         </div>

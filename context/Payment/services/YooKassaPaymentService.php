@@ -59,7 +59,7 @@ class YooKassaPaymentService extends AbstractService implements PaymentServiceIn
                         'value' => number_format($item->price, 2, '.', ''),
                         'currency' => 'RUB'
                     ],
-                    'vat_code' => 1, // НДС не облагается
+                    'vat_code' => 1,
                     'payment_mode' => 'full_payment',
                     'payment_subject' => 'commodity'
                 ];

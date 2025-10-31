@@ -9,4 +9,6 @@ interface OrderRepositoryInterface
     public function save(Order $order): void;
     
     public function findById(int $id): ?Order;
+    
+    public function findByUuid(string $uuid): ?Order;
 }

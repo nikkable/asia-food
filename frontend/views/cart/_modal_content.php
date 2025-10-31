@@ -4,6 +4,7 @@ use common\helpers\PriceHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
+use yii\widgets\MaskedInput;
 use frontend\models\QuickOrderForm;
 
 /** @var context\Cart\models\Cart $cart */
@@ -20,7 +21,7 @@ $model->fillFromUser();
             <div class="cart-item js-cart-item" data-product-id="<?= $item->getProduct()->id ?>">
                 <div class="cart-item-image">
                     <?php if ($item->getProduct()->image): ?>
-                        <img src="<?= $item->getProduct()->getImageUrl() ?>"
+                        <img src="<?= $item->getProduct()->getCroppedImageUrl(200, 260, 'fit') ?>"
                              alt="<?= Html::encode($item->getProduct()->name) ?>"
                              style="width: 60px; height: 60px; object-fit: cover;">
                     <?php else: ?>
@@ -111,12 +112,12 @@ $model->fillFromUser();
         </div>
 
         <div class="col-md-6">
-            <?= $form->field($model, 'customerPhone', [
-                'inputOptions' => [
+            <?= $form->field($model, 'customerPhone')->widget(MaskedInput::class, [
+                'mask' => '+7 (999) 999-99-99',
+                'options' => [
                     'class' => 'field-text',
                     'placeholder' => '+7 (999) 123-45-67'
-                ],
-                'options' => ['class' => 'form-group'],
+                ]
             ])->label('Телефон *') ?>
         </div>
 

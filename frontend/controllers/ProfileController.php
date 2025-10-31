@@ -111,22 +111,4 @@ class ProfileController extends Controller
         ]);
     }
 
-    /**
-     * Детали конкретного заказа
-     */
-    public function actionOrderView($id)
-    {
-        $order = Order::find()
-            ->where(['id' => $id, 'user_id' => Yii::$app->user->id])
-            ->with('orderItems')
-            ->one();
-        
-        if (!$order) {
-            throw new NotFoundHttpException('Заказ не найден');
-        }
-        
-        return $this->render('order-view', [
-            'order' => $order,
-        ]);
-    }
 }

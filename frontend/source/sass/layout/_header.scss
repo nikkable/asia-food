@@ -61,18 +61,23 @@
         font-size: 1.6rem;
         &:hover {
           > ul {
-            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
           }
         }
         a {
           color: $color-black;
         }
         > ul {
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-10px);
+          transition: all 0.3s ease;
           position: absolute;
           top: calc(100% + 10px);
           left: 0;
           width: 240px;
-          display: none;
           margin: 0;
           padding: 2rem;
           border-radius: 16px;

@@ -73,13 +73,15 @@ const ready = function () {
 
     const catalogSliderContainer = document.querySelector('.js-screen-main');
 
-    catalogSliderContainer.addEventListener('mouseenter', () => {
-        catalogSwiper.autoplay.stop();
-    });
+    if (catalogSliderContainer) {
+        catalogSliderContainer.addEventListener('mouseenter', () => {
+            catalogSwiper.autoplay.stop();
+        });
 
-    catalogSliderContainer.addEventListener('mouseleave', () => {
-        catalogSwiper.autoplay.start();
-    });
+        catalogSliderContainer.addEventListener('mouseleave', () => {
+            catalogSwiper.autoplay.start();
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", ready)

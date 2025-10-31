@@ -6,6 +6,7 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap5\ActiveForm;
+use yii\widgets\MaskedInput;
 use common\models\User;
 
 $this->title = 'Редактирование профиля';
@@ -20,11 +21,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
 <div class="profile-page">
     <div class="container">
         <div class="profile-page-head">
-            <div class="profile-icon">
-                <i class="fas fa-user-edit"></i>
-            </div>
-            <div class="title">Редактирование профиля</div>
-            <div class="subtitle">Обновите свои личные данные</div>
+            <div class="title text-center">Редактирование профиля</div>
         </div>
         
         <div class="profile-page-main">
@@ -91,9 +88,12 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                                     <div class="input-icon">
                                         <i class="fas fa-phone"></i>
                                     </div>
-                                    <?= $form->field($user, 'phone')->textInput([
-                                        'class' => 'form-control-custom',
-                                        'placeholder' => '+7 (999) 123-45-67'
+                                    <?= $form->field($user, 'phone')->widget(MaskedInput::class, [
+                                        'mask' => '+7 (999) 999-99-99',
+                                        'options' => [
+                                            'class' => 'form-control-custom',
+                                            'placeholder' => '+7 (999) 123-45-67'
+                                        ]
                                     ])->label('Телефон') ?>
                                 </div>
                             </div>
@@ -141,10 +141,10 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                         
                         <div class="form-actions">
                             <?= Html::submitButton('<i class="fas fa-save"></i> Сохранить изменения', [
-                                'class' => 'btn btn-primary btn-lg'
+                                'class' => 'btn btn-foo'
                             ]) ?>
                             
-                            <a href="<?= Url::to(['/profile']) ?>" class="btn btn-outline-secondary btn-lg">
+                            <a href="<?= Url::to(['/profile']) ?>" class="btn btn-secondary">
                                 <i class="fas fa-times"></i> Отмена
                             </a>
                         </div>
