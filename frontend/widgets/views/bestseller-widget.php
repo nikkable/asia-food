@@ -46,13 +46,15 @@ use common\helpers\PriceHelper;
                         </div>
                         <div class="product-buttons">
                             <?php if ($product->quantity > 0): ?>
-                                <button class="btn btn-three js-add-to-cart-btn"
+                                <button class="but but-three js-add-to-cart-btn"
                                         data-product-id="<?= $product->id ?>"
                                         data-product-name="<?= Html::encode($product->name) ?>">
                                     В корзину
                                 </button>
                             <?php endif; ?>
-                            <a href="<?= Url::to(['/catalog/product', 'slug' => $product->slug]) ?>" class="btn btn-secondary">Подробнее</a>
+                            <!--
+                            <a href="<?= Url::to(['/catalog/product', 'slug' => $product->slug]) ?>" class="but but-secondary">Подробнее</a>
+                            -->
                         </div>
                     </div>
                 <?php endforeach; ?>

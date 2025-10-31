@@ -12,20 +12,10 @@ $this->title = 'Регистрация';
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-// Подключаем CSS для страницы авторизации
-$this->registerCssFile('@web/css/auth-pages.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="auth-page signup">
     <div class="container">
-        <div class="auth-page-head">
-            <div class="auth-icon">
-                <i class="fas fa-user-plus"></i>
-            </div>
-            <div class="title">Присоединяйтесь к нам!</div>
-            <div class="subtitle">Создайте аккаунт и получите доступ к личному кабинету</div>
-        </div>
-        
         <div class="auth-page-main">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">

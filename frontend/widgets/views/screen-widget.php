@@ -13,7 +13,7 @@ use yii\helpers\Url;
                     <div class="screen-item">
                         <img src="/images/screen/1.png" alt="">
                         <div class="screen-item-buttons">
-                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="but but-primary">Каталог</a>
                         </div>
                     </div>
                 </div>
@@ -21,7 +21,7 @@ use yii\helpers\Url;
                     <div class="screen-item">
                         <img src="/images/screen/2.png" alt="">
                         <div class="screen-item-buttons">
-                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="but but-primary">Каталог</a>
                         </div>
                     </div>
                 </div>
@@ -29,7 +29,7 @@ use yii\helpers\Url;
                     <div class="screen-item">
                         <img src="/images/screen/3.png" alt="">
                         <div class="screen-item-buttons">
-                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="but but-primary">Каталог</a>
                         </div>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ use yii\helpers\Url;
                     <div class="screen-item">
                         <img src="/images/screen/4.png" alt="">
                         <div class="screen-item-buttons">
-                            <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-primary">Каталог</a>
+                            <a href="<?= Url::to(['/catalog/index']) ?>" class="but but-primary">Каталог</a>
                         </div>
                     </div>
                 </div>

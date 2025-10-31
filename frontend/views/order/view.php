@@ -13,9 +13,6 @@ $this->title = 'Заказ №' . $order->id;
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-// Подключаем CSS для страницы
-$this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\YiiAsset::class]]);
-
 ?>
 
 <div class="profile-page order-view-page">
@@ -30,7 +27,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                     <!-- Детали заказа -->
                     <div class="card-style mb-4">
                         <div class="card-header">
-                            <h5><i class="fas fa-receipt"></i> Детали заказа</h5>
+                            <h5>Детали заказа</h5>
                         </div>
                         <div class="card-body">
                             <div class="info-grid-new">
@@ -47,7 +44,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                     <!-- Состав заказа -->
                     <div class="card-style mb-4">
                         <div class="card-header">
-                            <h5><i class="fas fa-shopping-bag"></i> Состав заказа</h5>
+                            <h5>Состав заказа</h5>
                         </div>
                         <div class="card-body">
                             <div class="order-items-list">
@@ -86,7 +83,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                     <!-- Получатель -->
                     <div class="card-style mb-4">
                         <div class="card-header">
-                            <h5><i class="fas fa-user"></i> Получатель</h5>
+                            <h5>Получатель</h5>
                         </div>
                         <div class="card-body">
                             <div class="contact-item"><i class="fas fa-user"></i> <span><?= Html::encode($order->customer_name) ?></span></div>
@@ -100,18 +97,18 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                     <!-- Действия -->
                     <div class="card-style mb-4">
                         <div class="card-header">
-                            <h5><i class="fas fa-cogs"></i> Действия</h5>
+                            <h5>Действия</h5>
                         </div>
                         <div class="card-body">
                             <div class="action-buttons">
                                 <?php if ($order->payment_status == OrderModel::PAYMENT_STATUS_PENDING): ?>
-                                    <a href="<?= Url::to(['/payment/pay', 'orderId' => $order->id]) ?>" class="btn btn-three"><i class="fas fa-credit-card"></i> Оплатить</a>
+                                    <a href="<?= Url::to(['/payment/pay', 'orderId' => $order->id]) ?>" class="but but-three"><i class="fas fa-credit-card"></i> Оплатить</a>
                                 <?php endif; ?>
-                                <a href="<?= Url::to(['/catalog/index']) ?>" class="btn btn-secondary"><i class="fas fa-store"></i> В каталог</a>
+                                <a href="<?= Url::to(['/catalog/index']) ?>" class="but but-secondary"><i class="fas fa-store"></i> В каталог</a>
                                 <?php if (Yii::$app->user->isGuest): ?>
-                                    <a href="<?= Url::to(['/site/login']) ?>" class="btn btn-secondary"><i class="fas fa-sign-in-alt"></i> Войти в профиль</a>
+                                    <a href="<?= Url::to(['/site/login']) ?>" class="but but-secondary"><i class="fas fa-sign-in-alt"></i> Войти в профиль</a>
                                 <?php else: ?>
-                                     <a href="<?= Url::to(['/profile/orders']) ?>" class="btn btn-secondary"><i class="fas fa-history"></i> Мои заказы</a>
+                                     <a href="<?= Url::to(['/profile/orders']) ?>" class="but but-secondary"><i class="fas fa-history"></i> Мои заказы</a>
                                 <?php endif; ?>
                             </div>
                         </div>
@@ -120,7 +117,7 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                     <?php if (trim($order->note)): ?>
                         <div class="card-style mb-4">
                             <div class="card-header">
-                                <h5><i class="fas fa-comment-alt"></i> Комментарий к заказу</h5>
+                                <h5>Комментарий к заказу</h5>
                             </div>
                             <div class="card-body">
                                 <p><?= Html::encode($order->note) ?></p>

@@ -8,16 +8,12 @@ $this->title = 'Контакты';
 
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
-// Подключаем CSS для страницы контактов
-$this->registerCssFile('@web/css/contact.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="contact">
     <div class="container">
         <div class="contact-head">
             <div class="title">Контакты</div>
-            <div class="subtitle">Свяжитесь с нами любым удобным способом</div>
         </div>
         
         <div class="contact-main">

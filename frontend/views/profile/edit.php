@@ -14,8 +14,6 @@ $this->title = 'Редактирование профиля';
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-// Подключаем CSS для личного кабинета
-$this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="profile-page">
@@ -141,10 +139,10 @@ $this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\Yii
                         
                         <div class="form-actions">
                             <?= Html::submitButton('<i class="fas fa-save"></i> Сохранить изменения', [
-                                'class' => 'btn btn-foo'
+                                'class' => 'but but-three'
                             ]) ?>
                             
-                            <a href="<?= Url::to(['/profile']) ?>" class="btn btn-secondary">
+                            <a href="<?= Url::to(['/profile']) ?>" class="but but-secondary">
                                 <i class="fas fa-times"></i> Отмена
                             </a>
                         </div>

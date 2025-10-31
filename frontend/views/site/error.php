@@ -45,7 +45,7 @@ if (strpos($name, '404') !== false) {
                 <i class="<?= $errorIcon ?>"></i>
             </div>
             <div class="error-code"><?= Html::encode($name) ?></div>
-            <div class="title"><?= $errorTitle ?></div>
+            <div class="title" style="color: white;"><?= $errorTitle ?></div>
             <div class="subtitle"><?= $errorSubtitle ?></div>
         </div>
     </div>

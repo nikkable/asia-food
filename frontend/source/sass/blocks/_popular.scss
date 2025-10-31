@@ -52,7 +52,7 @@
   }
 
   &-buttons {
-    .btn {
+    .but {
       @media(max-width: #{$break-max-md}) {
         min-height: 30px;
         font-size: 1.2rem;

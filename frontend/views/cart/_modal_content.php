@@ -20,22 +20,19 @@ $model->fillFromUser();
         <?php foreach ($cart->getItems() as $item): ?>
             <div class="cart-item js-cart-item" data-product-id="<?= $item->getProduct()->id ?>">
                 <div class="cart-item-image">
-                    <?php if ($item->getProduct()->image): ?>
-                        <img src="<?= $item->getProduct()->getCroppedImageUrl(200, 260, 'fit') ?>"
-                             alt="<?= Html::encode($item->getProduct()->name) ?>"
-                             style="width: 60px; height: 60px; object-fit: cover;">
-                    <?php else: ?>
-                        <div style="width: 60px; height: 60px; background: #f8f9fa; border-radius: 10px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-size: 12px;">
-                            Фото
-                        </div>
-                    <?php endif; ?>
+                    <img src="<?= $item->getProduct()->getCroppedImageUrl(200, 260, 'fit') ?>"
+                         alt="<?= Html::encode($item->getProduct()->name) ?>"
+                         style="width: 60px; height: 60px; object-fit: cover;">
                 </div>
 
                 <div class="cart-item-info flex-grow-1">
                     <div class="cart-item-name">
+                        <?= Html::encode($item->getProduct()->name) ?>
+                        <!--
                         <a href="<?= Url::to(['/catalog/product', 'slug' => $item->getProduct()->slug]) ?>">
                             <?= Html::encode($item->getProduct()->name) ?>
                         </a>
+                        -->
                     </div>
                     <div class="cart-item-info-price">
                         <div class="cart-item-price">
@@ -49,7 +46,7 @@ $model->fillFromUser();
 
                 <div class="cart-item-actions">
                     <div class="cart-item-quantity">
-                        <button type="button" class="btn js-cart-quantity-btn" data-action="decrease" data-product-id="<?= $item->getProduct()->id ?>">
+                        <button type="button" class="but js-cart-quantity-btn" data-action="decrease" data-product-id="<?= $item->getProduct()->id ?>">
                             <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
                                 <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="14" y1="31" x2="50" y2="31"/></g>
                                 <g><circle fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="32" cy="32" r="30.999"/></g>
@@ -58,7 +55,7 @@ $model->fillFromUser();
                         <span class="btn disabled">
                             <?= $item->getQuantity() ?>
                         </span>
-                        <button type="button" class="btn js-cart-quantity-btn" data-action="increase" data-product-id="<?= $item->getProduct()->id ?>">
+                        <button type="button" class="but js-cart-quantity-btn" data-action="increase" data-product-id="<?= $item->getProduct()->id ?>">
                             <svg width="16px" height="16px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
                                 <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="32" y1="50" x2="32" y2="14"/><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="14" y1="32" x2="50" y2="32"/></g>
                                 <g><circle fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="32" cy="32" r="30.999"/></g>
@@ -67,7 +64,7 @@ $model->fillFromUser();
                     </div>
 
                     <div class="cart-item-remove">
-                        <button type="button" class="btn js-cart-remove-btn" data-product-id="<?= $item->getProduct()->id ?>">
+                        <button type="button" class="but js-cart-remove-btn" data-product-id="<?= $item->getProduct()->id ?>">
                             <svg width="20px" height="20px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
                                 <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="18.947" y1="17.153" x2="45.045" y2="43.056"/></g>
                                 <g><line fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" x1="19.045" y1="43.153" x2="44.947" y2="17.056"/></g>
@@ -88,7 +85,7 @@ $model->fillFromUser();
     <!-- Форма быстрого заказа -->
     <div class="quick-order-form">
         <?php if (!Yii::$app->user->isGuest && $model->hasUserData()): ?>
-            <div class="alert alert-info mb-3">
+            <div class="alert alert-info mb-4">
                 <i class="fas fa-info-circle"></i>
                 Данные заполнены из вашего профиля. Вы можете их изменить при необходимости.
                 <a href="<?= Url::to(['/profile/edit']) ?>" class="alert-link">Редактировать профиль</a>
@@ -180,7 +177,7 @@ $model->fillFromUser();
         </div>
 
         <div class="col-12 text-center">
-            <button type="submit" class="btn btn-three btn-big">
+            <button type="submit" class="but but-three but-big">
                 Оформить заказ
             </button>
         </div>
@@ -198,6 +195,6 @@ $model->fillFromUser();
         </div>
         <h5 class="text-muted">Корзина пуста</h5>
         <p class="text-muted m-b-4">Добавьте товары в корзину, чтобы оформить заказ</p>
-        <button type="button" class="btn btn-three" data-bs-dismiss="modal">Продолжить покупки</button>
+        <button type="button" class="but but-three" data-bs-dismiss="modal">Продолжить покупки</button>
     </div>
 <?php endif; ?>

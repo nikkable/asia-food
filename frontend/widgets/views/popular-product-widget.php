@@ -26,14 +26,9 @@ use common\helpers\PriceHelper;
                     <?php endif; ?>
                 </div>
                 <div class="popular-buttons">
-                    <button class="btn btn-secondary btn-big js-add-to-cart-btn"
+                    <button class="but but-secondary but-big js-add-to-cart-btn"
                             data-product-id="<?= $product->id ?>"
                             data-product-name="<?= Html::encode($product->name) ?>">
-                        <h3>
-                            <?= Html::a(Html::encode($product->name), ['product/view', 'slug' => $product->slug], [
-                                'class' => 'text-decoration-none text-white'
-                            ]) ?>
-                        </h3>
                         Купить
                     </button>
                 </div>

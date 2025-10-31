@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-lg-4">
                     <h2><?= Html::encode($product->name) ?></h2>
                     <p><?= PriceHelper::formatRub($product->price) ?></p>
-                    <p><?= Html::a('Подробнее &raquo;', ['/catalog/product', 'slug' => $product->slug], ['class' => 'btn btn-outline-secondary']) ?></p>
+                    <p><?= Html::a('Подробнее &raquo;', ['/catalog/product', 'slug' => $product->slug], ['class' => 'but btn-outline-secondary']) ?></p>
                 </div>
             <?php endforeach; ?>
         </div>

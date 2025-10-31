@@ -68,7 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                             <div class="product-buttons">
                                 <?php if ($product->quantity > 0): ?>
-                                    <button class="btn btn-three js-add-to-cart-btn"
+                                    <button class="but but-three js-add-to-cart-btn"
                                             data-product-id="<?= $product->id ?>"
                                             data-product-name="<?= Html::encode($product->name) ?>">
                                         В корзину

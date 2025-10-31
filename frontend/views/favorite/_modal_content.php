@@ -20,9 +20,9 @@ use common\helpers\PriceHelper;
                 </div>
 
                 <div class="favorite-item-info">
-                    <a class="favorite-item-name" href="<?= Url::to(['/catalog/product', 'slug' => $product->slug]) ?>">
+                    <div class="favorite-item-name">
                         <?= Html::encode($product->name) ?>
-                    </a>
+                    </div>
                     <div class="favorite-item-price">
                         <?= PriceHelper::formatRub($product->price) ?>
                     </div>
@@ -32,12 +32,12 @@ use common\helpers\PriceHelper;
                 </div>
 
                 <div class="favorite-item-actions">
-                    <button type="button" class="btn btn-three js-add-to-cart-btn mb-2"
+                    <button type="button" class="but but-three js-add-to-cart-btn mb-2"
                             data-product-id="<?= $product->id ?>"
                             data-product-name="<?= Html::encode($product->name) ?>">
                         В корзину
                     </button>
-                    <button type="button" class="btn btn-secondary js-favorite-remove-btn" data-product-id="<?= $product->id ?>">
+                    <button type="button" class="but but-secondary js-favorite-remove-btn" data-product-id="<?= $product->id ?>">
                         Удалить
                     </button>
                 </div>
@@ -47,7 +47,7 @@ use common\helpers\PriceHelper;
 
     <!-- Кнопки действий -->
     <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-secondary js-favorite-clear-btn">
+        <button type="button" class="but but-secondary js-favorite-clear-btn">
             Очистить избранное
         </button>
     </div>
@@ -62,6 +62,6 @@ use common\helpers\PriceHelper;
         </div>
         <h5 class="text-muted">В избранном пока нет товаров</h5>
         <p class="text-muted m-b-4">Добавьте товары в избранное, чтобы вернуться к ним позже</p>
-        <button type="button" class="btn btn-three" data-bs-dismiss="modal">Продолжить покупки</button>
+        <button type="button" class="but but-three" data-bs-dismiss="modal">Продолжить покупки</button>
     </div>
 <?php endif; ?>

@@ -22,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <p><strong>Артикул:</strong> <?= Html::encode($product->article) ?></p>
                 <hr>
                 <p>
-                    <button type="button" class="btn btn-primary add-to-cart-btn" data-product-id="<?= $product->id ?>" data-product-name="<?= Html::encode($product->name) ?>">
+                    <button type="button" class="but but-primary add-to-cart-btn" data-product-id="<?= $product->id ?>" data-product-name="<?= Html::encode($product->name) ?>">
                         Добавить в корзину
                     </button>
                 </p>

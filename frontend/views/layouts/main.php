@@ -37,7 +37,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             <div class="header-menu">
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= Url::to(['catalog']) ?>">Каталог</a>
+                        <a class="nav-link" href="<?= Url::to(['/catalog/index']) ?>">Каталог</a>
                         <ul>
                             <?= HeaderCategoriesWidget::widget() ?>
                         </ul>
@@ -49,7 +49,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         <a class="nav-link" href="<?= Url::to(['site/cooperation']) ?>">Сотрудничество</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?= Url::to(['site/contacts']) ?>">Контакты</a>
+                        <a class="nav-link" href="<?= Url::to(['site/contact']) ?>">Контакты</a>
                     </li>
                 </ul>
             </div>
@@ -60,15 +60,15 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             </div>
             <div class="header-auth">
                 <?php if (Yii::$app->user->isGuest): ?>
-                    <a href="<?= Url::to(['/site/login']) ?>" class="header-auth-link" title="Войти">
+                    <a href="<?= Url::to(['/site/login']) ?>" class="but but-three header-auth-link" title="Войти">
                         <i class="fas fa-user"></i>
                         <span>Войти</span>
                     </a>
                 <?php else: ?>
                     <div class="header-auth-menu">
-                        <a href="<?= Url::to(['/profile']) ?>" class="header-auth-link" title="Личный кабинет">
+                        <a href="<?= Url::to(['/profile']) ?>" class="but but-three header-auth-link" title="Личный кабинет">
                             <i class="fas fa-user-circle"></i>
-                            <span><?= Html::encode(Yii::$app->user->identity->getDisplayName()) ?></span>
+                            <span>Кабинет</span>
                         </a>
                         <div class="header-auth-dropdown">
                             <a href="<?= Url::to(['/profile']) ?>" class="header-auth-dropdown-item">

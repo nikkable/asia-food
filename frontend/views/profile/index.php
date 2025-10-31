@@ -13,9 +13,6 @@ $this->title = 'Личный кабинет';
 
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
-
-// Подключаем CSS для личного кабинета
-//$this->registerCssFile('@web/css/profile-pages.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="profile-page">
@@ -154,7 +151,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         </div>
                         
                         <div class="order-actions">
-                            <a href="<?= Url::to(['/order/view', 'uuid' => $order->uuid]) ?>" class="btn btn-secondary">
+                            <a href="<?= Url::to(['/order/view', 'uuid' => $order->uuid]) ?>" class="but but-secondary">
                                 <i class="fas fa-eye"></i> Подробнее
                             </a>
                         </div>
@@ -169,7 +166,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                 </div>
                 <h4>У вас пока нет заказов</h4>
                 <p>Самое время сделать первый заказ!</p>
-                <a href="<?= Url::to(['/catalog']) ?>" class="btn btn-primary btn-lg">
+                <a href="<?= Url::to(['/catalog']) ?>" class="but but-primary">
                     <i class="fas fa-utensils"></i> Перейти в каталог
                 </a>
             </div>
