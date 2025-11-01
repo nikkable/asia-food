@@ -11,8 +11,6 @@ $this->title = 'Оплата прошла успешно';
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-// Подключаем CSS для страницы успешной оплаты
-$this->registerCssFile('@web/css/payment-success.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="payment-success">

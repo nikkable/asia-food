@@ -12,9 +12,6 @@ $this->title = $name;
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-// Подключаем CSS для страницы ошибки
-$this->registerCssFile('@web/css/error-page.css', ['depends' => [\yii\web\YiiAsset::class]]);
-
 // Определяем тип ошибки для иконки
 $errorCode = $name;
 $errorIcon = 'fas fa-exclamation-triangle';

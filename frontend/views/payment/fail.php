@@ -10,8 +10,6 @@ $this->title = 'Ошибка оплаты';
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 
-// Подключаем CSS для страницы ошибки оплаты
-$this->registerCssFile('@web/css/payment-fail.css', ['depends' => [\yii\web\YiiAsset::class]]);
 ?>
 
 <div class="payment-fail">

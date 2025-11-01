@@ -1,0 +1,499 @@
+/* Страница успешной оплаты */
+.payment-success {
+  padding: 0 0 80px 0;
+  background: #f8f9fa;
+}
+
+.payment-success-head {
+  text-align: center;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  margin-bottom: 60px;
+}
+
+.payment-success-head .success-icon {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 30px;
+  animation: successPulse 2s infinite;
+}
+
+.payment-success-head .success-icon i {
+  font-size: 48px;
+  color: white;
+}
+
+@keyframes successPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.payment-success-head .title {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.payment-success-head .subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.payment-success-main {
+  margin-top: -30px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Информация о заказе */
+.order-summary {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.order-summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f0f0f0;
+  margin-bottom: 25px;
+}
+
+.order-summary-header h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.status-badge {
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-paid {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.order-amount-section {
+  text-align: center;
+  padding: 25px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  margin-bottom: 30px;
+}
+
+.amount-label {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.amount-value {
+  font-size: 36px;
+  font-weight: 700;
+  color: #28a745;
+}
+
+/* Детали платежа */
+.payment-info {
+  margin-bottom: 30px;
+}
+
+.payment-info h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.payment-details {
+  display: grid;
+  gap: 12px;
+}
+
+.payment-detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.payment-detail-item .label {
+  font-weight: 600;
+  color: #333;
+}
+
+.payment-detail-item .value {
+  color: #666;
+  font-weight: 500;
+}
+
+/* Информация о клиенте */
+.customer-info h4 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.customer-details {
+  display: grid;
+  gap: 15px;
+}
+
+.customer-detail-item {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.detail-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  flex-shrink: 0;
+}
+
+.detail-icon i {
+  font-size: 16px;
+  color: white;
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.detail-content .label {
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.detail-content .value {
+  font-size: 16px;
+  color: #333;
+  font-weight: 500;
+}
+
+/* Следующие шаги */
+.next-steps {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+}
+
+.steps-header h4 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.steps-list {
+  display: grid;
+  gap: 25px;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.step-number {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.step-content h5 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.step-content p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Действия */
+.success-actions {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.actions-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+}
+
+.actions-buttons .btn {
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 12px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.actions-buttons .btn-primary {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  border: none;
+  color: white;
+}
+
+.actions-buttons .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.3);
+}
+
+.actions-buttons .btn-outline-primary {
+  border: 2px solid #28a745;
+  color: #28a745;
+  background: transparent;
+}
+
+.actions-buttons .btn-outline-primary:hover {
+  background: #28a745;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.actions-buttons .btn-outline-secondary {
+  border: 2px solid #6c757d;
+  color: #6c757d;
+  background: transparent;
+}
+
+.actions-buttons .btn-outline-secondary:hover {
+  background: #6c757d;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Секция благодарности */
+.thank-you-section {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.thank-you-icon {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  animation: heartBeat 2s infinite;
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.1); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.1); }
+  70% { transform: scale(1); }
+}
+
+.thank-you-icon i {
+  font-size: 32px;
+  color: white;
+}
+
+.thank-you-content h5 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.thank-you-content p {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .payment-success-head {
+    padding: 40px 0;
+    margin-bottom: 40px;
+  }
+
+  .payment-success-head .success-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+  }
+
+  .payment-success-head .success-icon i {
+    font-size: 40px;
+  }
+
+  .payment-success-head .title {
+    font-size: 36px;
+  }
+
+  .payment-success-head .subtitle {
+    font-size: 16px;
+  }
+
+  .order-summary,
+  .next-steps,
+  .success-actions,
+  .thank-you-section {
+    padding: 30px 20px;
+    margin-bottom: 20px;
+  }
+
+  .order-summary-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .order-summary-header h3 {
+    font-size: 24px;
+  }
+
+  .amount-value {
+    font-size: 32px;
+  }
+
+  .customer-detail-item {
+    padding: 12px;
+  }
+
+  .detail-icon {
+    width: 35px;
+    height: 35px;
+    margin-right: 12px;
+  }
+
+  .detail-icon i {
+    font-size: 14px;
+  }
+
+  .step-item {
+    gap: 15px;
+  }
+
+  .step-number {
+    width: 45px;
+    height: 45px;
+    font-size: 18px;
+  }
+
+  .actions-buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions-buttons .btn {
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  .thank-you-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .payment-success-head .title {
+    font-size: 28px;
+  }
+
+  .order-summary,
+  .next-steps,
+  .success-actions,
+  .thank-you-section {
+    padding: 20px 15px;
+  }
+
+  .order-summary-header h3 {
+    font-size: 20px;
+  }
+
+  .amount-value {
+    font-size: 28px;
+  }
+
+  .payment-info h4,
+  .customer-info h4,
+  .steps-header h4 {
+    font-size: 18px;
+  }
+
+  .thank-you-content h5 {
+    font-size: 18px;
+  }
+}

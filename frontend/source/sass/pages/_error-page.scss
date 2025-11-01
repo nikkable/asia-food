@@ -1,0 +1,110 @@
+/* Страница ошибок */
+.error-page {
+  background: #f8f9fa;
+}
+
+.error-page-head {
+  text-align: center;
+  padding: 60px 0;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  margin-bottom: 60px;
+  border-radius: 20px;
+}
+
+.error-page-head .error-icon {
+  width: 120px;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  animation: errorFloat 3s ease-in-out infinite;
+}
+
+.error-page-head .error-icon i {
+  font-size: 48px;
+  color: white;
+}
+
+@keyframes errorFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.error-page-head .error-code {
+  font-size: 72px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.error-page-head .title {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  line-height: 1.2;
+}
+
+.error-page-head .subtitle {
+  font-size: 18px;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .error-page-head {
+    padding: 40px 0;
+    margin-bottom: 40px;
+  }
+
+  .error-page-head .error-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+  }
+
+  .error-page-head .error-icon i {
+    font-size: 40px;
+  }
+
+  .error-page-head .error-code {
+    font-size: 56px;
+  }
+
+  .error-page-head .title {
+    font-size: 28px;
+  }
+
+  .error-page-head .subtitle {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .error-page-head .error-code {
+    font-size: 48px;
+  }
+
+  .error-page-head .title {
+    font-size: 24px;
+  }
+}
+
+/* Специальные стили для разных типов ошибок */
+.error-page[data-error="404"] .error-page-head {
+  background: linear-gradient(135deg, #6f42c1, #e83e8c);
+}
+
+.error-page[data-error="403"] .error-page-head {
+  background: linear-gradient(135deg, #dc3545, #fd7e14);
+}
+
+.error-page[data-error="500"] .error-page-head {
+  background: linear-gradient(135deg, #6c757d, #495057);
+}
