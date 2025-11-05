@@ -5,6 +5,7 @@ namespace context\Commerce1C\services;
 use context\Commerce1C\interfaces\CommerceProcessorInterface;
 use context\Commerce1C\interfaces\CommerceAuthInterface;
 use context\Commerce1C\interfaces\CommerceImportInterface;
+use context\Commerce1C\interfaces\CommerceExportInterface;
 use context\Commerce1C\enums\ImportFileTypeEnum;
 use repositories\Commerce1C\models\CommerceRequest;
 use repositories\Commerce1C\models\CommerceResponse;
@@ -14,7 +15,8 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
 {
     public function __construct(
         private readonly CommerceAuthInterface   $authService,
-        private readonly CommerceImportInterface $importService
+        private readonly CommerceImportInterface $importService,
+        private readonly CommerceExportInterface $exportService
     ) {}
 
     public function processRequest(CommerceRequest $request): CommerceResponse
@@ -28,6 +30,10 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
             ['catalog', 'init'] => $this->handleAuthenticatedRequest($request, fn() => $this->importService->initialize($request)),
             ['catalog', 'file'] => $this->handleAuthenticatedRequest($request, fn() => $this->importService->saveFile($request)),
             ['catalog', 'import'] => $this->handleImportRequest($request),
+            ['sale', 'checkauth'] => $this->authService->checkAuth($request),
+            ['sale', 'init'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->initialize($request)),
+            ['sale', 'query'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->query($request)),
+            ['sale', 'success'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->success($request)),
             default => CommerceResponse::failure('Request handler not implemented')
         };
     }
@@ -38,7 +44,11 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
             ['catalog', 'checkauth'],
             ['catalog', 'init'],
             ['catalog', 'file'],
-            ['catalog', 'import']
+            ['catalog', 'import'],
+            ['sale', 'checkauth'],
+            ['sale', 'init'],
+            ['sale', 'query'],
+            ['sale', 'success']
         ];
 
         return in_array([$request->getType()->value, $request->getMode()->value], $supportedRequests, true);

@@ -34,4 +34,12 @@ class OrderRepository implements OrderRepositoryInterface
             ->with('orderItems')
             ->one();
     }
+    
+    public function findByExportStatus(int $exportStatus): array
+    {
+        return Order::find()
+            ->where(['export_status' => $exportStatus])
+            ->with(['orderItems.product'])
+            ->all();
+    }
 }

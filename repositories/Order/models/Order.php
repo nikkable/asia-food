@@ -21,6 +21,9 @@ use yii\behaviors\TimestampBehavior;
  * @property string $payment_method
  * @property int $payment_status
  * @property string|null $payment_transaction_id
+ * @property string|null $external_id
+ * @property int|null $exported_at
+ * @property int $export_status
  * @property int $created_at
  * @property int $updated_at
  *
@@ -42,6 +45,11 @@ class Order extends ActiveRecord
     const STATUS_PROCESSING = 1;
     const STATUS_COMPLETED = 2;
     const STATUS_CANCELLED = 3;
+    
+    // Статусы экспорта в 1С
+    const EXPORT_STATUS_NOT_EXPORTED = 0;
+    const EXPORT_STATUS_EXPORTED = 1;
+    const EXPORT_STATUS_ERROR = 2;
 
     public static function tableName(): string
     {
@@ -59,16 +67,19 @@ class Order extends ActiveRecord
     {
         return [
             [['customer_name', 'customer_email', 'customer_phone', 'total_cost'], 'required'],
-            [['user_id', 'status', 'payment_status', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'status', 'payment_status', 'exported_at', 'export_status', 'created_at', 'updated_at'], 'integer'],
             [['total_cost'], 'number'],
             [['note'], 'string'],
             [['uuid'], 'string', 'max' => 36],
             [['uuid'], 'unique'],
             [['customer_name', 'customer_email', 'customer_phone', 'payment_method', 'payment_transaction_id'], 'string', 'max' => 255],
+            [['external_id'], 'string', 'max' => 50],
             [['customer_email'], 'email'],
             ['payment_method', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD]],
             ['payment_status', 'in', 'range' => [self::PAYMENT_STATUS_PENDING, self::PAYMENT_STATUS_PAID, self::PAYMENT_STATUS_FAILED]],
             ['status', 'in', 'range' => [self::STATUS_NEW, self::STATUS_PROCESSING, self::STATUS_COMPLETED, self::STATUS_CANCELLED]],
+            ['export_status', 'in', 'range' => [self::EXPORT_STATUS_NOT_EXPORTED, self::EXPORT_STATUS_EXPORTED, self::EXPORT_STATUS_ERROR]],
+            ['export_status', 'default', 'value' => self::EXPORT_STATUS_NOT_EXPORTED],
         ];
     }
 

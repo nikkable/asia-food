@@ -6,11 +6,14 @@ use context\Commerce1C\config\Commerce1CConfig;
 use context\Commerce1C\interfaces\CommerceAuthInterface;
 use context\Commerce1C\interfaces\CommerceSessionInterface;
 use context\Commerce1C\interfaces\CommerceImportInterface;
+use context\Commerce1C\interfaces\CommerceExportInterface;
 use context\Commerce1C\interfaces\CommerceProcessorInterface;
 use context\Commerce1C\services\CommerceAuthService;
 use context\Commerce1C\services\CommerceSessionService;
 use context\Commerce1C\services\CommerceImportService;
+use context\Commerce1C\services\CommerceExportService;
 use context\Commerce1C\services\CommerceProcessorService;
+use context\Commerce1C\generators\OrderXmlGenerator;
 use Yii;
 
 class Bootstrap
@@ -22,7 +25,9 @@ class Bootstrap
             CommerceSessionInterface::class => CommerceSessionService::class,
             CommerceAuthInterface::class => CommerceAuthService::class,
             CommerceImportInterface::class => CommerceImportService::class,
+            CommerceExportInterface::class => CommerceExportService::class,
             CommerceProcessorInterface::class => CommerceProcessorService::class,
+            OrderXmlGenerator::class => OrderXmlGenerator::class,
         ]);
     }
 }
