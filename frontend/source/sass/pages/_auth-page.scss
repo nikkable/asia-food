@@ -7,7 +7,7 @@
 .auth-page-head {
   text-align: center;
   padding: 60px 0;
-  background: linear-gradient(135deg, #6f42c1, #e83e8c);
+  background: $color-red;
   color: white;
   margin-bottom: 60px;
 }
@@ -108,7 +108,7 @@
 }
 
 .form-control-custom:focus {
-  border-color: #6f42c1;
+  border-color: $color-red;
   background: white;
   box-shadow: 0 0 0 0.2rem rgba(111, 66, 193, 0.25);
   outline: none;
@@ -165,7 +165,7 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #6f42c1, #e83e8c);
+  background: $color-red;
   border: none;
   padding: 15px 30px;
   font-size: 16px;
@@ -184,8 +184,8 @@
 }
 
 .btn-outline-primary {
-  border: 2px solid #6f42c1;
-  color: #6f42c1;
+  border: 2px solid $color-red;
+  color: $color-red;
   background: transparent;
   padding: 15px 30px;
   font-size: 16px;
@@ -200,7 +200,7 @@
 }
 
 .btn-outline-primary:hover {
-  background: #6f42c1;
+  background: $color-red;
   color: white;
   transform: translateY(-2px);
 }
@@ -234,7 +234,7 @@
 
 .auth-link:hover {
   background: #e9ecef;
-  color: #6f42c1;
+  color: $color-red;
   text-decoration: none;
 }
 
@@ -360,11 +360,11 @@
 
 /* Специальные стили для страницы регистрации */
 .auth-page.signup .auth-page-head {
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: $color-red;
 }
 
 .auth-page.signup .btn-primary {
-  background: linear-gradient(135deg, #28a745, #20c997);
+  background: $color-red;
 }
 
 .auth-page.signup .btn-primary:hover {
@@ -372,21 +372,21 @@
 }
 
 .auth-page.signup .btn-outline-primary {
-  border-color: #28a745;
-  color: #28a745;
+  border-color: $color-red;
+  color: $color-red;
 }
 
 .auth-page.signup .btn-outline-primary:hover {
-  background: #28a745;
+  background: $color-red;
 }
 
 .auth-page.signup .form-control-custom:focus {
-  border-color: #28a745;
+  border-color: $color-red;
   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
 }
 
 .auth-page.signup .auth-link:hover {
-  color: #28a745;
+  color: $color-red;
 }
 
 /* Информация о преимуществах */
@@ -400,7 +400,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 15px;
+  //margin-bottom: 15px;
   font-size: 14px;
   color: #666;
 }
@@ -411,12 +411,12 @@
 
 .info-item i {
   font-size: 16px;
-  color: #28a745;
+  color: $color-red;
   width: 20px;
   text-align: center;
   flex-shrink: 0;
 }
 
 .auth-page:not(.signup) .info-item i {
-  color: #6f42c1;
+  color: $color-red;
 }

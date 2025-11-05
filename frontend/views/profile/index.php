@@ -26,35 +26,35 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                 <!-- Статистика пользователя -->
                 <div class="col-lg-4 mb-4">
                     <div class="profile-stats">
-                        <h4>Ваша статистика</h4>
+                        <div class="profile-stats-title">Ваша статистика</div>
                         
-                        <div class="stat-item">
-                            <div class="stat-icon">
+                        <div class="profile-stats-item">
+                            <div class="profile-stats-item-icon">
                                 <i class="fas fa-shopping-bag"></i>
                             </div>
-                            <div class="stat-content">
-                                <div class="stat-number"><?= $totalOrders ?></div>
-                                <div class="stat-label">Всего заказов</div>
+                            <div class="profile-stats-item-content">
+                                <div class="profile-stats-item-number"><?= $totalOrders ?></div>
+                                <div class="profile-stats-item-label">Всего заказов</div>
                             </div>
                         </div>
                         
-                        <div class="stat-item">
-                            <div class="stat-icon">
+                        <div class="profile-stats-item">
+                            <div class="profile-stats-item-icon">
                                 <i class="fas fa-ruble-sign"></i>
                             </div>
-                            <div class="stat-content">
-                                <div class="stat-number"><?= number_format($totalSpent, 0, '.', ' ') ?> ₽</div>
-                                <div class="stat-label">Потрачено</div>
+                            <div class="profile-stats-item-content">
+                                <div class="profile-stats-item-number"><?= number_format($totalSpent, 0, '.', ' ') ?> ₽</div>
+                                <div class="profile-stats-item-label">Потрачено</div>
                             </div>
                         </div>
                         
-                        <div class="stat-item">
-                            <div class="stat-icon">
+                        <div class="profile-stats-item">
+                            <div class="profile-stats-item-icon">
                                 <i class="fas fa-calendar-alt"></i>
                             </div>
-                            <div class="stat-content">
-                                <div class="stat-number"><?= date('d.m.Y', $user->created_at) ?></div>
-                                <div class="stat-label">Дата регистрации</div>
+                            <div class="profile-stats-item-content">
+                                <div class="profile-stats-item-number"><?= date('d.m.Y', $user->created_at) ?></div>
+                                <div class="profile-stats-item-label">Дата регистрации</div>
                             </div>
                         </div>
                     </div>
@@ -63,46 +63,46 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                 <!-- Быстрые действия -->
                 <div class="col-lg-8 mb-4">
                     <div class="profile-actions">
-                        <h4>Быстрые действия</h4>
+                        <div class="profile-actions-title">Быстрые действия</div>
                         
-                        <div class="actions-grid">
-                            <a href="<?= Url::to(['/profile/edit']) ?>" class="action-item">
-                                <div class="action-icon">
+                        <div class="profile-actions-items">
+                            <a href="<?= Url::to(['/profile/edit']) ?>" class="profile-actions-item">
+                                <div class="profile-actions-item-icon">
                                     <i class="fas fa-user-edit"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-content-title">Редактировать</div>
-                                    <div class="action-content-desc">Изменить личные данные</div>
+                                <div class="profile-actions-item-content">
+                                    <div class="profile-actions-item-title">Редактировать</div>
+                                    <div class="profile-actions-item-desc">Изменить личные данные</div>
                                 </div>
                             </a>
                             
-                            <a href="<?= Url::to(['/profile/orders']) ?>" class="action-item">
-                                <div class="action-icon">
+                            <a href="<?= Url::to(['/profile/orders']) ?>" class="profile-actions-item">
+                                <div class="profile-actions-item-icon">
                                     <i class="fas fa-history"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-content-title">История заказов</div>
-                                    <div class="action-content-desc">Посмотреть все заказы</div>
+                                <div class="profile-actions-item-content">
+                                    <div class="profile-actions-item-title">История заказов</div>
+                                    <div class="profile-actions-item-desc">Посмотреть все заказы</div>
                                 </div>
                             </a>
                             
-                            <a href="<?= Url::to(['/catalog']) ?>" class="action-item">
-                                <div class="action-icon">
+                            <a href="<?= Url::to(['/catalog']) ?>" class="profile-actions-item">
+                                <div class="profile-actions-item-icon">
                                     <i class="fas fa-utensils"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-content-title">Каталог</div>
-                                    <div class="action-content-desc">Сделать новый заказ</div>
+                                <div class="profile-actions-item-content">
+                                    <div class="profile-actions-item-title">Каталог</div>
+                                    <div class="profile-actions-item-desc">Сделать новый заказ</div>
                                 </div>
                             </a>
                             
-                            <a href="<?= Url::to(['/contact']) ?>" class="action-item">
-                                <div class="action-icon">
+                            <a href="<?= Url::to(['/contact']) ?>" class="profile-actions-item">
+                                <div class="profile-actions-item-icon">
                                     <i class="fas fa-phone"></i>
                                 </div>
-                                <div class="action-content">
-                                    <div class="action-content-title">Поддержка</div>
-                                    <div class="action-content-desc">Связаться с нами</div>
+                                <div class="profile-actions-item-content">
+                                    <div class="profile-actions-item-title">Поддержка</div>
+                                    <div class="profile-actions-item-desc">Связаться с нами</div>
                                 </div>
                             </a>
                         </div>
@@ -115,7 +115,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             <div class="recent-orders">
                 <div class="section-header">
                     <h4>Последние заказы</h4>
-                    <a href="<?= Url::to(['/profile/orders']) ?>" class="view-all-link">
+                    <a href="<?= Url::to(['/profile/orders']) ?>" class="but but-link">
                         Посмотреть все <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>

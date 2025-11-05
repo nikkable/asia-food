@@ -124,6 +124,27 @@
       cursor: default;
     }
   }
+  &-link {
+    background: none;
+    color: $color-red;
+    padding: 0;
+    &:hover, &:focus {
+      background: none;
+      color: $color-red;
+    }
+    &:hover {
+      background: none;
+      color: $color-red;
+    }
+    &:active {
+      background: none;
+      color: $color-red;
+    }
+    &:disabled, &.disabled {
+      color: $color-grey-light;
+      cursor: default;
+    }
+  }
 
 
 
