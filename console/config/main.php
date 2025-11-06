@@ -28,6 +28,19 @@ return [
                 [
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
+                    'except' => [
+                        'yii\db\*',
+                    ],
+                ],
+                [
+                    'class' => \yii\log\FileTarget::class,
+                    'levels' => ['info'],
+                    'except' => [
+                        'yii\db\*',
+                        'application',
+                    ],
+                    'logFile' => '@runtime/logs/info.log',
+                    'logVars' => [], // Отключаем автоматическое логирование переменных
                 ],
             ],
         ],

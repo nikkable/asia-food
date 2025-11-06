@@ -26,9 +26,9 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="profile-edit-container">
-                        <div class="section-header">
-                            <h4>Личные данные</h4>
-                            <a href="<?= Url::to(['/profile']) ?>" class="back-link">
+                        <div class="profile-edit-head">
+                            <div class="title-2">Личные данные</div>
+                            <a href="<?= Url::to(['/profile']) ?>" class="but but-link">
                                 <i class="fas fa-arrow-left"></i> Назад в профиль
                             </a>
                         </div>
@@ -40,12 +40,9 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group-custom">
-                                    <div class="input-icon">
-                                        <i class="fas fa-user"></i>
-                                    </div>
+                                <div class="form-group">
                                     <?= $form->field($user, 'username')->textInput([
-                                        'class' => 'form-control-custom',
+                                        'class' => 'field-text',
                                         'placeholder' => 'Имя пользователя',
                                         'readonly' => true
                                     ])->label('Имя пользователя') ?>
@@ -54,12 +51,9 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             </div>
                             
                             <div class="col-md-6">
-                                <div class="form-group-custom">
-                                    <div class="input-icon">
-                                        <i class="fas fa-envelope"></i>
-                                    </div>
+                                <div class="form-group">
                                     <?= $form->field($user, 'email')->textInput([
-                                        'class' => 'form-control-custom',
+                                        'class' => 'field-text',
                                         'placeholder' => 'Email адрес',
                                         'readonly' => true
                                     ])->label('Email') ?>
@@ -70,26 +64,20 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group-custom">
-                                    <div class="input-icon">
-                                        <i class="fas fa-id-card"></i>
-                                    </div>
+                                <div class="form-group">
                                     <?= $form->field($user, 'full_name')->textInput([
-                                        'class' => 'form-control-custom',
+                                        'class' => 'field-text',
                                         'placeholder' => 'Полное имя'
                                     ])->label('Полное имя') ?>
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
-                                <div class="form-group-custom">
-                                    <div class="input-icon">
-                                        <i class="fas fa-phone"></i>
-                                    </div>
+                                <div class="form-group">
                                     <?= $form->field($user, 'phone')->widget(MaskedInput::class, [
                                         'mask' => '+7 (999) 999-99-99',
                                         'options' => [
-                                            'class' => 'form-control-custom',
+                                            'class' => 'field-text',
                                             'placeholder' => '+7 (999) 123-45-67'
                                         ]
                                     ])->label('Телефон') ?>
@@ -99,26 +87,20 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group-custom">
-                                    <div class="input-icon">
-                                        <i class="fas fa-calendar"></i>
-                                    </div>
+                                <div class="form-group">
                                     <?= $form->field($user, 'birth_date')->textInput([
                                         'type' => 'date',
-                                        'class' => 'form-control-custom'
+                                        'class' => 'field-text'
                                     ])->label('Дата рождения') ?>
                                 </div>
                             </div>
                             
                             <div class="col-md-6">
-                                <div class="form-group-custom">
-                                    <div class="input-icon">
-                                        <i class="fas fa-venus-mars"></i>
-                                    </div>
+                                <div class="form-group">
                                     <?= $form->field($user, 'gender')->dropDownList(
                                         User::getGenderList(),
                                         [
-                                            'class' => 'form-control-custom',
+                                            'class' => 'field-text',
                                             'prompt' => 'Выберите пол'
                                         ]
                                     )->label('Пол') ?>
@@ -126,18 +108,15 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             </div>
                         </div>
                         
-                        <div class="form-group-custom">
-                            <div class="input-icon">
-                                <i class="fas fa-map-marker-alt"></i>
-                            </div>
+                        <div class="form-group">
                             <?= $form->field($user, 'delivery_address')->textarea([
-                                'class' => 'form-control-custom',
+                                'class' => 'field-textarea',
                                 'placeholder' => 'Адрес доставки по умолчанию',
                                 'rows' => 3
                             ])->label('Адрес доставки') ?>
                         </div>
                         
-                        <div class="form-actions">
+                        <div class="profile-edit-actions">
                             <?= Html::submitButton('<i class="fas fa-save"></i> Сохранить изменения', [
                                 'class' => 'but but-three'
                             ]) ?>
@@ -148,26 +127,6 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         </div>
                         
                         <?php ActiveForm::end(); ?>
-                        
-                        <div class="profile-info">
-                            <div class="info-section">
-                                <h5><i class="fas fa-info-circle"></i> Информация</h5>
-                                <div class="info-grid">
-                                    <div class="info-item">
-                                        <i class="fas fa-shield-alt"></i>
-                                        <span>Ваши данные надежно защищены</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <i class="fas fa-truck"></i>
-                                        <span>Адрес доставки будет автоматически подставляться при оформлении заказов</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <i class="fas fa-user-check"></i>
-                                        <span>Заполненный профиль ускоряет оформление заказов</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

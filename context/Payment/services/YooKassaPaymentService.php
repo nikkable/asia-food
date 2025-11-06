@@ -21,8 +21,8 @@ class YooKassaPaymentService extends AbstractService implements PaymentServiceIn
     private const API_URL = 'https://api.yookassa.ru/v3/';
 
     // Данные для подключения (боевые)
-    private const SHOP_ID = '1185039';
-    private const SECRET_KEY = 'live_PK687zdPfcCr7hnC_wUbPj8-JXFV6sV9OVz8_dJxHIw';
+    private const SHOP_ID = '1199810';
+    private const SECRET_KEY = 'test_dlsQnd_IEYdrXEwWziQIOqhYZIgUUd9uOC43Dayc_dE';
 
     public function __construct(
         private readonly OrderRepositoryInterface $orderRepository,

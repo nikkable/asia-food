@@ -25,11 +25,24 @@ return [
             'name' => 'advanced-frontend',
         ],
         'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 0,
+            'traceLevel' => 0,
             'targets' => [
                 [
                     'class' => \yii\log\FileTarget::class,
                     'levels' => ['error', 'warning'],
+                    'except' => [
+                        'yii\db\*',
+                    ],
+                ],
+                [
+                    'class' => \yii\log\FileTarget::class,
+                    'levels' => ['info'],
+                    'except' => [
+                        'yii\db\*',
+                        'application',
+                    ],
+                    'logFile' => '@runtime/logs/info.log',
+                    'logVars' => [], // Отключаем автоматическое логирование переменных
                 ],
             ],
         ],

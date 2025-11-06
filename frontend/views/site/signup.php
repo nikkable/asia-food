@@ -20,9 +20,8 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
                     <div class="auth-form-container">
-                        <div class="auth-form-header">
-                            <h3>Регистрация</h3>
-                            <p>Заполните форму для создания аккаунта</p>
+                        <div class="auth-form-head">
+                            <div class="title-2">Регистрация</div>
                         </div>
                         
                         <?php $form = ActiveForm::begin([
@@ -30,41 +29,32 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             'options' => ['class' => 'auth-form']
                         ]); ?>
                         
-                        <div class="form-group-custom">
-                            <div class="input-icon">
-                                <i class="fas fa-user"></i>
-                            </div>
+                        <div class="form-group">
                             <?= $form->field($model, 'username')->textInput([
                                 'autofocus' => true,
                                 'placeholder' => 'Имя пользователя',
-                                'class' => 'form-control-custom'
+                                'class' => 'field-text'
                             ])->label(false) ?>
                         </div>
                         
-                        <div class="form-group-custom">
-                            <div class="input-icon">
-                                <i class="fas fa-envelope"></i>
-                            </div>
+                        <div class="form-group">
                             <?= $form->field($model, 'email')->textInput([
                                 'placeholder' => 'Email адрес',
-                                'class' => 'form-control-custom',
+                                'class' => 'field-text',
                                 'type' => 'email'
                             ])->label(false) ?>
                         </div>
                         
-                        <div class="form-group-custom">
-                            <div class="input-icon">
-                                <i class="fas fa-lock"></i>
-                            </div>
+                        <div class="form-group">
                             <?= $form->field($model, 'password')->passwordInput([
                                 'placeholder' => 'Пароль',
-                                'class' => 'form-control-custom'
+                                'class' => 'field-text'
                             ])->label(false) ?>
                         </div>
                         
                         <div class="form-group-submit">
                             <?= Html::submitButton('<i class="fas fa-user-plus"></i> Зарегистрироваться', [
-                                'class' => 'btn btn-primary btn-lg btn-block',
+                                'class' => 'but but-three',
                                 'name' => 'signup-button'
                             ]) ?>
                         </div>
@@ -78,23 +68,8 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         <div class="auth-register">
                             <p>Уже есть аккаунт?</p>
                             <?= Html::a('<i class="fas fa-sign-in-alt"></i> Войти', ['site/login'], [
-                                'class' => 'btn btn-outline-primary btn-lg'
+                                'class' => 'but but-secondary'
                             ]) ?>
-                        </div>
-                        
-                        <div class="auth-info">
-                            <div class="info-item">
-                                <i class="fas fa-shield-alt"></i>
-                                <span>Ваши данные защищены</span>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-gift"></i>
-                                <span>Специальные предложения для зарегистрированных пользователей</span>
-                            </div>
-                            <div class="info-item">
-                                <i class="fas fa-history"></i>
-                                <span>История заказов и быстрое повторное оформление</span>
-                            </div>
                         </div>
                     </div>
                 </div>

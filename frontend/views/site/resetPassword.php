@@ -10,22 +10,51 @@ use yii\bootstrap5\ActiveForm;
 $this->title = 'Reset password';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-reset-password">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please choose your new password:</p>
+<div class="auth-page signup">
+    <div class="container">
+        <div class="auth-page-main">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 col-md-8">
+                    <div class="auth-form-container">
+                        <div class="auth-form-head">
+                            <div class="title-2">Введите ваш новый пароль</div>
+                        </div>
 
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'reset-password-form']); ?>
+                        <?php $form = ActiveForm::begin([
+                            'id' => 'reset-password-form',
+                            'options' => ['class' => 'auth-form']
+                        ]); ?>
 
-                <?= $form->field($model, 'password')->passwordInput(['autofocus' => true]) ?>
+                        <div class="form-group">
+                            <?= $form->field($model, 'password')->passwordInput([
+                                'placeholder' => 'Пароль',
+                                'class' => 'field-text'
+                            ])->label(false) ?>
+                        </div>
 
-                <div class="form-group">
-                    <?= Html::submitButton('Save', ['class' => 'btn btn-primary']) ?>
+                        <div class="form-group-submit">
+                            <?= Html::submitButton('<i class="fas fa-user-plus"></i> Отправить', [
+                                'class' => 'but but-three',
+                                'name' => 'signup-button'
+                            ]) ?>
+                        </div>
+
+                        <?php ActiveForm::end(); ?>
+
+                        <div class="auth-divider">
+                            <span>или</span>
+                        </div>
+
+                        <div class="auth-register">
+                            <p>Вернуться?</p>
+                            <?= Html::a('<i class="fas fa-sign-in-alt"></i> Войти', ['site/login'], [
+                                'class' => 'but but-secondary'
+                            ]) ?>
+                        </div>
+                    </div>
                 </div>
-
-            <?php ActiveForm::end(); ?>
+            </div>
         </div>
     </div>
 </div>

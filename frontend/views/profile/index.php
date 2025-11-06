@@ -26,7 +26,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                 <!-- Статистика пользователя -->
                 <div class="col-lg-4 mb-4">
                     <div class="profile-stats">
-                        <div class="profile-stats-title">Ваша статистика</div>
+                        <div class="profile-stats-title title-2">Ваша статистика</div>
                         
                         <div class="profile-stats-item">
                             <div class="profile-stats-item-icon">
@@ -63,7 +63,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                 <!-- Быстрые действия -->
                 <div class="col-lg-8 mb-4">
                     <div class="profile-actions">
-                        <div class="profile-actions-title">Быстрые действия</div>
+                        <div class="profile-actions-title title-2">Быстрые действия</div>
                         
                         <div class="profile-actions-items">
                             <a href="<?= Url::to(['/profile/edit']) ?>" class="profile-actions-item">
@@ -112,64 +112,64 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             
             <!-- Последние заказы -->
             <?php if (!empty($recentOrders)): ?>
-            <div class="recent-orders">
-                <div class="section-header">
-                    <h4>Последние заказы</h4>
-                    <a href="<?= Url::to(['/profile/orders']) ?>" class="but but-link">
-                        Посмотреть все <i class="fas fa-arrow-right"></i>
+                <div class="recent-orders">
+                    <div class="recent-orders-head">
+                        <div class="recent-orders-title title-2">Последние заказы</div>
+                        <a href="<?= Url::to(['/profile/orders']) ?>" class="but but-link">
+                            Посмотреть все <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    <div class="recent-orders-list">
+                        <?php foreach ($recentOrders as $order): ?>
+                        <div class="order-item">
+                            <div class="order-item-info">
+                                <div class="order-item-number">
+                                    <strong>Заказ №<?= $order->id ?></strong>
+                                </div>
+                                <div class="order-item-date">
+                                    <?= date('d.m.Y H:i', $order->created_at) ?>
+                                </div>
+                            </div>
+
+                            <div class="order-item-status">
+                                <span class="badge badge-status-<?= $order->status ?>">
+                                    <?php
+                                    switch ($order->status) {
+                                        case 0: echo 'Новый'; break;
+                                        case 1: echo 'В обработке'; break;
+                                        case 2: echo 'Выполнен'; break;
+                                        case 3: echo 'Отменен'; break;
+                                        default: echo 'Неизвестно';
+                                    }
+                                    ?>
+                                </span>
+                            </div>
+
+                            <div class="order-item-amount">
+                                <strong><?= number_format($order->total_cost, 0, '.', ' ') ?> ₽</strong>
+                            </div>
+
+                            <div class="order-item-actions">
+                                <a href="<?= Url::to(['/order/view', 'uuid' => $order->uuid]) ?>" class="but but-secondary">
+                                    <i class="fas fa-eye"></i> Подробнее
+                                </a>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="no-orders">
+                    <div class="no-orders-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="no-orders-title">У вас пока нет заказов</div>
+                    <p>Самое время сделать первый заказ!</p>
+                    <a href="<?= Url::to(['/catalog']) ?>" class="but but-primary">
+                        <i class="fas fa-utensils"></i> Перейти в каталог
                     </a>
                 </div>
-                
-                <div class="orders-list">
-                    <?php foreach ($recentOrders as $order): ?>
-                    <div class="order-item">
-                        <div class="order-info">
-                            <div class="order-number">
-                                <strong>Заказ №<?= $order->id ?></strong>
-                            </div>
-                            <div class="order-date">
-                                <?= date('d.m.Y H:i', $order->created_at) ?>
-                            </div>
-                        </div>
-                        
-                        <div class="order-status">
-                            <span class="status-badge status-<?= $order->status ?>">
-                                <?php
-                                switch ($order->status) {
-                                    case 0: echo 'Новый'; break;
-                                    case 1: echo 'В обработке'; break;
-                                    case 2: echo 'Выполнен'; break;
-                                    case 3: echo 'Отменен'; break;
-                                    default: echo 'Неизвестно';
-                                }
-                                ?>
-                            </span>
-                        </div>
-                        
-                        <div class="order-amount">
-                            <strong><?= number_format($order->total_cost, 0, '.', ' ') ?> ₽</strong>
-                        </div>
-                        
-                        <div class="order-actions">
-                            <a href="<?= Url::to(['/order/view', 'uuid' => $order->uuid]) ?>" class="but but-secondary">
-                                <i class="fas fa-eye"></i> Подробнее
-                            </a>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php else: ?>
-            <div class="no-orders">
-                <div class="no-orders-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                </div>
-                <h4>У вас пока нет заказов</h4>
-                <p>Самое время сделать первый заказ!</p>
-                <a href="<?= Url::to(['/catalog']) ?>" class="but but-primary">
-                    <i class="fas fa-utensils"></i> Перейти в каталог
-                </a>
-            </div>
             <?php endif; ?>
         </div>
     </div>

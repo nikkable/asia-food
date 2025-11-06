@@ -9,7 +9,6 @@ use yii\bootstrap5\ActiveForm;
 
 $this->title = 'Вход в личный кабинет';
 
-// Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 ?>
 
@@ -19,9 +18,8 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-8">
                     <div class="auth-form-container">
-                        <div class="auth-form-header">
-                            <h3>Вход в систему</h3>
-                            <p>Введите свои данные для входа</p>
+                        <div class="auth-form-head">
+                            <div class="title-2">Войти в личный кабинет</div>
                         </div>
                         
                         <?php $form = ActiveForm::begin([
@@ -29,56 +27,47 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             'options' => ['class' => 'auth-form']
                         ]); ?>
                         
-                        <div class="form-group-custom">
-                            <div class="input-icon">
-                                <i class="fas fa-user"></i>
-                            </div>
+                        <div class="form-group">
                             <?= $form->field($model, 'username')->textInput([
                                 'autofocus' => true,
                                 'placeholder' => 'Имя пользователя или email',
-                                'class' => 'form-control-custom'
+                                'class' => 'field-text'
                             ])->label(false) ?>
                         </div>
                         
-                        <div class="form-group-custom">
-                            <div class="input-icon">
-                                <i class="fas fa-lock"></i>
-                            </div>
+                        <div class="form-group">
                             <?= $form->field($model, 'password')->passwordInput([
                                 'placeholder' => 'Пароль',
-                                'class' => 'form-control-custom'
+                                'class' => 'field-text'
                             ])->label(false) ?>
                         </div>
                         
-                        <div class="form-group-checkbox">
-                            <?= $form->field($model, 'rememberMe')->checkbox([
-                                'class' => 'custom-checkbox'
-                            ])->label('Запомнить меня') ?>
+                        <div class="form-group">
+                            <div class="field-checkbox">
+                                <input type="checkbox" id="loginform-rememberme" class="form-check-input" name="LoginForm[rememberMe]" value="<?= $model->rememberMe ?>">
+                                <label for="loginform-rememberme">Запомнить меня</label>
+                            </div>
                         </div>
-                        
+
                         <div class="form-group-submit">
                             <?= Html::submitButton('<i class="fas fa-sign-in-alt"></i> Войти', [
-                                'class' => 'btn btn-primary btn-lg btn-block',
+                                'class' => 'but but-three',
                                 'name' => 'login-button'
                             ]) ?>
                         </div>
                         
                         <?php ActiveForm::end(); ?>
-                        
-                        <div class="auth-links">
-                            <div class="auth-link-item">
-                                <?= Html::a('<i class="fas fa-key"></i> Забыли пароль?', ['site/request-password-reset'], [
-                                    'class' => 'auth-link'
-                                ]) ?>
-                            </div>
-                            
-                            <div class="auth-link-item">
-                                <?= Html::a('<i class="fas fa-envelope"></i> Повторно отправить письмо', ['site/resend-verification-email'], [
-                                    'class' => 'auth-link'
-                                ]) ?>
-                            </div>
+
+                        <div>
+                            <p>
+                                <?= Html::a('Забыли пароль?', ['site/request-password-reset']) ?>
+                            </p>
+                            <p>
+                                <?= Html::a('Повторно отправить письмо', ['site/resend-verification-email']) ?>
+                            </p>
                         </div>
-                        
+
+
                         <div class="auth-divider">
                             <span>или</span>
                         </div>
@@ -86,7 +75,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         <div class="auth-register">
                             <p>Нет аккаунта?</p>
                             <?= Html::a('<i class="fas fa-user-plus"></i> Зарегистрироваться', ['site/signup'], [
-                                'class' => 'btn btn-outline-primary btn-lg'
+                                'class' => 'but but-secondary'
                             ]) ?>
                         </div>
                     </div>

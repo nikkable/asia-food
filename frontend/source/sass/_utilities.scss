@@ -524,6 +524,19 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
     color: $color-grey-middle;
     background: rgba($color-grey-middle, 0.1);
   }
+
+  &-status {
+    &-0 { background: #ffc107; color: #856404; }
+    &-1 { background: #17a2b8; color: white; }
+    &-2 { background: #28a745; color: white; }
+    &-3 { background: #dc3545; color: white; }
+  }
+
+  &-payment {
+    &-0 { background: #ffc107; color: #856404; }
+    &-1 { background: #28a745; color: white; }
+    &-2 { background: #dc3545; color: white; }
+  }
 }
 
 // Text
@@ -842,6 +855,11 @@ $paddings: 0, 0.5rem, 1rem, 1.5rem, 2rem, 4rem;
     align-items: center;
     gap: 10px;
     font-size: 2rem;
+  }
+
+  &-2 {
+    font-size: 2.4rem;
+    font-weight: bold;
   }
 }
 
