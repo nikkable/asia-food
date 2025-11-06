@@ -33,6 +33,10 @@
     transition: all 0.3s ease;
     color: #dc3545;
     font-size: 14px;
+    svg {
+      width: 21px;
+      height: 18px;
+    }
     &.active {
       svg {
         fill: #dc3545;
