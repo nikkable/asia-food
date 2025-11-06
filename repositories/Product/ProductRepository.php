@@ -20,7 +20,10 @@ class ProductRepository implements ProductRepositoryInterface
 
     public function findAll(int $limit = null, int $offset = null): array
     {
-        $query = Product::find()->where(['status' => 1])->orderBy(['id' => SORT_DESC]);
+        $query = Product::find()
+            ->where(['status' => 1])
+            ->andWhere(['>', 'quantity', 0])
+            ->orderBy(['id' => SORT_DESC]);
         
         if ($limit !== null) {
             $query->limit($limit);
@@ -35,7 +38,10 @@ class ProductRepository implements ProductRepositoryInterface
     
     public function findAllByCategory(Category $category, int $limit = null, int $offset = null): array
     {
-        $query = Product::find()->where(['category_id' => $category->id, 'status' => 1])->orderBy(['id' => SORT_DESC]);
+        $query = Product::find()
+            ->where(['category_id' => $category->id, 'status' => 1])
+            ->andWhere(['>', 'quantity', 0])
+            ->orderBy(['id' => SORT_DESC]);
         
         if ($limit !== null) {
             $query->limit($limit);
@@ -50,12 +56,18 @@ class ProductRepository implements ProductRepositoryInterface
     
     public function countAll(): int
     {
-        return Product::find()->where(['status' => 1])->count();
+        return Product::find()
+            ->where(['status' => 1])
+            ->andWhere(['>', 'quantity', 0])
+            ->count();
     }
     
     public function countByCategory(Category $category): int
     {
-        return Product::find()->where(['category_id' => $category->id, 'status' => 1])->count();
+        return Product::find()
+            ->where(['category_id' => $category->id, 'status' => 1])
+            ->andWhere(['>', 'quantity', 0])
+            ->count();
     }
     
     public function searchByName(string $query, int $limit = 10): array
@@ -67,6 +79,7 @@ class ProductRepository implements ProductRepositoryInterface
         return Product::find()
             ->where(['like', 'name', $query])
             ->andWhere(['status' => 1])
+            ->andWhere(['>', 'quantity', 0])
             ->orderBy(['id' => SORT_DESC])
             ->limit($limit)
             ->all();

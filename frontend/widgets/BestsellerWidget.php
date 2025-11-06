@@ -15,7 +15,7 @@ class BestsellerWidget extends Widget
     
     public string $subtitle = 'Самые популярные товары нашего магазина';
     
-    public int $limit = 20;
+    public int $limit = 8;
     
     public function __construct(
         private readonly BestsellerServiceInterface $bestsellerService,

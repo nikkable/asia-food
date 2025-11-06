@@ -26,7 +26,7 @@ class PopularProductWidget extends Widget
 
         $product = $this->productRepository->findBySlug($this->slug);
         
-        if (!$product) {
+        if (!$product || $product->quantity <= 0) {
             return '';
         }
 

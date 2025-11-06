@@ -35,6 +35,7 @@ class BestsellerRepository implements BestsellerRepositoryInterface
         
         $products = Product::find()
             ->where(['id' => $productIds, 'status' => 1])
+            ->andWhere(['>', 'quantity', 0])
             ->all();
         
         $sortedProducts = [];
