@@ -126,9 +126,8 @@ class ProductSearchWidget {
     }
     
     createResultItem(product) {
-        const item = document.createElement('a');
+        const item = document.createElement('div');
         item.className = 'search-result-item';
-        item.href = product.url;
         
         const stockClass = product.inStock ? 'in-stock' : 'out-of-stock';
         const stockText = product.inStock ? 'В наличии' : 'Нет в наличии';
@@ -143,11 +142,14 @@ class ProductSearchWidget {
                 <div class="search-result-price">${this.escapeHtml(product.priceFormatted)}</div>
                 <div class="search-result-stock ${stockClass}">${stockText}</div>
             </div>
+            <button type="button" 
+                    class="search-result-add-btn js-add-to-cart-btn" 
+                    data-product-id="${product.id}"
+                    data-product-name="${this.escapeHtml(product.name)}"
+                    ${!product.inStock ? 'disabled' : ''}>
+                ${product.inStock ? 'В корзину' : 'Нет в наличии'}
+            </button>
         `;
-        
-        item.addEventListener('click', () => {
-            this.hideDropdown();
-        });
         
         return item;
     }

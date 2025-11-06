@@ -1,0 +1,134 @@
+/* Стили для виджета поиска товаров */
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    border-bottom: 1px solid #eee;
+    transition: background-color 0.2s;
+    gap: 12px;
+}
+
+.search-result-item:hover {
+    background-color: #f8f9fa;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.search-result-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-result-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search-result-price {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ff6b6b;
+    margin-bottom: 4px;
+}
+
+.search-result-stock {
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.search-result-stock.in-stock {
+    color: #28a745;
+}
+
+.search-result-stock.out-of-stock {
+    color: #dc3545;
+}
+
+.search-result-add-btn {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.search-result-add-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.search-result-add-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.search-result-add-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.search-result-add-btn i {
+    font-size: 14px;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+    .search-result-item {
+        padding: 10px;
+        gap: 10px;
+    }
+    
+    .search-result-image {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .search-result-name {
+        font-size: 13px;
+    }
+    
+    .search-result-price {
+        font-size: 14px;
+    }
+    
+    .search-result-add-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .search-result-add-btn span {
+        display: none;
+    }
+    
+    .search-result-add-btn {
+        padding: 8px;
+        min-width: 36px;
+        justify-content: center;
+    }
+}

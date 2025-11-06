@@ -25,6 +25,7 @@ class ProductSearchWidget extends Widget
     {
         parent::init();
         
+        $this->view->registerCssFile('/css/product-search.css');
         $this->view->registerJsFile('/js/product-search.js', ['position' => View::POS_END]);
     }
 
