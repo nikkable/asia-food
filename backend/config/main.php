@@ -10,6 +10,8 @@ return [
     'name' => 'Asia Food',
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
+    'language' => 'ru-RU',
+    'sourceLanguage' => 'ru-RU',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'container' => [

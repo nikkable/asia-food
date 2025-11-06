@@ -98,3 +98,8 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 </div>
+
+<?php
+// Подключаем скрипт для центрирования активной категории на мобильных
+$this->registerJsFile('@web/js/category-scroll.js', ['depends' => [\yii\web\JqueryAsset::class]]);
+?>

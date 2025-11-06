@@ -123,6 +123,8 @@
         max-width: 100%;
         overflow-x: auto;
         gap: 0 10px;
+        scroll-behavior: smooth;
+        -webkit-overflow-scrolling: touch;
       }
       li {
         list-style: none;
