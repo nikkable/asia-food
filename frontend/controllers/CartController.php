@@ -194,7 +194,7 @@ class CartController extends Controller
     {
         $cart = $this->cartService->getCart();
         
-        return $this->renderPartial('_modal_content', [
+        return $this->renderAjax('_modal_content', [
             'cart' => $cart,
         ]);
     }

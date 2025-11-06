@@ -23,18 +23,30 @@ class SignupForm extends Model
     {
         return [
             ['username', 'trim'],
-            ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
-            ['username', 'string', 'min' => 2, 'max' => 255],
+            ['username', 'required', 'message' => '{attribute} обязательно для заполнения.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя пользователя уже занято.'],
+            ['username', 'string', 'min' => 2, 'max' => 255, 'tooShort' => '{attribute} должно содержать минимум {min} символа.', 'tooLong' => '{attribute} не может содержать более {max} символов.'],
 
             ['email', 'trim'],
-            ['email', 'required'],
-            ['email', 'email'],
-            ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'required', 'message' => '{attribute} обязательно для заполнения.'],
+            ['email', 'email', 'message' => 'Неверный формат email адреса.'],
+            ['email', 'string', 'max' => 255, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Этот email адрес уже зарегистрирован.'],
 
-            ['password', 'required'],
-            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength']],
+            ['password', 'required', 'message' => '{attribute} обязательно для заполнения.'],
+            ['password', 'string', 'min' => Yii::$app->params['user.passwordMinLength'], 'tooShort' => '{attribute} должен содержать минимум {min} символов.'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Имя пользователя',
+            'email' => 'Email',
+            'password' => 'Пароль',
         ];
     }
 

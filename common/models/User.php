@@ -68,13 +68,34 @@ class User extends ActiveRecord implements IdentityInterface
             
             // Профильные поля
             [['full_name', 'phone', 'delivery_address'], 'string'],
-            ['full_name', 'string', 'max' => 255],
-            ['phone', 'string', 'max' => 20],
-            ['phone', 'match', 'pattern' => '/^[\+]?[0-9\s\-\(\)]{10,20}$/', 'message' => 'Неверный формат телефона'],
-            ['birth_date', 'date', 'format' => 'php:Y-m-d'],
+            ['full_name', 'string', 'max' => 255, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            ['phone', 'string', 'max' => 20, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            ['phone', 'match', 'pattern' => '/^[\+]?[0-9\s\-\(\)]{10,20}$/', 'message' => 'Неверный формат телефона. Используйте формат: +7 (999) 123-45-67'],
+            ['birth_date', 'date', 'format' => 'php:Y-m-d', 'message' => 'Неверный формат даты.'],
             ['gender', 'integer'],
-            ['gender', 'in', 'range' => [self::GENDER_NOT_SPECIFIED, self::GENDER_MALE, self::GENDER_FEMALE]],
+            ['gender', 'in', 'range' => [self::GENDER_NOT_SPECIFIED, self::GENDER_MALE, self::GENDER_FEMALE], 'message' => 'Выберите корректное значение.'],
             ['gender', 'default', 'value' => self::GENDER_NOT_SPECIFIED],
+            ['delivery_address', 'string', 'max' => 500, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+        ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Имя пользователя',
+            'email' => 'Email',
+            'status' => 'Статус',
+            'created_at' => 'Дата регистрации',
+            'updated_at' => 'Дата обновления',
+            'full_name' => 'Полное имя',
+            'phone' => 'Телефон',
+            'delivery_address' => 'Адрес доставки',
+            'birth_date' => 'Дата рождения',
+            'gender' => 'Пол',
         ];
     }
 

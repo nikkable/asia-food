@@ -28,14 +28,14 @@ class QuickOrderForm extends Model
     public function rules()
     {
         return [
-            [['customerName', 'customerPhone', 'paymentMethod'], 'required'],
-            [['customerName'], 'string', 'max' => 100],
-            [['customerPhone'], 'string', 'max' => 20],
-            [['customerEmail'], 'email'],
-            [['customerEmail'], 'string', 'max' => 100],
-            [['deliveryAddress'], 'string', 'max' => 255],
-            [['orderComment'], 'string', 'max' => 1000],
-            ['paymentMethod', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD]],
+            [['customerName', 'customerPhone', 'paymentMethod'], 'required', 'message' => '{attribute} обязательно для заполнения.'],
+            [['customerName'], 'string', 'max' => 100, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            [['customerPhone'], 'string', 'max' => 20, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            [['customerEmail'], 'email', 'message' => 'Неверный формат email адреса.'],
+            [['customerEmail'], 'string', 'max' => 100, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            [['deliveryAddress'], 'string', 'max' => 255, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            [['orderComment'], 'string', 'max' => 1000, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            ['paymentMethod', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD], 'message' => 'Выберите корректный способ оплаты.'],
         ];
     }
 
