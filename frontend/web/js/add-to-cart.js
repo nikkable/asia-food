@@ -27,8 +27,7 @@ $(document).ready(function() {
                 if (response.success) {
                     // Показываем успешное сообщение
                     button.text('Добавлено!')
-                          .removeClass('btn-primary btn-secondary btn-three btn-danger btn-warning btn-info btn-light btn-dark')
-                          .addClass('btn-success');
+                          .addClass('but-success');
                     
                     // Обновляем счетчик корзины если есть
                     if ($('.js-cart-counter').length) {

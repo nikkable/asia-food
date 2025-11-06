@@ -4,7 +4,7 @@ function showNotification(type, message) {
     var notificationContainer = $('#notification-container');
     if (notificationContainer.length === 0) {
         // Если контейнера нет, создаем его
-        $('body').append('<div id="notification-container" style="position: fixed; top: 20px; right: 20px; z-index: 9999;"></div>');
+        $('body').append('<div id="notification-container" style="position: fixed; top: 20px; right: 20px; left: 10px; z-index: 9999;"></div>');
         notificationContainer = $('#notification-container');
     }
     

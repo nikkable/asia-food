@@ -54,8 +54,8 @@ $(document).ready(function() {
             }
             
             // Обновляем кнопку оформления заказа
-            if ($('.btn-success').length) {
-                $('.btn-success').text('Оформить заказ на ' + formatPrice(response.cartTotal));
+            if ($('.but-success').length) {
+                $('.but-success').text('Оформить заказ на ' + formatPrice(response.cartTotal));
             }
             
             // Если товар был удален, обновляем модальное окно

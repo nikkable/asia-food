@@ -47,10 +47,13 @@
     }
 
     &-number {
-      font-size: 24px;
+      font-size: 2.4rem;
       font-weight: 700;
       color: #333;
       line-height: 1;
+      @media(max-width: #{$break-max-sm}) {
+        font-size: 1.8rem;
+      }
     }
     &-label {
       font-size: 14px;
@@ -129,7 +132,7 @@
 .recent-orders {
   background: white;
   border-radius: 20px;
-  padding: 40px;
+  padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   margin-top: 30px;
   &-head {
@@ -148,10 +151,14 @@
 .order-item {
   display: flex;
   align-items: center;
+  gap: 10px 20px;
   padding: 20px;
   background: #f8f9fa;
   border-radius: 12px;
   transition: all 0.3s ease;
+  @media(max-width: #{$break-max-sm}) {
+    flex-wrap: wrap;
+  }
   &:hover {
     background: #e9ecef;
   }
@@ -161,13 +168,14 @@
   &-number {
     font-size: 16px;
     margin-bottom: 5px;
+    white-space: nowrap;
   }
   &-date {
     font-size: 14px;
     color: #666;
   }
   &-status {
-    margin: 0 20px;
+
   }
   &-badge {
     padding: 6px 12px;
@@ -179,9 +187,9 @@
   }
 
   &-amount {
-    margin: 0 20px;
     font-size: 18px;
     color: #333;
+    white-space: nowrap;
   }
   &-actions {
   }
@@ -281,8 +289,11 @@
 .orders-history {
   background: white;
   border-radius: 20px;
-  padding: 40px;
+  padding: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  @media(max-width: #{$break-max-sm}) {
+    padding: 20px;
+  }
   &-head {
     display: flex;
     align-items: center;
@@ -313,6 +324,12 @@
     padding: 25px;
     background: white;
     border-bottom: 1px solid #e9ecef;
+    @media(max-width: #{$break-max-sm}) {
+      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 10px 0;
+      padding: 25px 0;
+    }
   }
   &-body {
     padding: 20px 25px;
@@ -321,6 +338,9 @@
     padding: 20px 25px;
     background: white;
     border-top: 1px solid #e9ecef;
+    @media(max-width: #{$break-max-sm}) {
+      padding: 20px 0;
+    }
   }
 
   &-title {
@@ -345,6 +365,9 @@
     flex-direction: column;
     gap: 8px;
     align-items: flex-end;
+    @media(max-width: #{$break-max-sm}) {
+      align-items: flex-start;
+    }
   }
 
   &-details {
@@ -378,7 +401,7 @@
   &-container {
     background: white;
     border-radius: 20px;
-    padding: 40px;
+    padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
   &-head {

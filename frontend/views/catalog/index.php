@@ -56,9 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
                                 </div>
                                 <div class="product-name">
-                                    <?= Html::a(Html::encode($product->name), ['product/view', 'slug' => $product->slug], [
-                                        'class' => 'text-decoration-none text-dark'
-                                    ]) ?>
+                                    <?= Html::encode($product->name) ?>
                                 </div>
                                 <?php if ($product->description): ?>
                                     <div class="product-desc"><?= Html::encode($product->description) ?></div>
