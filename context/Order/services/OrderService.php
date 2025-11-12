@@ -5,6 +5,8 @@ namespace context\Order\services;
 use context\AbstractService;
 use context\Cart\models\Cart;
 use context\Order\interfaces\OrderServiceInterface;
+use context\Notification\NotificationEvents;
+use context\Notification\events\OrderEvent;
 use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\models\Order;
 use repositories\Order\models\OrderItem;
@@ -78,6 +80,7 @@ class OrderService extends AbstractService implements OrderServiceInterface
             }
 
             $transaction->commit();
+            Yii::$app->trigger(NotificationEvents::ORDER_CREATED, new OrderEvent(['order' => $order]));
             return $order;
         } catch (\Exception $e) {
             $transaction->rollBack();

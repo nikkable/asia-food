@@ -3,6 +3,8 @@
 namespace context\Payment\services;
 
 use context\AbstractService;
+use context\Notification\events\OrderEvent;
+use context\Notification\NotificationEvents;
 use context\Payment\interfaces\PaymentServiceInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use repositories\Order\interfaces\OrderRepositoryInterface;
@@ -246,6 +248,8 @@ class YooKassaPaymentService extends AbstractService implements PaymentServiceIn
                 return false;
             }
 
+            $oldOrderStatus = $order->status;
+            $oldPaymentStatus = $order->payment_status;
             // Обновляем данные платежа
             $paymentRecord->updateFromYooKassaData($payment);
             $paymentRecord->webhook_data = $data;
@@ -284,6 +288,18 @@ class YooKassaPaymentService extends AbstractService implements PaymentServiceIn
 
             $this->orderRepository->save($order);
             $this->paymentRepository->save($paymentRecord);
+            if ($oldPaymentStatus !== $order->payment_status && $order->payment_status === Order::PAYMENT_STATUS_PAID) {
+                \Yii::$app->trigger(NotificationEvents::ORDER_PAID, new OrderEvent([
+                    'order' => $order,
+                ]));
+            }
+            if ($oldOrderStatus !== $order->status) {
+                \Yii::$app->trigger(NotificationEvents::ORDER_STATUS_CHANGED, new OrderEvent([
+                    'order' => $order,
+                    'oldStatus' => $oldOrderStatus,
+                    'newStatus' => $order->status,
+                ]));
+            }
             return true;
 
         } catch (\Exception $e) {
