@@ -6,15 +6,15 @@ Authorization: Basic MTIyNTcyNDc6ZGJmNjE0NThkYzM0MzE5ZWRhNDhhYzcxZjBlMTJlNjM=
 
 ### 2. Инициализация экспорта заказов (sale/init)
 GET {{baseUrl}}/commerceml-proxy/?type=sale&mode=init
-Cookie: COMMERCE1C_SESSION=commerce1c_690b17b1872468.40747510
+Cookie: COMMERCE1C_SESSION=commerce1c_6912cb8a850929.29685573
 
 ### 3. Получение заказов для экспорта (sale/query)
 GET {{baseUrl}}/commerceml-proxy/?type=sale&mode=query
-Cookie: COMMERCE1C_SESSION=commerce1c_690b17b1872468.40747510
+Cookie: COMMERCE1C_SESSION=commerce1c_6912cc88a78118.03685586
 
 ### 4. Подтверждение успешного импорта заказов в 1С (sale/success)
 POST {{baseUrl}}/commerceml-proxy/?type=sale&mode=success
-Cookie: COMMERCE1C_SESSION=commerce1c_690b17b1872468.40747510
+Cookie: COMMERCE1C_SESSION=commerce1c_6912cc88a78118.03685586
 Content-Type: application/json
 
 {

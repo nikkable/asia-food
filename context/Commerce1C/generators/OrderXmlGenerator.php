@@ -28,11 +28,11 @@ class OrderXmlGenerator
         $root->setAttribute('ДатаФормирования', date('Y-m-d\TH:i:s'));
         $this->dom->appendChild($root);
 
-        $documentsElement = $this->dom->createElement('Документы');
-        $root->appendChild($documentsElement);
+//        $documentsElement = $this->dom->createElement('Документы');
+//        $root->appendChild($documentsElement);
 
         foreach ($orders as $order) {
-            $this->addOrderToXml($documentsElement, $order);
+            $this->addOrderToXml($root, $order);
         }
 
         return $this->dom->saveXML();
