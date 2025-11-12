@@ -75,13 +75,16 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         // Очищаем старые XML файлы перед сохранением нового
         $this->cleanupOldXmlFiles($sessionId, $filename);
 
-        $filePath = $this->getFilePathForSession($sessionId, $filename);
+        // Санитизация относительного пути (защита от directory traversal)
+        $safeRelativePath = $this->sanitizeRelativePath($filename);
+
+        $filePath = $this->getFilePathForSession($sessionId, $safeRelativePath);
         
         if (file_put_contents($filePath, $content) === false) {
             return CommerceResponse::failure('Failed to save file');
         }
         
-        $session->addUploadedFile($filename, $filePath);
+        $session->addUploadedFile($safeRelativePath, $filePath);
         $this->sessionService->saveSession($session);
 
         Yii::info("File saved successfully: {$filename} (size: " . strlen($content) . " bytes)", __METHOD__);
@@ -118,10 +121,24 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         try {
             $parser = new CatalogXmlParser();
             $catalogData = $parser->parse($xmlContent);
-            
+
             $categoriesCount = $this->syncRepository->syncCategories($catalogData['categories']);
-            
-            $productsCount = $this->syncRepository->syncProducts($catalogData['products']);
+
+            // Обрабатываем изображения товаров: переносим из сессии в uploads/products и подставляем имя файла
+            $preparedProducts = [];
+            foreach ($catalogData['products'] as $p) {
+                if (!empty($p['images']) && is_array($p['images'])) {
+                    // Берем первое изображение как основное
+                    $main = $p['images'][0];
+                    $saved = $this->saveProductImageFromSession($sessionId, $main);
+                    if ($saved) {
+                        $p['image'] = $saved; // только имя файла (basename) для хранения в БД
+                    }
+                }
+                $preparedProducts[] = $p;
+            }
+
+            $productsCount = $this->syncRepository->syncProducts($preparedProducts);
             
             $session->markFileAsImported($filename);
             $this->sessionService->saveSession($session);
@@ -182,7 +199,16 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         if (!is_dir($sessionDir)) {
             mkdir($sessionDir, 0755, true);
         }
-        
+
+        // Поддержка вложенных директорий (например import_files/02/xxx.jpg)
+        $relativeDir = dirname($filename);
+        if ($relativeDir !== '.' && $relativeDir !== '/') {
+            $targetDir = $sessionDir . '/' . $relativeDir;
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+        }
+
         return $sessionDir . '/' . $filename;
     }
 
@@ -250,6 +276,65 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         } catch (\Exception $e) {
             Yii::error("Error during XML files cleanup: " . $e->getMessage(), __METHOD__);
         }
+    }
+
+    /**
+     * Санитизация относительного пути, запрещаем выход из директории (..), абсолютные пути и NULL байты
+     */
+    private function sanitizeRelativePath(string $path): string
+    {
+        $path = str_replace("\0", '', $path);
+        $path = ltrim($path, "\\/");
+        // Нормализуем разделители
+        $parts = [];
+        foreach (explode('/', str_replace('\\', '/', $path)) as $seg) {
+            if ($seg === '' || $seg === '.') { continue; }
+            if ($seg === '..') { continue; } // запрещаем подниматься вверх
+            $parts[] = $seg;
+        }
+        return implode('/', $parts);
+    }
+
+    /**
+     * Копирует файл изображения из сессионной директории в uploads/products и возвращает сохраненное имя файла
+     */
+    private function saveProductImageFromSession(string $sessionId, string $relativeImagePath): ?string
+    {
+        $safeRel = $this->sanitizeRelativePath($relativeImagePath);
+        $sourcePath = $this->getFilePathForSession($sessionId, $safeRel);
+        if (!is_file($sourcePath)) {
+            Yii::warning("Product image not found in session: {$safeRel}", __METHOD__);
+            return null;
+        }
+
+        $ext = strtolower(pathinfo($sourcePath, PATHINFO_EXTENSION));
+        $allowed = ['jpg','jpeg','png','gif','webp'];
+        if (!in_array($ext, $allowed, true)) {
+            Yii::warning("Unsupported image extension: .{$ext}", __METHOD__);
+            return null;
+        }
+
+        // Папка назначения
+        $targetDir = \Yii::getAlias('@backend/web/uploads/products');
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        // Генерация уникального имени файла
+        $baseName = pathinfo($sourcePath, PATHINFO_FILENAME);
+        $hash = substr(sha1($baseName . '|' . $sessionId . '|' . filesize($sourcePath)), 0, 12);
+        $fileName = $hash . '.' . $ext;
+        $targetPath = rtrim($targetDir, '/').'/'.$fileName;
+
+        // Если файл уже существует (идемпотентность), не переписываем
+        if (!is_file($targetPath)) {
+            if (!copy($sourcePath, $targetPath)) {
+                Yii::error("Failed to copy product image to uploads: {$sourcePath} -> {$targetPath}", __METHOD__);
+                return null;
+            }
+        }
+
+        return $fileName;
     }
     
     /**

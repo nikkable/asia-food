@@ -168,6 +168,11 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
             $product->article = $productData['article'];
         }
         
+        // Если из каталога пришло основное изображение (basename), сохраним его
+        if (!empty($productData['image'])) {
+            $product->image = $productData['image'];
+        }
+        
         if (!empty($productData['category_external_id'])) {
             $category = $this->getCategoryByExternalId($productData['category_external_id']);
             if ($category) {
@@ -198,6 +203,11 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
 
         if ($productData['article']) {
             $product->article = $productData['article'];
+        }
+        
+        // Обновим изображение, если пришло в данных каталога
+        if (!empty($productData['image'])) {
+            $product->image = $productData['image'];
         }
         
         if (!empty($productData['category_external_id'])) {
