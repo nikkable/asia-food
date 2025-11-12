@@ -62,7 +62,6 @@ class Product extends ActiveRecord
             [['description'], 'string'],
             [['price', 'price_discount'], 'number'],
             [['name', 'image', 'article', 'external_id'], 'string', 'max' => 255],
-            [['article'], 'unique'],
             [['external_id'], 'unique'],
             [['imageFile'], 'safe'],
         ];

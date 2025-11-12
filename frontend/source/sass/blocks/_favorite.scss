@@ -48,6 +48,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    gap: 0 10px;
     padding: 3rem;
     margin-bottom: 3rem;
     border: 1px solid $color-grey;
@@ -72,6 +73,10 @@
     }
 
     &-image {
+      border-radius: 10px;
+      img {
+        border-radius: inherit;
+      }
       @media (max-width: #{$break-max-md}) {
         border: 1px solid $color-grey;
         border-radius: 10px;

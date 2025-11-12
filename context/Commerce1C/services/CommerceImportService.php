@@ -132,7 +132,7 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
                     $main = $p['images'][0];
                     $saved = $this->saveProductImageFromSession($sessionId, $main);
                     if ($saved) {
-                        $p['image'] = $saved; // только имя файла (basename) для хранения в БД
+                        $p['image'] = $saved;
                     }
                 }
                 $preparedProducts[] = $p;
@@ -143,7 +143,6 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             $session->markFileAsImported($filename);
             $this->sessionService->saveSession($session);
 
-            // Чистим временные изображения из сессии (import_files/*), XML не трогаем
             $this->cleanupSessionImages($sessionId);
 
             return CommerceResponse::success("Catalog imported: {$categoriesCount} categories, {$productsCount} products");
