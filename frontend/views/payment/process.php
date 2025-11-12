@@ -7,7 +7,7 @@ use common\helpers\PriceHelper;
 /** @var repositories\Order\models\Order $order */
 /** @var string $transaction_id */
 
-$this->title = 'Оплата заказа #' . $order->id;
+$this->title = 'Оплата заказа ' . $order->getNumber();
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h4 class="mb-0">Оплата заказа #<?= $order->id ?></h4>
+                        <h4 class="mb-0">Оплата заказа <?= Html::encode($order->getNumber()) ?></h4>
                     </div>
                     <div class="card-body">
                         <div class="alert alert-info">
@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         
                         <div class="mb-4">
                             <h5>Информация о заказе:</h5>
-                            <p><strong>Номер заказа:</strong> <?= $order->id ?></p>
+                            <p><strong>Номер заказа:</strong> <?= Html::encode($order->getNumber()) ?></p>
                             <p><strong>Сумма к оплате:</strong> <?= PriceHelper::formatRub($order->total_cost) ?></p>
                             <p><strong>ID транзакции:</strong> <?= Html::encode($transaction_id) ?></p>
                         </div>

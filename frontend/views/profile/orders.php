@@ -33,7 +33,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             <div class="order-card">
                                 <div class="order-card-head">
                                     <div class="order-card-info">
-                                        <div class="order-card-title">Заказ №<?= $order->id ?></div>
+                                        <div class="order-card-title">Заказ <?= Html::encode($order->getNumber()) ?></div>
                                         <div class="order-card-meta">
                                             <span class="order-card-date">
                                                 <i class="fas fa-calendar"></i>

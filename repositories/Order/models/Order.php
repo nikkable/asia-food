@@ -154,4 +154,11 @@ class Order extends ActiveRecord
     {
         return \Yii::$app->security->generateRandomString(36);
     }
+
+    public function getNumber(): string
+    {
+        $year = $this->created_at ? (int)date('Y', (int)$this->created_at) : (int)date('Y');
+        $calc = $year * 3 + (int)$this->id;
+        return 'AF-' . $calc;
+    }
 }

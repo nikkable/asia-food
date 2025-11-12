@@ -17,6 +17,7 @@ class QuickOrderForm extends Model
     public $deliveryAddress;
     public $orderComment;
     public $paymentMethod;
+    public $deliveryMethod;
     
     // Способы оплаты
     const PAYMENT_METHOD_CASH = 'cash';
@@ -28,7 +29,7 @@ class QuickOrderForm extends Model
     public function rules()
     {
         return [
-            [['customerName', 'customerPhone', 'paymentMethod'], 'required', 'message' => '{attribute} обязательно для заполнения.'],
+            [['customerName', 'customerPhone', 'paymentMethod', 'deliveryMethod'], 'required', 'message' => '{attribute} обязательно для заполнения.'],
             [['customerName'], 'string', 'max' => 100, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
             [['customerPhone'], 'string', 'max' => 20, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
             [['customerEmail'], 'email', 'message' => 'Неверный формат email адреса.'],
@@ -36,6 +37,7 @@ class QuickOrderForm extends Model
             [['deliveryAddress'], 'string', 'max' => 255, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
             [['orderComment'], 'string', 'max' => 1000, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
             ['paymentMethod', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD], 'message' => 'Выберите корректный способ оплаты.'],
+            ['deliveryMethod', 'in', 'range' => ['pickup', 'courier'], 'message' => 'Выберите корректный способ доставки.'],
         ];
     }
 
@@ -51,6 +53,7 @@ class QuickOrderForm extends Model
             'deliveryAddress' => 'Адрес доставки',
             'orderComment' => 'Комментарий',
             'paymentMethod' => 'Способ оплаты',
+            'deliveryMethod' => 'Способ доставки',
         ];
     }
     
@@ -63,6 +66,14 @@ class QuickOrderForm extends Model
         return [
             self::PAYMENT_METHOD_CASH => 'Наличными при получении',
             self::PAYMENT_METHOD_CARD => 'Оплата картой онлайн',
+        ];
+    }
+
+    public function getDeliveryMethodOptions()
+    {
+        return [
+            'pickup' => 'Самовывоз (бесплатно)',
+            'courier' => 'Курьером (450 ₽, бесплатно от 5 000 ₽)',
         ];
     }
     

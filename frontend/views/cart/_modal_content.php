@@ -130,6 +130,28 @@ $model->fillFromUser();
             </div>
         </div>
 
+        <div class="col-12">
+            <div class="form-group">
+                <?= $form->field($model, 'deliveryMethod', [
+                    'options' => ['class' => 'delivery-method-group'],
+                ])->radioList(
+                    $model->getDeliveryMethodOptions(),
+                    [
+                        'item' => function($index, $label, $name, $checked, $value) {
+                            $checked = $checked ? 'checked' : '';
+                            $id = 'delivery-' . $value;
+                            $return = '<div class="field-radio">';
+                            $return .= '<input class="form-check-input" type="radio" name="' . $name . '" value="' . $value . '" id="' . $id . '" ' . $checked . '>';
+                            $return .= '<label class="form-check-label" for="' . $id . '">' . $label . '</label>';
+                            $return .= '</div>';
+                            return $return;
+                        },
+                        'unselect' => null,
+                    ]
+                ) ?>
+            </div>
+        </div>
+
         <div class="col-md-6">
             <div class="form-group mb-3">
                 <?= $form->field($model, 'deliveryAddress', [

@@ -7,6 +7,7 @@ use context\Cart\models\Cart;
 use context\Order\interfaces\OrderServiceInterface;
 use context\Notification\NotificationEvents;
 use context\Notification\events\OrderEvent;
+use context\Delivery\interfaces\DeliveryServiceInterface;
 use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\models\Order;
 use repositories\Order\models\OrderItem;
@@ -60,6 +61,25 @@ class OrderService extends AbstractService implements OrderServiceInterface
         
         $order->user_id = Yii::$app->user->id;
         $order->total_cost = $cart->getTotalCost();
+
+        $deliveryMethod = $customerData['deliveryMethod'] ?? 'pickup';
+        /** @var DeliveryServiceInterface $deliveryService */
+        $deliveryService = Yii::$container->get(DeliveryServiceInterface::class);
+        $delivery = $deliveryService->calculate($cart, $deliveryMethod);
+        if (!empty($delivery['cost']) && $delivery['cost'] > 0) {
+            $order->total_cost += (float)$delivery['cost'];
+        }
+        $deliveryInfoParts = [];
+        $deliveryInfoParts[] = 'Способ доставки: ' . ($delivery['title'] ?? $deliveryMethod);
+        if (isset($delivery['cost_text'])) {
+            $deliveryInfoParts[] = 'Доставка: ' . $delivery['cost_text'];
+        }
+        if (isset($delivery['time_text'])) {
+            $deliveryInfoParts[] = 'Срок: ' . $delivery['time_text'];
+        }
+        $deliveryInfo = implode("\n", $deliveryInfoParts);
+        $order->note = empty($order->note) ? $deliveryInfo : $order->note . "\n\n" . $deliveryInfo;
+
         $order->status = Order::STATUS_NEW;
 
         $transaction = Yii::$app->db->beginTransaction();

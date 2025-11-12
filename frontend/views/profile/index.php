@@ -125,7 +125,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         <div class="order-item">
                             <div class="order-item-info">
                                 <div class="order-item-number">
-                                    <strong>Заказ №<?= $order->id ?></strong>
+                                    <strong>Заказ <?= Html::encode($order->getNumber()) ?></strong>
                                 </div>
                                 <div class="order-item-date">
                                     <?= date('d.m.Y H:i', $order->created_at) ?>

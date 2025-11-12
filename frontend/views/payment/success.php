@@ -29,7 +29,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                     <!-- Информация о заказе -->
                     <div class="order-summary">
                         <div class="order-summary-header">
-                            <h3>Заказ №<?= Html::encode($order->id) ?></h3>
+                            <h3>Заказ <?= Html::encode($order->getNumber()) ?></h3>
                             <div class="order-status">
                                 <span class="status-badge status-paid">Оплачен</span>
                             </div>

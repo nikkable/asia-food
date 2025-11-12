@@ -8,7 +8,7 @@ use yii\helpers\Url;
 use common\helpers\PriceHelper;
 use repositories\Order\models\Order as OrderModel;
 
-$this->title = 'Заказ №' . $order->id;
+$this->title = 'Заказ ' . $order->getNumber();
 
 // Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
@@ -18,7 +18,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
 <div class="profile-page order-view-page">
     <div class="container">
         <div class="profile-page-head">
-            <div class="title">Заказ №<?= $order->id ?></div>
+            <div class="title">Заказ <?= Html::encode($order->getNumber()) ?></div>
         </div>
 
         <div class="profile-page-main">
@@ -33,7 +33,7 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             <div class="card-style-info">
                                 <div class="card-style-info-item">
                                     <i class="fas fa-hashtag"></i>
-                                    <strong>Номер:</strong> <span>#<?= $order->id ?></span>
+                                    <strong>Номер:</strong> <span><?= Html::encode($order->getNumber()) ?></span>
                                 </div>
                                 <div class="card-style-info-item">
                                     <i class="fas fa-calendar-alt"></i>

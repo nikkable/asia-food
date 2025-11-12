@@ -11,7 +11,7 @@ return [
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
     'sourceLanguage' => 'ru-RU',
-    'bootstrap' => ['log', 'context\\File\\Bootstrap', 'context\\Seo\\Bootstrap', 'context\\Favorite\\Bootstrap', 'context\\Product\\Bootstrap', 'context\\Order\\Bootstrap', 'context\\Payment\\Bootstrap', 'context\\Notification\\Bootstrap', 'repositories\\Bootstrap'],
+    'bootstrap' => ['log', 'context\\File\\Bootstrap', 'context\\Seo\\Bootstrap', 'context\\Favorite\\Bootstrap', 'context\\Product\\Bootstrap', 'context\\Delivery\\Bootstrap', 'context\\Order\\Bootstrap', 'context\\Payment\\Bootstrap', 'context\\Notification\\Bootstrap', 'repositories\\Bootstrap'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
