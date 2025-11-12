@@ -52,8 +52,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             </div>
                             <div class="product-info">
                                 <div class="product-price"><?= PriceHelper::formatRub($product->price) ?></div>
-                                <div class="product-quantity">
-                                    <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
+                                <div class="product-quantity <?= $product->quantity > 0 ? 'product-quantity--yes' : '' ?>"">
+                                    <?= $product->quantity > 0 ? 'В наличии (' . $product->quantity . ')' : 'Нет в наличии' ?>
                                 </div>
                                 <div class="product-name">
                                     <?= Html::encode($product->name) ?>

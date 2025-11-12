@@ -143,6 +143,9 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             $session->markFileAsImported($filename);
             $this->sessionService->saveSession($session);
 
+            // Чистим временные изображения из сессии (import_files/*), XML не трогаем
+            $this->cleanupSessionImages($sessionId);
+
             return CommerceResponse::success("Catalog imported: {$categoriesCount} categories, {$productsCount} products");
             
         } catch (\Exception $e) {
@@ -336,6 +339,29 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
 
         return $fileName;
     }
+
+    /**
+     * Удаляет временные изображения (import_files) из директории текущей сессии
+     */
+    private function cleanupSessionImages(string $sessionId): void
+    {
+        try {
+            $sessionDir = $this->filesDirectory . '/' . $sessionId;
+            if (!is_dir($sessionDir)) {
+                return;
+            }
+
+            $importFilesDir = $sessionDir . '/import_files';
+            if (is_dir($importFilesDir)) {
+                $this->removeDirectoryRecursively($importFilesDir);
+                Yii::info("Removed session image temp directory: {$importFilesDir}", __METHOD__);
+            }
+        } catch (\Exception $e) {
+            Yii::warning('Failed to cleanup session images: ' . $e->getMessage(), __METHOD__);
+        }
+    }
+
+    
     
     /**
      * Определяет тип файла (catalog или offers)

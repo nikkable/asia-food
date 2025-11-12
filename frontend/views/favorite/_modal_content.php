@@ -27,7 +27,7 @@ use common\helpers\PriceHelper;
                         <?= PriceHelper::formatRub($product->price) ?>
                     </div>
                     <div class="favorite-item-quantity <?= $product->quantity > 0 ? 'color-green' : 'color-red' ?>">
-                        <?= $product->quantity > 0 ? 'В наличии' : 'Нет в наличии' ?>
+                        <?= $product->quantity > 0 ? 'В наличии (' . $product->quantity . ')' : 'Нет в наличии' ?>
                     </div>
                 </div>
 
