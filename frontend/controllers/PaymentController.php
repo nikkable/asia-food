@@ -110,6 +110,7 @@ class PaymentController extends Controller
                     // Обновляем статус заказа
                     if ($paymentStatus === 'succeeded') {
                         $order->payment_status = Order::PAYMENT_STATUS_PAID;
+                        $order->status = Order::STATUS_COOKING;
                         $this->orderRepository->save($order);
                     }
                 }

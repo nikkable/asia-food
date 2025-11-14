@@ -45,6 +45,7 @@ class Order extends ActiveRecord
     const STATUS_PROCESSING = 1;
     const STATUS_COMPLETED = 2;
     const STATUS_CANCELLED = 3;
+    const STATUS_COOKING = 4;
     
     // Статусы экспорта в 1С
     const EXPORT_STATUS_NOT_EXPORTED = 0;
@@ -77,7 +78,7 @@ class Order extends ActiveRecord
             [['customer_email'], 'email'],
             ['payment_method', 'in', 'range' => [self::PAYMENT_METHOD_CASH, self::PAYMENT_METHOD_CARD]],
             ['payment_status', 'in', 'range' => [self::PAYMENT_STATUS_PENDING, self::PAYMENT_STATUS_PAID, self::PAYMENT_STATUS_FAILED]],
-            ['status', 'in', 'range' => [self::STATUS_NEW, self::STATUS_PROCESSING, self::STATUS_COMPLETED, self::STATUS_CANCELLED]],
+            ['status', 'in', 'range' => [self::STATUS_NEW, self::STATUS_PROCESSING, self::STATUS_COMPLETED, self::STATUS_CANCELLED, self::STATUS_COOKING]],
             ['export_status', 'in', 'range' => [self::EXPORT_STATUS_NOT_EXPORTED, self::EXPORT_STATUS_EXPORTED, self::EXPORT_STATUS_ERROR]],
             ['export_status', 'default', 'value' => self::EXPORT_STATUS_NOT_EXPORTED],
         ];
@@ -107,9 +108,10 @@ class Order extends ActiveRecord
     {
         $statuses = [
             self::STATUS_NEW => ['text' => 'Новый', 'class' => 'new', 'icon' => 'fa-file-alt'],
-            self::STATUS_PROCESSING => ['text' => 'В обработке', 'class' => 'processing', 'icon' => 'fa-cogs'],
+            self::STATUS_PROCESSING => ['text' => 'Готов', 'class' => 'processing', 'icon' => 'fa-cogs'],
             self::STATUS_COMPLETED => ['text' => 'Выполнен', 'class' => 'completed', 'icon' => 'fa-check-circle'],
             self::STATUS_CANCELLED => ['text' => 'Отменен', 'class' => 'cancelled', 'icon' => 'fa-times-circle'],
+            self::STATUS_COOKING => ['text' => 'Готовится', 'class' => 'cooking', 'icon' => 'fa-utensils'],
         ];
         return $statuses[$status] ?? ['text' => 'Неизвестно', 'class' => 'unknown', 'icon' => 'fa-question-circle'];
     }
@@ -131,6 +133,46 @@ class Order extends ActiveRecord
             self::PAYMENT_METHOD_CARD => 'Картой онлайн',
         ];
         return $methods[$method] ?? 'Неизвестно';
+    }
+
+    public static function getOrderStatusBadgeMap(): array
+    {
+        return [
+            self::STATUS_NEW => ['Новый', 'info'],
+            self::STATUS_PROCESSING => ['Готов', 'primary'],
+            self::STATUS_COMPLETED => ['Выполнен', 'success'],
+            self::STATUS_CANCELLED => ['Отменен', 'danger'],
+            self::STATUS_COOKING => ['Готовится', 'warning'],
+        ];
+    }
+
+    public static function getPaymentStatusBadgeMap(): array
+    {
+        return [
+            self::PAYMENT_STATUS_PENDING => ['Ожидает оплаты', 'warning'],
+            self::PAYMENT_STATUS_PAID => ['Оплачен', 'success'],
+            self::PAYMENT_STATUS_FAILED => ['Ошибка оплаты', 'danger'],
+        ];
+    }
+
+    public static function getOrderStatusLabels(): array
+    {
+        $map = self::getOrderStatusBadgeMap();
+        $result = [];
+        foreach ($map as $k => $v) {
+            $result[$k] = $v[0];
+        }
+        return $result;
+    }
+
+    public static function getPaymentStatusLabels(): array
+    {
+        $map = self::getPaymentStatusBadgeMap();
+        $result = [];
+        foreach ($map as $k => $v) {
+            $result[$k] = $v[0];
+        }
+        return $result;
     }
 
     /**

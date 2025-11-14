@@ -11,7 +11,6 @@ use yii\helpers\Url;
 
 $this->title = 'Личный кабинет';
 
-// Подключаем FontAwesome для иконок
 $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css');
 ?>
 
@@ -133,17 +132,8 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             </div>
 
                             <div class="order-item-status">
-                                <span class="badge badge-status-<?= $order->status ?>">
-                                    <?php
-                                    switch ($order->status) {
-                                        case 0: echo 'Новый'; break;
-                                        case 1: echo 'В обработке'; break;
-                                        case 2: echo 'Выполнен'; break;
-                                        case 3: echo 'Отменен'; break;
-                                        default: echo 'Неизвестно';
-                                    }
-                                    ?>
-                                </span>
+                                <?php $statusMap = $order->getOrderStatusBadgeMap(); $s = $statusMap[$order->status] ?? ['Неизвестно', 'default']; ?>
+                                <span class="badge text-bg-<?= $s[1] ?>"><?= $s[0] ?></span>
                             </div>
 
                             <div class="order-item-amount">

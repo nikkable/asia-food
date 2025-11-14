@@ -29,7 +29,14 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
+//            'id',
+            [
+                'header' => 'Номер',
+                'format' => 'raw',
+                'value' => function (Order $model) {
+                    return $model->getNumber();
+                },
+            ],
             [
                 'attribute' => 'customer_name',
                 'header' => 'Имя',
@@ -74,44 +81,22 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Статус оплаты',
                 'attribute' => 'payment_status',
-                'filter' => [
-                    Order::PAYMENT_STATUS_PENDING => 'Ожидает оплаты',
-                    Order::PAYMENT_STATUS_PAID => 'Оплачен',
-                    Order::PAYMENT_STATUS_FAILED => 'Ошибка оплаты',
-                ],
+                'filter' => Order::getPaymentStatusLabels(),
                 'format' => 'raw',
                 'value' => function (Order $model) {
-                    $statuses = [
-                        Order::PAYMENT_STATUS_PENDING => ['Ожидает оплаты', 'warning'],
-                        Order::PAYMENT_STATUS_PAID => ['Оплачен', 'success'],
-                        Order::PAYMENT_STATUS_FAILED => ['Ошибка оплаты', 'danger'],
-                    ];
-                    
+                    $statuses = Order::getPaymentStatusBadgeMap();
                     $status = $statuses[$model->payment_status] ?? ['Неизвестно', 'default'];
-                    
                     return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                 },
             ],
             [
                 'header' => 'Статус заказа',
                 'attribute' => 'status',
-                'filter' => [
-                    Order::STATUS_NEW => 'Новый',
-                    Order::STATUS_PROCESSING => 'В обработке',
-                    Order::STATUS_COMPLETED => 'Выполнен',
-                    Order::STATUS_CANCELLED => 'Отменен',
-                ],
+                'filter' => Order::getOrderStatusLabels(),
                 'format' => 'raw',
                 'value' => function (Order $model) {
-                    $statuses = [
-                        Order::STATUS_NEW => ['Новый', 'info'],
-                        Order::STATUS_PROCESSING => ['В обработке', 'primary'],
-                        Order::STATUS_COMPLETED => ['Выполнен', 'success'],
-                        Order::STATUS_CANCELLED => ['Отменен', 'danger'],
-                    ];
-                    
+                    $statuses = Order::getOrderStatusBadgeMap();
                     $status = $statuses[$model->status] ?? ['Неизвестно', 'default'];
-                    
                     return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                 },
             ],

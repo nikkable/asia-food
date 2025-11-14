@@ -47,28 +47,11 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                                     </div>
 
                                     <div class="order-card-status-section">
-                                        <span class="badge badge-status-<?= $order->status ?>">
-                                            <?php
-                                            switch ($order->status) {
-                                                case 0: echo 'Новый'; break;
-                                                case 1: echo 'В обработке'; break;
-                                                case 2: echo 'Выполнен'; break;
-                                                case 3: echo 'Отменен'; break;
-                                                default: echo 'Неизвестно';
-                                            }
-                                            ?>
-                                        </span>
+                                        <?php $statusMap = $order->getOrderStatusBadgeMap(); $s = $statusMap[$order->status] ?? ['Неизвестно', 'default']; ?>
+                                        <span class="badge text-bg-<?= $s[1] ?>"><?= $s[0] ?></span>
 
-                                        <span class="badge badge-payment-<?= $order->payment_status ?>">
-                                            <?php
-                                            switch ($order->payment_status) {
-                                                case 0: echo 'Ожидает оплаты'; break;
-                                                case 1: echo 'Оплачен'; break;
-                                                case 2: echo 'Ошибка оплаты'; break;
-                                                default: echo 'Неизвестно';
-                                            }
-                                            ?>
-                                        </span>
+                                        <?php $payMap = $order->getPaymentStatusBadgeMap(); $p = $payMap[$order->payment_status] ?? ['Неизвестно', 'default']; ?>
+                                        <span class="badge text-bg-<?= $p[1] ?>"><?= $p[0] ?></span>
                                     </div>
                                 </div>
 

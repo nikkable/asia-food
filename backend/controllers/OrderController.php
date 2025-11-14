@@ -178,6 +178,10 @@ class OrderController extends Controller
         
         // Обновляем статус оплаты
         $model->payment_status = $status;
+        // Если оплачен — переводим заказ в статус "Готовится"
+        if ((int)$status === Order::PAYMENT_STATUS_PAID) {
+            $model->status = Order::STATUS_COOKING;
+        }
         
         if ($model->save()) {
             $statusLabels = [
@@ -211,7 +215,8 @@ class OrderController extends Controller
             Order::STATUS_NEW,
             Order::STATUS_PROCESSING,
             Order::STATUS_COMPLETED,
-            Order::STATUS_CANCELLED
+            Order::STATUS_CANCELLED,
+            Order::STATUS_COOKING
         ];
         
         if (!in_array($status, $allowedStatuses)) {
@@ -227,7 +232,8 @@ class OrderController extends Controller
                 Order::STATUS_NEW => 'Новый',
                 Order::STATUS_PROCESSING => 'В обработке',
                 Order::STATUS_COMPLETED => 'Выполнен',
-                Order::STATUS_CANCELLED => 'Отменен'
+                Order::STATUS_CANCELLED => 'Отменен',
+                Order::STATUS_COOKING => 'Готовится'
             ];
             
             $statusLabel = $statusLabels[$status] ?? 'Неизвестный статус';

@@ -18,7 +18,7 @@ YiiAsset::register($this);
 ?>
 <div class="order-view">
 
-    <h1>Заказ #<?= Html::encode($model->id) ?></h1>
+    <h1>Заказ #<?= Html::encode($model->getNumber()) ?></h1>
     
     <div class="row mb-4">
         <div class="col-md-6">
@@ -39,20 +39,10 @@ YiiAsset::register($this);
         <div class="col-md-6 text-right">
             <div class="order-status-badges">
                 <?php
-                $orderStatuses = [
-                    Order::STATUS_NEW => ['Новый', 'info'],
-                    Order::STATUS_PROCESSING => ['В обработке', 'primary'],
-                    Order::STATUS_COMPLETED => ['Выполнен', 'success'],
-                    Order::STATUS_CANCELLED => ['Отменен', 'danger'],
-                ];
-                $paymentStatuses = [
-                    Order::PAYMENT_STATUS_PENDING => ['Ожидает оплаты', 'warning'],
-                    Order::PAYMENT_STATUS_PAID => ['Оплачен', 'success'],
-                    Order::PAYMENT_STATUS_FAILED => ['Ошибка оплаты', 'danger'],
-                ];
-                
-                $orderStatus = $orderStatuses[$model->status] ?? ['Неизвестно', 'default'];
-                $paymentStatus = $paymentStatuses[$model->payment_status] ?? ['Неизвестно', 'default'];
+                    $orderStatuses = Order::getOrderStatusBadgeMap();
+                    $paymentStatuses = Order::getPaymentStatusBadgeMap();
+                    $orderStatus = $orderStatuses[$model->status] ?? ['Неизвестно', 'default'];
+                    $paymentStatus = $paymentStatuses[$model->payment_status] ?? ['Неизвестно', 'default'];
                 ?>
                 <span class="badge text-bg-<?= $orderStatus[1] ?> mr-2">Статус заказа: <?= $orderStatus[0] ?></span>
                 <span class="badge text-bg-<?= $paymentStatus[1] ?>">Статус оплаты: <?= $paymentStatus[0] ?></span>
@@ -79,12 +69,7 @@ YiiAsset::register($this);
                                 'attribute' => 'status',
                                 'format' => 'raw',
                                 'value' => function ($model) {
-                                    $statuses = [
-                                        Order::STATUS_NEW => ['Новый', 'info'],
-                                        Order::STATUS_PROCESSING => ['В обработке', 'primary'],
-                                        Order::STATUS_COMPLETED => ['Выполнен', 'success'],
-                                        Order::STATUS_CANCELLED => ['Отменен', 'danger'],
-                                    ];
+                                    $statuses = Order::getOrderStatusBadgeMap();
                                     $status = $statuses[$model->status] ?? ['Неизвестно', 'default'];
                                     return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                                 },
@@ -113,7 +98,7 @@ YiiAsset::register($this);
                             <?php endif; ?>
                             
                             <?php if ($model->status !== Order::STATUS_PROCESSING): ?>
-                                <?= Html::a('В обработке', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_PROCESSING], [
+                                <?= Html::a('Готов', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_PROCESSING], [
                                     'class' => 'btn btn-outline-primary',
                                     'data' => [
                                         'confirm' => 'Изменить статус заказа на "В обработке"?',
@@ -202,11 +187,7 @@ YiiAsset::register($this);
                                 'attribute' => 'payment_status',
                                 'format' => 'raw',
                                 'value' => function ($model) {
-                                    $statuses = [
-                                        Order::PAYMENT_STATUS_PENDING => ['Ожидает оплаты', 'warning'],
-                                        Order::PAYMENT_STATUS_PAID => ['Оплачен', 'success'],
-                                        Order::PAYMENT_STATUS_FAILED => ['Ошибка оплаты', 'danger'],
-                                    ];
+                                    $statuses = Order::getPaymentStatusBadgeMap();
                                     $status = $statuses[$model->payment_status] ?? ['Неизвестно', 'default'];
                                     return Html::tag('span', $status[0], ['class' => 'badge text-bg-' . $status[1]]);
                                 },

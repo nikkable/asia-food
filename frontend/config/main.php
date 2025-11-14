@@ -8,6 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
+    'name' => 'Азия Фуд',
     'basePath' => dirname(__DIR__),
     'language' => 'ru-RU',
     'sourceLanguage' => 'ru-RU',

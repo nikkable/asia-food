@@ -122,18 +122,15 @@ class Category extends ActiveRecord
     public function getCroppedImageUrl(int $width, int $height, string $mode = 'crop'): string
     {
         if (!$this->image) {
-            // Возвращаем URL дефолтного изображения для указанных размеров
             $basePath = Yii::$app->id === 'app-backend' ? '@web/uploads/categories/' : rtrim(Yii::$app->params['backendUrl'], '/') . '/uploads/categories/';
             return $basePath . 'default.png';
         }
 
-        // Во фронтенде используем ImageController для динамической генерации
         if (Yii::$app->id === 'app-frontend') {
             $originalPath = 'categories/' . $this->image;
             return "/image/resize?path=" . urlencode($originalPath) . "&w={$width}&h={$height}&mode={$mode}";
         }
 
-        // В бэкенде используем сервис напрямую
         /** @var ImageResizeServiceInterface $imageService */
         $imageService = Yii::$container->get(ImageResizeServiceInterface::class);
         

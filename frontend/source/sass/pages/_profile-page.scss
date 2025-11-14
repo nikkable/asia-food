@@ -162,6 +162,9 @@
   &:hover {
     background: #e9ecef;
   }
+  &-image {
+    max-width: 80px;
+  }
   &-info {
     flex: 1;
   }
