@@ -46,6 +46,18 @@ return [
                 ],
             ],
         ],
+
+        'mailer' => [
+            'class' => \yii\symfonymailer\Mailer::class,
+            'viewPath' => '@common/mail',
+            'useFileTransport' => false,
+            'transport' => [
+                'dsn' => 'smtp://noreply@xn----7sbnkf1eg0g.xn--p1ai:rC8nW4aX6jrZ6gF0@mail.hosting.reg.ru:465?encryption=ssl',
+            ],
+            'messageConfig' => [
+                'from' => ['noreply@xn----7sbnkf1eg0g.xn--p1ai' => 'Азия Фуд'],
+            ],
+        ],
     ],
     'params' => $params,
 ];
