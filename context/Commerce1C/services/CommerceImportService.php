@@ -298,7 +298,8 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
     }
 
     /**
-     * Копирует файл изображения из сессионной директории в uploads/products и возвращает сохраненное имя файла
+     * Копирует файл изображения из сессионной директории в uploads/products, сохраняя исходный относительный путь из 1С.
+     * Возвращает этот относительный путь для записи в БД (без префикса uploads/products).
      */
     private function saveProductImageFromSession(string $sessionId, string $relativeImagePath): ?string
     {
@@ -316,27 +317,50 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return null;
         }
 
-        // Папка назначения
-        $targetDir = \Yii::getAlias('@backend/web/uploads/products');
-        if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0755, true);
+        // Базовая папка назначения (как админка)
+        $productsBaseDir = \Yii::getAlias('@backend/web/uploads/products');
+        if (!is_dir($productsBaseDir)) {
+            mkdir($productsBaseDir, 0755, true);
         }
 
-        // Генерация уникального имени файла
-        $baseName = pathinfo($sourcePath, PATHINFO_FILENAME);
-        $hash = substr(sha1($baseName . '|' . $sessionId . '|' . filesize($sourcePath)), 0, 12);
-        $fileName = $hash . '.' . $ext;
+        // Создаем поддиректории согласно относительному пути из 1С
+        $relativeDir = dirname($safeRel);
+        $targetDir = $productsBaseDir;
+        if ($relativeDir !== '.' && $relativeDir !== '/') {
+            $targetDir = rtrim($productsBaseDir, '/').'/'.$relativeDir;
+            if (!is_dir($targetDir)) {
+                mkdir($targetDir, 0755, true);
+            }
+        }
+
+        $fileName = basename($safeRel);
         $targetPath = rtrim($targetDir, '/').'/'.$fileName;
 
-        // Если файл уже существует (идемпотентность), не переписываем
-        if (!is_file($targetPath)) {
-            if (!copy($sourcePath, $targetPath)) {
+        // Если файл существует, перезаписываем только если содержимое отличается
+        if (is_file($targetPath)) {
+            $srcSize = filesize($sourcePath);
+            $dstSize = filesize($targetPath);
+            $shouldCopy = $srcSize !== $dstSize;
+            if (!$shouldCopy) {
+                $srcHash = sha1_file($sourcePath);
+                $dstHash = sha1_file($targetPath);
+                $shouldCopy = $srcHash !== $dstHash;
+            }
+            if ($shouldCopy) {
+                if (!@copy($sourcePath, $targetPath)) {
+                    Yii::error("Failed to overwrite product image: {$sourcePath} -> {$targetPath}", __METHOD__);
+                    return null;
+                }
+            }
+        } else {
+            if (!@copy($sourcePath, $targetPath)) {
                 Yii::error("Failed to copy product image to uploads: {$sourcePath} -> {$targetPath}", __METHOD__);
                 return null;
             }
         }
 
-        return $fileName;
+        // Возвращаем исходный относительный путь (например: import_files/02/img.jpg)
+        return $safeRel;
     }
 
     /**
