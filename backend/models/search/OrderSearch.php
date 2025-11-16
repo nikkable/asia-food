@@ -56,6 +56,8 @@ class OrderSearch extends Order
             ->andFilterWhere(['like', 'payment_method', $this->payment_method])
             ->andFilterWhere(['like', 'payment_transaction_id', $this->payment_transaction_id]);
 
+        $query->orderBy('id DESC');
+
         return $dataProvider;
     }
 }

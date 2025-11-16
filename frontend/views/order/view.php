@@ -70,9 +70,11 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             <div class="card-style-list">
                                 <?php foreach ($order->orderItems as $item): ?>
                                     <div class="order-item">
-                                        <div class="order-item-image">
-                                            <img src="<?= $item->product->getCroppedImageUrl(80, 80) ?>" alt="<?= Html::encode($item->product_name) ?>">
-                                        </div>
+                                        <?php if($item->product): ?>
+                                            <div class="order-item-image">
+                                                <img src="<?= $item->product->getCroppedImageUrl(80, 80) ?>" alt="<?= Html::encode($item->product_name) ?>">
+                                            </div>
+                                        <?php endif ; ?>
                                         <div class="order-item-info">
                                             <div class="order-item-name">
                                                 <?= Html::encode($item->product_name) ?>

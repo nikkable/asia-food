@@ -42,8 +42,8 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
             return CommerceResponse::failure('Invalid session');
         }
 
-        // Очищаем старые сессии и файлы при инициализации
-        $this->cleanupOldSessions();
+        // Удаляем все директории предыдущих сессий (idempotent)
+//        $this->cleanupOtherSessions($sessionId);
 
         // Устанавливаем метаданные для сессии
         $session->setMetadata('initialized_at', new \DateTime());
@@ -517,6 +517,38 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
         }
         
         return rmdir($dir);
+    }
+
+    /**
+     * Удаляет все директории сессий, кроме текущей
+     */
+    private function cleanupOtherSessions(string $currentSessionId): void
+    {
+        try {
+            $baseDir = $this->filesDirectory;
+            if (!is_dir($baseDir)) {
+                return;
+            }
+
+            $entries = scandir($baseDir);
+            if ($entries === false) {
+                \Yii::warning("Cannot read files directory: {$baseDir}", __METHOD__);
+                return;
+            }
+
+            foreach ($entries as $entry) {
+                if ($entry === '.' || $entry === '..' || $entry === $currentSessionId) {
+                    continue;
+                }
+                $path = $baseDir . '/' . $entry;
+                if (is_dir($path)) {
+                    $this->removeDirectoryRecursively($path);
+                    \Yii::info("Removed previous 1C session directory: {$path}", __METHOD__);
+                }
+            }
+        } catch (\Exception $e) {
+            \Yii::error('Error during other sessions cleanup: ' . $e->getMessage(), __METHOD__);
+        }
     }
 
 }
