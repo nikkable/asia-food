@@ -24,7 +24,9 @@ YiiAsset::register($this);
         <div class="col-md-6">
             <p>
                 <?= Html::a('Вернуться к списку', ['index'], ['class' => 'btn btn-secondary']) ?>
-                <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?php if (Yii::$app->user->can('admin')): ?>
+                    <?= Html::a('Редактировать', ['update', 'id' => $model->id], ['class' => 'btn btn-primary']) ?>
+                <?php endif; ?>
                 <?php if ($model->status !== Order::STATUS_CANCELLED): ?>
                     <?= Html::a('Отменить заказ', ['cancel', 'id' => $model->id], [
                         'class' => 'btn btn-danger',
@@ -202,6 +204,7 @@ YiiAsset::register($this);
                         ],
                     ]) ?>
                     
+                    <?php if (Yii::$app->user->can('admin')): ?>
                     <div class="mt-4">
                         <h6>Изменить статус оплаты:</h6>
                         <div class="btn-group">
@@ -236,6 +239,7 @@ YiiAsset::register($this);
                             <?php endif; ?>
                         </div>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

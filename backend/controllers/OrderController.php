@@ -23,8 +23,14 @@ class OrderController extends Controller
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [
                     [
+                        'actions' => ['index', 'view', 'update-status', 'cancel'],
                         'allow' => true,
                         'roles' => ['manager'],
+                    ],
+                    [
+                        'actions' => ['create', 'update', 'delete', 'update-payment-status'],
+                        'allow' => true,
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

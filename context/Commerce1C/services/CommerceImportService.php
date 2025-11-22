@@ -124,16 +124,18 @@ class CommerceImportService extends AbstractService implements CommerceImportInt
 
             $categoriesCount = $this->syncRepository->syncCategories($catalogData['categories']);
 
-            // Обрабатываем изображения товаров: переносим из сессии в uploads/products и подставляем имя файла
             $preparedProducts = [];
             foreach ($catalogData['products'] as $p) {
                 if (!empty($p['images']) && is_array($p['images'])) {
-                    // Берем первое изображение как основное
                     $main = $p['images'][0];
                     $saved = $this->saveProductImageFromSession($sessionId, $main);
                     if ($saved) {
                         $p['image'] = $saved;
+                    } else {
+                        $p['image'] = null;
                     }
+                } else {
+                    $p['image'] = null;
                 }
                 $preparedProducts[] = $p;
             }

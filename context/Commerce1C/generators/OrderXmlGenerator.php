@@ -97,7 +97,7 @@ class OrderXmlGenerator
         $this->addElement($contragentElement, 'Роль', 'Покупатель');
 
         // Контактная информация
-        $contactsElement = $this->dom->createElement('КонтактнаяИнформация');
+        $contactsElement = $this->dom->createElement('Контакты');
         $contragentElement->appendChild($contactsElement);
 
         // Телефон

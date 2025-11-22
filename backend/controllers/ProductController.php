@@ -25,8 +25,14 @@ class ProductController extends Controller
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [
                     [
+                        'actions' => ['index', 'view'],
                         'allow' => true,
                         'roles' => ['manager'],
+                    ],
+                    [
+                        'actions' => ['create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

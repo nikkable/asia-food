@@ -42,9 +42,13 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
     public function syncProducts(array $productsData): int
     {
         $syncedCount = 0;
+        $externalIds = [];
         
         foreach ($productsData as $productData) {
             try {
+                if (!empty($productData['external_id'])) {
+                    $externalIds[] = $productData['external_id'];
+                }
                 $existingProduct = $this->getProductByExternalId($productData['external_id']);
 
                 if ($existingProduct) {
@@ -58,6 +62,9 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
                 \Yii::error("Failed to sync product {$productData['external_id']}: " . $e->getMessage());
             }
         }
+        
+        // Полная синхронизация: деактивируем товары, которых нет в текущем каталоге 1С
+        $this->deactivateMissingProducts($externalIds);
         
         return $syncedCount;
     }
@@ -196,6 +203,8 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
     {
         $product->name = $productData['name'];
         $product->external_id = $productData['external_id'];
+        // Если товар пришёл из 1С в текущем каталоге, считаем его актуальным и активным
+        $product->status = 1;
 
         if ($productData['description']) {
             $product->description = $productData['description'];
@@ -205,9 +214,14 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
             $product->article = $productData['article'];
         }
         
-        // Обновим изображение, если пришло в данных каталога
-        if (!empty($productData['image'])) {
-            $product->image = $productData['image'];
+        // Обновим изображение: если пришло - установим, если нет - удалим
+        if (isset($productData['image'])) {
+            if (!empty($productData['image'])) {
+                $product->image = $productData['image'];
+            } else {
+                // Если изображение пустое в 1С - удаляем его на сайте
+                $product->image = null;
+            }
         }
         
         if (!empty($productData['category_external_id'])) {
@@ -220,6 +234,31 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
         if (!$product->save()) {
             throw new Exception('Failed to update product: ' . json_encode($product->errors));
         }
+    }
+
+    /**
+     * Деактивирует товары, которых нет в текущем каталоге 1С.
+     * Оперирует только товарами с заполненным external_id, чтобы не трогать вручную созданные позиции.
+     */
+    private function deactivateMissingProducts(array $externalIds): void
+    {
+        // Если из 1С не пришло ни одного товара, деактивируем все товары, у которых есть external_id
+        if (empty($externalIds)) {
+            Product::updateAll(
+                ['status' => 0, 'quantity' => 0],
+                ['not', ['external_id' => null]]
+            );
+            return;
+        }
+
+        Product::updateAll(
+            ['status' => 0, 'quantity' => 0],
+            [
+                'and',
+                ['not', ['external_id' => null]],
+                ['not in', 'external_id', $externalIds],
+            ]
+        );
     }
 
     /**

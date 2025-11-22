@@ -35,7 +35,7 @@ class SiteController extends Controller
                     ],
                     [
                         'allow' => true,
-                        'roles' => ['adminPanel'], // Разрешаем доступ ко всему остальному только тем, у кого есть разрешение adminPanel
+                        'roles' => ['admin', 'manager'], // Разрешаем доступ ко всему остальному только тем, у кого есть разрешение adminPanel
                     ],
                 ],
             ],

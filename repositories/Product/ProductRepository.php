@@ -21,9 +21,12 @@ class ProductRepository implements ProductRepositoryInterface
     public function findAll(int $limit = null, int $offset = null): array
     {
         $query = Product::find()
-            ->where(['status' => 1])
-            ->andWhere(['>', 'quantity', 0])
-            ->orderBy(['id' => SORT_DESC]);
+            ->alias('p')
+            ->innerJoin(Category::tableName() . ' c', 'p.category_id = c.id')
+            ->where(['p.status' => 1])
+            ->andWhere(['c.status' => 1])
+            ->andWhere(['>', 'p.quantity', 0])
+            ->orderBy(['p.id' => SORT_DESC]);
         
         if ($limit !== null) {
             $query->limit($limit);
@@ -57,8 +60,11 @@ class ProductRepository implements ProductRepositoryInterface
     public function countAll(): int
     {
         return Product::find()
-            ->where(['status' => 1])
-            ->andWhere(['>', 'quantity', 0])
+            ->alias('p')
+            ->innerJoin(Category::tableName() . ' c', 'p.category_id = c.id')
+            ->where(['p.status' => 1])
+            ->andWhere(['c.status' => 1])
+            ->andWhere(['>', 'p.quantity', 0])
             ->count();
     }
     
@@ -77,10 +83,13 @@ class ProductRepository implements ProductRepositoryInterface
         }
         
         return Product::find()
-            ->where(['like', 'name', $query])
-            ->andWhere(['status' => 1])
-            ->andWhere(['>', 'quantity', 0])
-            ->orderBy(['id' => SORT_DESC])
+            ->alias('p')
+            ->innerJoin(Category::tableName() . ' c', 'p.category_id = c.id')
+            ->where(['like', 'p.name', $query])
+            ->andWhere(['p.status' => 1])
+            ->andWhere(['c.status' => 1])
+            ->andWhere(['>', 'p.quantity', 0])
+            ->orderBy(['p.id' => SORT_DESC])
             ->limit($limit)
             ->all();
     }
