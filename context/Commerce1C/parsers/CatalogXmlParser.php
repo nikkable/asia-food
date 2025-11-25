@@ -87,8 +87,9 @@ class CatalogXmlParser
             }
 
             // Получаем изображения
+            $item['images'] = [];
+
             if (isset($product->Картинка)) {
-                $item['images'] = [];
                 foreach ($product->Картинка as $image) {
                     $item['images'][] = (string)$image;
                 }

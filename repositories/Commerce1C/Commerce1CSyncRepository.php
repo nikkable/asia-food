@@ -222,6 +222,8 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
                 // Если изображение пустое в 1С - удаляем его на сайте
                 $product->image = null;
             }
+        } else {
+            $product->image = null;
         }
         
         if (!empty($productData['category_external_id'])) {
@@ -238,24 +240,28 @@ class Commerce1CSyncRepository implements Commerce1CSyncRepositoryInterface
 
     /**
      * Деактивирует товары, которых нет в текущем каталоге 1С.
-     * Оперирует только товарами с заполненным external_id, чтобы не трогать вручную созданные позиции.
+     * Теперь затрагиваются все товары, у которых external_id отсутствует в текущем наборе,
+     * включая позиции без external_id, чтобы на сайте оставались только товары из 1С.
      */
     private function deactivateMissingProducts(array $externalIds): void
     {
-        // Если из 1С не пришло ни одного товара, деактивируем все товары, у которых есть external_id
+        // Если из 1С не пришло ни одного товара, деактивируем все товары
         if (empty($externalIds)) {
             Product::updateAll(
-                ['status' => 0, 'quantity' => 0],
-                ['not', ['external_id' => null]]
+                ['status' => 0, 'quantity' => 0, 'image' => null],
+                []
             );
             return;
         }
 
+        // Деактивируем все товары, которые не пришли в текущем каталоге 1С:
+        // - external_id IS NULL
+        // - external_id NOT IN (:externalIds)
         Product::updateAll(
-            ['status' => 0, 'quantity' => 0],
+            ['status' => 0, 'quantity' => 0, 'image' => null],
             [
-                'and',
-                ['not', ['external_id' => null]],
+                'or',
+                ['external_id' => null],
                 ['not in', 'external_id', $externalIds],
             ]
         );
