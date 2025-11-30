@@ -9,4 +9,6 @@ interface CategoryRepositoryInterface
     public function findBySlug(string $slug): ?Category;
 
     public function getRoot(): array;
+    
+    public function getRootWithChildren(): array;
 }

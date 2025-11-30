@@ -23,7 +23,7 @@ class HeaderCategoriesWidget extends Widget
 
     public function run()
     {
-        $categories = $this->categoryRepository->getRoot();
+        $categories = $this->categoryRepository->getRootWithChildren();
         
         if ($this->limit > 0) {
             $categories = array_slice($categories, 0, $this->limit);
