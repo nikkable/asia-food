@@ -129,9 +129,13 @@ class SiteController extends BaseSeoController
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Спасибо за регистрацию. Проверьте свой почтовый ящик на наличие письма с подтверждением.');
-            return $this->goHome();
+        if ($model->load(Yii::$app->request->post())) {
+            $user = $model->signup();
+            if ($user) {
+                Yii::$app->user->login($user);
+                Yii::$app->session->setFlash('success', 'Добро пожаловать! Вы успешно зарегистрированы.');
+                return $this->goHome();
+            }
         }
 
         return $this->render('signup', [

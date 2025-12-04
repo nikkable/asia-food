@@ -38,7 +38,7 @@ class LoginForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => 'Имя пользователя',
+            'username' => 'Имя пользователя или email',
             'password' => 'Пароль',
             'rememberMe' => 'Запомнить меня',
         ];
@@ -56,7 +56,7 @@ class LoginForm extends Model
         if (!$this->hasErrors()) {
             $user = $this->getUser();
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Неверное имя пользователя или пароль.');
+                $this->addError($attribute, 'Неверное имя пользователя/email или пароль.');
             }
         }
     }
@@ -83,7 +83,7 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findByUsernameOrEmail($this->username);
         }
 
         return $this->_user;

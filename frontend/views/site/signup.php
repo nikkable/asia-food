@@ -30,9 +30,16 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                         ]); ?>
                         
                         <div class="form-group">
-                            <?= $form->field($model, 'username')->textInput([
+                            <?= $form->field($model, 'full_name')->textInput([
                                 'autofocus' => true,
-                                'placeholder' => 'Имя пользователя',
+                                'placeholder' => 'Фамилия и имя',
+                                'class' => 'field-text'
+                            ])->label(false) ?>
+                        </div>
+                        
+                        <div class="form-group">
+                            <?= $form->field($model, 'username')->textInput([
+                                'placeholder' => 'Имя пользователя (логин)',
                                 'class' => 'field-text'
                             ])->label(false) ?>
                         </div>

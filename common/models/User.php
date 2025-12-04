@@ -63,12 +63,13 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_INACTIVE],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE, self::STATUS_DELETED]],
             
             // Профильные поля
+            ['full_name', 'required', 'message' => '{attribute} обязательно для заполнения.'],
             [['full_name', 'phone', 'delivery_address'], 'string'],
-            ['full_name', 'string', 'max' => 255, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            ['full_name', 'string', 'min' => 2, 'max' => 255, 'tooShort' => '{attribute} должно содержать минимум {min} символа.', 'tooLong' => '{attribute} не может содержать более {max} символов.'],
             ['phone', 'string', 'max' => 20, 'tooLong' => '{attribute} не может содержать более {max} символов.'],
             ['phone', 'match', 'pattern' => '/^[\+]?[0-9\s\-\(\)]{10,20}$/', 'message' => 'Неверный формат телефона. Используйте формат: +7 (999) 123-45-67'],
             ['birth_date', 'date', 'format' => 'php:Y-m-d', 'message' => 'Неверный формат даты.'],
@@ -91,7 +92,7 @@ class User extends ActiveRecord implements IdentityInterface
             'status' => 'Статус',
             'created_at' => 'Дата регистрации',
             'updated_at' => 'Дата обновления',
-            'full_name' => 'Полное имя',
+            'full_name' => 'Фамилия и имя',
             'phone' => 'Телефон',
             'delivery_address' => 'Адрес доставки',
             'birth_date' => 'Дата рождения',
@@ -124,6 +125,20 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findByUsername($username)
     {
         return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    /**
+     * Finds user by username or email
+     *
+     * @param string $usernameOrEmail
+     * @return static|null
+     */
+    public static function findByUsernameOrEmail($usernameOrEmail)
+    {
+        return static::find()
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->andWhere(['or', ['username' => $usernameOrEmail], ['email' => $usernameOrEmail]])
+            ->one();
     }
 
     /**

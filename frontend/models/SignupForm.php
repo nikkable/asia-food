@@ -14,6 +14,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $full_name;
 
 
     /**
@@ -22,6 +23,10 @@ class SignupForm extends Model
     public function rules()
     {
         return [
+            ['full_name', 'trim'],
+            ['full_name', 'required', 'message' => '{attribute} обязательно для заполнения.'],
+            ['full_name', 'string', 'min' => 2, 'max' => 255, 'tooShort' => '{attribute} должно содержать минимум {min} символа.', 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+
             ['username', 'trim'],
             ['username', 'required', 'message' => '{attribute} обязательно для заполнения.'],
             ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя пользователя уже занято.'],
@@ -44,6 +49,7 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
+            'full_name' => 'Фамилия и имя',
             'username' => 'Имя пользователя',
             'email' => 'Email',
             'password' => 'Пароль',
@@ -53,7 +59,7 @@ class SignupForm extends Model
     /**
      * Signs user up.
      *
-     * @return bool whether the creating new account was successful and email was sent
+     * @return User|null the saved model or null if saving fails
      */
     public function signup()
     {
@@ -62,31 +68,12 @@ class SignupForm extends Model
         }
         
         $user = new User();
+        $user->full_name = $this->full_name;
         $user->username = $this->username;
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
-        $user->generateEmailVerificationToken();
 
-        return $user->save() && $this->sendEmail($user);
-    }
-
-    /**
-     * Sends confirmation email to user
-     * @param User $user user model to with email should be send
-     * @return bool whether the email was sent
-     */
-    protected function sendEmail($user)
-    {
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'emailVerify-html', 'text' => 'emailVerify-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name])
-            ->setTo($this->email)
-            ->setSubject('Регистрация на сайте')
-            ->send();
+        return $user->save() ? $user : null;
     }
 }

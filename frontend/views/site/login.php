@@ -62,9 +62,6 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                             <p>
                                 <?= Html::a('Забыли пароль?', ['site/request-password-reset']) ?>
                             </p>
-                            <p>
-                                <?= Html::a('Повторно отправить письмо', ['site/resend-verification-email']) ?>
-                            </p>
                         </div>
 
 

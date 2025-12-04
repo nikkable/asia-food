@@ -67,8 +67,8 @@ $this->registerCssFile('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.
                                 <div class="form-group">
                                     <?= $form->field($user, 'full_name')->textInput([
                                         'class' => 'field-text',
-                                        'placeholder' => 'Полное имя'
-                                    ])->label('Полное имя') ?>
+                                        'placeholder' => 'Фамилия и имя'
+                                    ])->label('Фамилия и имя <span class="text-danger">*</span>') ?>
                                 </div>
                             </div>
                             
