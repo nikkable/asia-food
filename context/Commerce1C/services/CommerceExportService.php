@@ -4,6 +4,7 @@ namespace context\Commerce1C\services;
 
 use context\Commerce1C\interfaces\CommerceExportInterface;
 use context\Commerce1C\interfaces\CommerceAuthInterface;
+use context\Commerce1C\interfaces\CommerceSessionInterface;
 use context\Commerce1C\generators\OrderXmlGenerator;
 use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\models\Order;
@@ -16,6 +17,7 @@ class CommerceExportService extends AbstractService implements CommerceExportInt
 {
     public function __construct(
         private readonly CommerceAuthInterface $authService,
+        private readonly CommerceSessionInterface $sessionService,
         private readonly OrderRepositoryInterface $orderRepository,
         private readonly OrderXmlGenerator $xmlGenerator
     ) {}
@@ -53,6 +55,21 @@ class CommerceExportService extends AbstractService implements CommerceExportInt
                 return CommerceResponse::success("success\nНет заказов для экспорта");
             }
 
+            $session = $this->sessionService->getSession($sessionId);
+            if (!$session) {
+                return CommerceResponse::failure('Invalid session');
+            }
+
+            $orderIds = [];
+            foreach ($orders as $order) {
+                if ($order instanceof Order) {
+                    $orderIds[] = $order->id;
+                }
+            }
+
+            $session->setMetadata('last_exported_order_ids', $orderIds);
+            $this->sessionService->saveSession($session);
+
             $xml = $this->generateOrdersXml($orders);
             
             Yii::info("Generated XML for " . count($orders) . " orders", __METHOD__);
@@ -74,15 +91,22 @@ class CommerceExportService extends AbstractService implements CommerceExportInt
         }
 
         try {
-            // Получаем список ID заказов из параметров запроса
-            $orderIds = $this->parseOrderIdsFromRequest($request);
+            $session = $this->sessionService->getSession($sessionId);
+            if (!$session) {
+                return CommerceResponse::failure('Invalid session');
+            }
+
+            $orderIds = $session->getMetadataValue('last_exported_order_ids') ?? [];
             
             if (empty($orderIds)) {
-                return CommerceResponse::failure('No order IDs provided');
+                Yii::info("No order IDs stored in session for export confirmation", __METHOD__);
+                return CommerceResponse::success("success\nНет заказов для подтверждения");
             }
 
             // Отмечаем заказы как экспортированные
             $this->markOrdersAsExported($orderIds);
+            $session->setMetadata('last_exported_order_ids', []);
+            $this->sessionService->saveSession($session);
             
             Yii::info("Marked " . count($orderIds) . " orders as exported", __METHOD__);
             
@@ -96,8 +120,7 @@ class CommerceExportService extends AbstractService implements CommerceExportInt
 
     public function getOrdersForExport(): array
     {
-        // Получаем заказы, которые еще не экспортированы
-        return $this->orderRepository->findByExportStatus(Order::EXPORT_STATUS_NOT_EXPORTED);
+        return $this->orderRepository->findForExport();
     }
 
     public function generateOrdersXml(array $orders): string

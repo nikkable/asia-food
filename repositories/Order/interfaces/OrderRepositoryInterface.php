@@ -13,4 +13,6 @@ interface OrderRepositoryInterface
     public function findByUuid(string $uuid): ?Order;
     
     public function findByExportStatus(int $exportStatus): array;
+
+    public function findForExport(): array;
 }

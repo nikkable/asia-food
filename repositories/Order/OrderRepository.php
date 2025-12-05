@@ -5,6 +5,7 @@ namespace repositories\Order;
 use repositories\Order\interfaces\OrderRepositoryInterface;
 use repositories\Order\models\Order;
 use yii\db\Exception;
+use yii\db\Expression;
 
 class OrderRepository implements OrderRepositoryInterface
 {
@@ -39,6 +40,19 @@ class OrderRepository implements OrderRepositoryInterface
     {
         return Order::find()
             ->where(['export_status' => $exportStatus])
+            ->with(['orderItems.product'])
+            ->all();
+    }
+
+    public function findForExport(): array
+    {
+        return Order::find()
+            ->where(['export_status' => Order::EXPORT_STATUS_NOT_EXPORTED])
+            ->orWhere([
+                'and',
+                ['export_status' => Order::EXPORT_STATUS_EXPORTED],
+                ['>', 'updated_at', new Expression('exported_at')]
+            ])
             ->with(['orderItems.product'])
             ->all();
     }

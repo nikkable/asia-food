@@ -50,6 +50,12 @@ class CommerceSessionService extends AbstractService implements CommerceSessionI
             }
         }
 
+        if (isset($sessionData['metadata']) && is_array($sessionData['metadata'])) {
+            foreach ($sessionData['metadata'] as $key => $value) {
+                $session->setMetadata($key, $value);
+            }
+        }
+
         return $session;
     }
 
@@ -60,7 +66,8 @@ class CommerceSessionService extends AbstractService implements CommerceSessionI
         $data = [
             'session_id' => $session->getSessionId(),
             'created_at' => $session->getCreatedAt()->format('Y-m-d H:i:s'),
-            'files' => $session->getFiles()
+            'files' => $session->getFiles(),
+            'metadata' => $session->getMetadata(),
         ];
         
         \Yii::$app->cache->set($sessionKey, $data, 3600);
