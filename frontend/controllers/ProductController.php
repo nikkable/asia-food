@@ -6,6 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use repositories\Product\interfaces\ProductRepositoryInterface;
+use context\Favorite\interfaces\FavoriteServiceInterface;
 
 /**
  * ProductController для отображения товаров
@@ -31,11 +32,13 @@ class ProductController extends BaseSeoController
             throw new NotFoundHttpException('Товар не найден.');
         }
 
-        // Устанавливаем SEO данные для товара
-        $this->setProductSeoData($product);
+        /** @var FavoriteServiceInterface $favoriteService */
+        $favoriteService = Yii::$container->get(FavoriteServiceInterface::class);
+        $isInFavorites = $favoriteService->isInFavorites($product->id);
 
         return $this->render('view', [
             'product' => $product,
+            'isInFavorites' => $isInFavorites,
         ]);
     }
 }

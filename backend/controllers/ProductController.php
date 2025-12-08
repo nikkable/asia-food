@@ -9,6 +9,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use context\File\interfaces\FileUploadServiceInterface;
+use repositories\Product\interfaces\BestsellerRepositoryInterface;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -25,12 +26,12 @@ class ProductController extends Controller
                 'class' => \yii\filters\AccessControl::class,
                 'rules' => [
                     [
-                        'actions' => ['index', 'view'],
+                        'actions' => ['index', 'view', 'export-csv'],
                         'allow' => true,
                         'roles' => ['manager'],
                     ],
                     [
-                        'actions' => ['create', 'update', 'delete'],
+                        'actions' => ['create', 'update', 'delete', 'export-csv'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -59,6 +60,117 @@ class ProductController extends Controller
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
+    }
+
+    /**
+     * Экспорт всех товаров в CSV файл.
+     *
+     * Структура CSV:
+     * Категория (Название); Название товара; Идентификатор товара; Описание товара;
+     * Короткое описание; Цена; Фото - Полная ссылка; Популярный товар; В наличии;
+     * Количество; Единицы измерения; Ссылка на товар
+     *
+     * @return \yii\web\Response
+     */
+    public function actionExportCsv()
+    {
+        /** @var BestsellerRepositoryInterface $bestsellerRepository */
+        $bestsellerRepository = \Yii::$container->get(BestsellerRepositoryInterface::class);
+        $bestsellers = $bestsellerRepository->getBestsellers(1000);
+        $bestsellerIds = [];
+        foreach ($bestsellers as $bestseller) {
+            if ($bestseller instanceof Product) {
+                $bestsellerIds[$bestseller->id] = true;
+            }
+        }
+
+        $products = Product::find()
+            ->alias('p')
+            ->joinWith('category c')
+            ->where(['p.status' => 1])
+            ->andWhere(['c.status' => 1])
+            ->orderBy(['p.id' => SORT_ASC])
+            ->all();
+
+        $siteUrl = \Yii::$app->params['siteUrl'] ?? 'https://xn----7sbnkf1eg0g.xn--p1ai';
+        $siteUrl = rtrim($siteUrl, '/');
+        $siteUrlFrontend = \Yii::$app->params['siteUrlFrontend'];
+        $imageBaseUrl = $siteUrl . '/uploads/products/';
+
+        $handle = fopen('php://temp', 'r+');
+
+        $header = [
+            'Категория',
+            'Название',
+            'Идентификатор',
+            'Описание',
+            'Короткое описание',
+            'Цена',
+            'Фото',
+            'Популярный товар',
+            'В наличии',
+            'Количество',
+            'Единицы измерения',
+            'Ссылка',
+        ];
+
+        fputcsv($handle, $header, ';', '"', '\\');
+
+        foreach ($products as $product) {
+            if (!$product instanceof Product) {
+                continue;
+            }
+
+            $categoryName = $product->category ? (string)$product->category->name : '';
+            $name = (string)$product->name;
+            $identifier = (string)$product->external_id;
+
+            $description = (string)$product->description;
+            $plainDescription = trim(strip_tags($description));
+            $shortDescription = mb_substr($plainDescription, 0, 200);
+
+            $price = $product->price_discount !== null ? $product->price_discount : $product->price;
+
+            $imageFileName = $product->image ?: 'default.png';
+            $photoUrl = $imageBaseUrl . $imageFileName;
+
+            $isPopular = isset($bestsellerIds[$product->id]) ? 'Да' : 'Нет';
+            $inStock = $product->quantity > 0 ? 'Да' : 'Нет';
+
+            $quantity = $product->quantity;
+            $unit = 'грамм';
+
+            $productUrl = $siteUrlFrontend . '/product/' . $product->slug;
+
+            $row = [
+                $categoryName,
+                $name,
+                $identifier,
+                $plainDescription,
+                $shortDescription,
+                $price,
+                $photoUrl,
+                $isPopular,
+                $inStock,
+                $quantity,
+                $unit,
+                $productUrl,
+            ];
+
+            fputcsv($handle, $row, ';', '"', '\\');
+        }
+
+        rewind($handle);
+        $csvContent = stream_get_contents($handle);
+        fclose($handle);
+
+        $response = \Yii::$app->response;
+        $response->format = \yii\web\Response::FORMAT_RAW;
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
+        $response->headers->set('Content-Disposition', 'attachment; filename="products_' . date('Y-m-d_H-i-s') . '.csv"');
+        $response->content = $csvContent;
+
+        return $response;
     }
 
     /**

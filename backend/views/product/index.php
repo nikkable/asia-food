@@ -19,11 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <?php if (Yii::$app->user->can('admin')): ?>
     <p>
-        <?= Html::a('Создать товар', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php if (Yii::$app->user->can('admin')): ?>
+            <?= Html::a('Создать товар', ['create'], ['class' => 'btn btn-success']) ?>
+        <?php endif; ?>
+        <?= Html::a('Экспорт CSV', ['export-csv'], ['class' => 'btn btn-info']) ?>
     </p>
-    <?php endif; ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

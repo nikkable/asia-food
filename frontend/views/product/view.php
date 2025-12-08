@@ -6,6 +6,7 @@ use common\helpers\PriceHelper;
 
 /* @var $this yii\web\View */
 /* @var $product repositories\Product\models\Product */
+/* @var $isInFavorites bool */
 
 $this->title = $product->name;
 ?>
@@ -39,7 +40,7 @@ $this->title = $product->name;
                     <?php if ($product->image): ?>
                         <?= Html::img($product->getCroppedImageUrl(500, 400, 'fit'), [
                             'alt' => Html::encode($product->name),
-                            'class' => 'img-fluid rounded shadow-sm'
+                            'class' => 'img-fluid'
                         ]) ?>
                     <?php else: ?>
                         <div class="no-image d-flex align-items-center justify-content-center bg-light rounded" style="height: 400px;">
@@ -56,15 +57,15 @@ $this->title = $product->name;
                     
                     <!-- Цена -->
                     <div class="product-price mb-3">
-                        <?php if ($product->discount_price && $product->discount_price < $product->price): ?>
+                        <?php if ($product->price_discount && $product->price_discount < $product->price): ?>
                             <span class="price-old text-muted text-decoration-line-through me-2">
                                 <?= PriceHelper::format($product->price) ?>
                             </span>
                             <span class="price-current h3 text-danger fw-bold">
-                                <?= PriceHelper::format($product->discount_price) ?>
+                                <?= PriceHelper::format($product->price_discount) ?>
                             </span>
                             <span class="badge bg-danger ms-2">
-                                Скидка <?= round((($product->price - $product->discount_price) / $product->price) * 100) ?>%
+                                Скидка <?= round((($product->price - $product->price_discount) / $product->price) * 100) ?>%
                             </span>
                         <?php else: ?>
                             <span class="price-current h3 text-primary fw-bold">
@@ -74,9 +75,9 @@ $this->title = $product->name;
                     </div>
 
                     <!-- Артикул -->
-                    <?php if ($product->sku): ?>
+                    <?php if ($product->article): ?>
                         <div class="product-sku mb-2">
-                            <small class="text-muted">Артикул: <?= Html::encode($product->sku) ?></small>
+                            <small class="text-muted">Артикул: <?= Html::encode($product->article) ?></small>
                         </div>
                     <?php endif; ?>
 
@@ -97,11 +98,11 @@ $this->title = $product->name;
                         </div>
                     <?php endif; ?>
 
-                    <!-- Кнопка добавления в корзину -->
+                    <!-- Кнопка добавления в корзину и избранное -->
                     <div class="product-actions">
                         <?php if ($product->quantity > 0): ?>
                             <button type="button" 
-                                    class="btn btn-primary btn-lg add-to-cart-btn me-3"
+                                    class="btn btn-primary btn-lg js-add-to-cart-btn me-3"
                                     data-product-id="<?= $product->id ?>"
                                     data-product-name="<?= Html::encode($product->name) ?>">
                                 <i class="fas fa-shopping-cart me-2"></i>
@@ -114,9 +115,18 @@ $this->title = $product->name;
                             </button>
                         <?php endif; ?>
                         
-                        <!-- Кнопка избранного (если есть функциональность) -->
-                        <button type="button" class="btn btn-outline-danger">
-                            <i class="far fa-heart"></i>
+                        <?php
+                        $favoriteButtonClasses = 'btn btn-outline-danger js-product-favorite';
+                        if ($isInFavorites) {
+                            $favoriteButtonClasses .= ' active';
+                        }
+                        ?>
+                        <!-- Кнопка избранного -->
+                        <button type="button"
+                                class="<?= $favoriteButtonClasses ?>"
+                                data-product-id="<?= $product->id ?>">
+                            <i class="<?= $isInFavorites ? 'fas' : 'far' ?> fa-heart"></i>
+                            <span><?= $isInFavorites ? 'В избранном' : 'В избранное' ?></span>
                         </button>
                     </div>
                 </div>
@@ -147,15 +157,47 @@ $this->registerJsFile('@web/js/add-to-cart.js', ['depends' => [\yii\web\JqueryAs
 ?>
 
 <style>
+.product-view {
+    padding: 40px 0 60px;
+}
+
+.product-view .container {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.08);
+    padding: 30px 25px 35px;
+}
+
+@media (min-width: 992px) {
+    .product-view .container {
+        padding: 40px 45px 45px;
+    }
+}
+
+.product-image {
+    position: relative;
+}
+
 .product-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%;
+    object-fit: contain;
 }
 
 .product-title {
     color: #333;
-    font-weight: 600;
+    font-weight: 700;
+    font-size: 1.9rem;
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px 12px;
 }
 
 .price-old {
@@ -163,16 +205,60 @@ $this->registerJsFile('@web/js/add-to-cart.js', ['depends' => [\yii\web\JqueryAs
 }
 
 .price-current {
-    font-size: 1.8rem;
+    font-size: 1.9rem;
+}
+
+.product-sku small {
+    letter-spacing: 0.03em;
+}
+
+.product-description h5 {
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+}
+
+.product-description p {
+    line-height: 1.6;
 }
 
 .product-actions {
     margin-top: 2rem;
 }
 
+.product-actions .btn-primary {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    border: none;
+    padding: 0.7rem 1.8rem;
+    border-radius: 999px;
+    box-shadow: 0 10px 22px rgba(238, 90, 36, 0.35);
+}
+
+.product-actions .btn-primary:hover {
+    background: linear-gradient(135deg, #ff7f7f 0%, #ff6a33 100%);
+    box-shadow: 0 12px 26px rgba(238, 90, 36, 0.45);
+}
+
+.product-actions .btn-outline-danger {
+    border-radius: 999px;
+}
+
+.product-actions .btn-secondary {
+    border-radius: 999px;
+}
+
 .breadcrumb {
     background-color: transparent;
     padding: 0;
+    margin-bottom: 1.5rem;
+}
+
+.breadcrumb a {
+    color: #ff6b6b;
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    text-decoration: underline;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
@@ -180,7 +266,38 @@ $this->registerJsFile('@web/js/add-to-cart.js', ['depends' => [\yii\web\JqueryAs
     color: #6c757d;
 }
 
+.card {
+    border-radius: 18px;
+    border: none;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+}
+
+.card-header {
+    border-bottom: none;
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    color: #fff;
+    border-radius: 18px 18px 0 0;
+}
+
+.card-body {
+    padding-top: 1.5rem;
+}
+
 @media (max-width: 768px) {
+    .product-view {
+        padding: 20px 0 40px;
+    }
+
+    .product-view .container {
+        padding: 20px 18px 25px;
+        border-radius: 16px;
+    }
+
+    .product-title {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
     .product-actions {
         text-align: center;
     }
