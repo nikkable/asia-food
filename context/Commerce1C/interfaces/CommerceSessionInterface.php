@@ -25,4 +25,9 @@ interface CommerceSessionInterface
      * Удаляет сессию
      */
     public function deleteSession(string $sessionId): void;
+    
+    /**
+     * Сохраняет файл на диск для сессии
+     */
+    public function saveFile(ImportSession $session, string $filename, string $content): ?string;
 }

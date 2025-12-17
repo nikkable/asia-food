@@ -41,4 +41,14 @@ interface CommerceExportInterface
      * Отметка заказов с ошибкой экспорта
      */
     public function markOrdersAsError(array $orderIds, string $errorMessage): void;
+
+    /**
+     * Сохранение файла с обновлениями заказов из 1С
+     */
+    public function saveFile(CommerceRequest $request): CommerceResponse;
+
+    /**
+     * Импорт обновлений заказов из XML файла
+     */
+    public function importOrders(CommerceRequest $request): CommerceResponse;
 }

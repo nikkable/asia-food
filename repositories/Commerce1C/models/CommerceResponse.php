@@ -43,7 +43,15 @@ class CommerceResponse
     public function toString(): string
     {
         if ($this->status === 'success') {
-            return $this->message ?: 'success';
+            if ($this->message) {
+                // Если сообщение уже начинается с "success", возвращаем как есть
+                if (str_starts_with($this->message, 'success')) {
+                    return $this->message;
+                }
+                // Иначе добавляем префикс "success\n"
+                return "success\n{$this->message}";
+            }
+            return 'success';
         }
         
         return $this->message ? "failure\n{$this->message}" : 'failure';

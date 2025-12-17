@@ -14,6 +14,7 @@ use context\Commerce1C\services\CommerceImportService;
 use context\Commerce1C\services\CommerceExportService;
 use context\Commerce1C\services\CommerceProcessorService;
 use context\Commerce1C\generators\OrderXmlGenerator;
+use context\Commerce1C\parsers\OrderXmlParser;
 use Yii;
 
 class Bootstrap
@@ -28,6 +29,7 @@ class Bootstrap
             CommerceExportInterface::class => CommerceExportService::class,
             CommerceProcessorInterface::class => CommerceProcessorService::class,
             OrderXmlGenerator::class => OrderXmlGenerator::class,
+            OrderXmlParser::class => OrderXmlParser::class,
         ]);
     }
 }

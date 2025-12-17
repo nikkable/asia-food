@@ -36,6 +36,14 @@ class OrderRepository implements OrderRepositoryInterface
             ->one();
     }
     
+    public function findByExternalId(string $externalId): ?Order
+    {
+        return Order::find()
+            ->where(['external_id' => $externalId])
+            ->with('orderItems')
+            ->one();
+    }
+    
     public function findByExportStatus(int $exportStatus): array
     {
         return Order::find()

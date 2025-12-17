@@ -83,4 +83,32 @@ class CommerceSessionService extends AbstractService implements CommerceSessionI
     {
         return uniqid('commerce1c_', true);
     }
+    
+    public function saveFile(ImportSession $session, string $filename, string $content): ?string
+    {
+        $filesDirectory = dirname(\Yii::getAlias('@app')) . '/context/Commerce1C/files';
+        if (!is_dir($filesDirectory)) {
+            mkdir($filesDirectory, 0755, true);
+        }
+        
+        $sessionDir = $filesDirectory . '/' . $session->getSessionId();
+        if (!is_dir($sessionDir)) {
+            mkdir($sessionDir, 0755, true);
+        }
+        
+        $safeFilename = basename($filename);
+        $filePath = $sessionDir . '/' . $safeFilename;
+        
+        if (file_put_contents($filePath, $content) === false) {
+            \Yii::error("Failed to save file: {$filePath}", __METHOD__);
+            return null;
+        }
+        
+        $session->addUploadedFile($safeFilename, $filePath);
+        $this->saveSession($session);
+        
+        \Yii::info("File saved: {$filePath} (size: " . strlen($content) . " bytes)", __METHOD__);
+        
+        return $filePath;
+    }
 }

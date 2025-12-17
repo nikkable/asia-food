@@ -85,51 +85,54 @@ YiiAsset::register($this);
                             ],
                         ],
                     ]) ?>
-                    
-                    <div class="mt-4">
-                        <h6>Изменить статус заказа:</h6>
-                        <div class="btn-group">
-                            <?php if ($model->status !== Order::STATUS_NEW): ?>
-                                <?= Html::a('Новый', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_NEW], [
-                                    'class' => 'btn btn-outline-info',
-                                    'data' => [
-                                        'confirm' => 'Изменить статус заказа на "Новый"?',
-                                        'method' => 'post',
-                                    ],
-                                ]) ?>
-                            <?php endif; ?>
-                            
-                            <?php if ($model->status !== Order::STATUS_PROCESSING): ?>
-                                <?= Html::a('Готов', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_PROCESSING], [
-                                    'class' => 'btn btn-outline-primary',
-                                    'data' => [
-                                        'confirm' => 'Изменить статус заказа на "В обработке"?',
-                                        'method' => 'post',
-                                    ],
-                                ]) ?>
-                            <?php endif; ?>
-                            
-                            <?php if ($model->status !== Order::STATUS_COMPLETED): ?>
-                                <?= Html::a('Выполнен', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_COMPLETED], [
-                                    'class' => 'btn btn-outline-success',
-                                    'data' => [
-                                        'confirm' => 'Изменить статус заказа на "Выполнен"?',
-                                        'method' => 'post',
-                                    ],
-                                ]) ?>
-                            <?php endif; ?>
-                            
-                            <?php if ($model->status !== Order::STATUS_CANCELLED): ?>
-                                <?= Html::a('Отменен', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_CANCELLED], [
-                                    'class' => 'btn btn-outline-danger',
-                                    'data' => [
-                                        'confirm' => 'Изменить статус заказа на "Отменен"?',
-                                        'method' => 'post',
-                                    ],
-                                ]) ?>
-                            <?php endif; ?>
+
+                    <?php if($model->status !== Order::STATUS_COMPLETED): ?>
+                        <div class="mt-4">
+                            <h6>Изменить статус заказа:</h6>
+                            <div class="btn-group">
+                                <?php if ($model->status !== Order::STATUS_NEW): ?>
+                                    <?= Html::a('Новый', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_NEW], [
+                                        'class' => 'btn btn-outline-info',
+                                        'data' => [
+                                            'confirm' => 'Изменить статус заказа на "Новый"?',
+                                            'method' => 'post',
+                                        ],
+                                    ]) ?>
+                                <?php endif; ?>
+
+                                <?php if ($model->status !== Order::STATUS_PROCESSING): ?>
+                                    <?= Html::a('Готов', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_PROCESSING], [
+                                        'class' => 'btn btn-outline-primary',
+                                        'data' => [
+                                            'confirm' => 'Изменить статус заказа на "В обработке"?',
+                                            'method' => 'post',
+                                        ],
+                                    ]) ?>
+                                <?php endif; ?>
+
+                                <?php if ($model->status !== Order::STATUS_COMPLETED): ?>
+                                    <?= Html::a('Выполнен', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_COMPLETED], [
+                                        'class' => 'btn btn-outline-success',
+                                        'data' => [
+                                            'confirm' => 'Изменить статус заказа на "Выполнен"?',
+                                            'method' => 'post',
+                                        ],
+                                    ]) ?>
+                                <?php endif; ?>
+
+                                <?php if ($model->status !== Order::STATUS_CANCELLED): ?>
+                                    <?= Html::a('Отменен', ['update-status', 'id' => $model->id, 'status' => Order::STATUS_CANCELLED], [
+                                        'class' => 'btn btn-outline-danger',
+                                        'data' => [
+                                            'confirm' => 'Изменить статус заказа на "Отменен"?',
+                                            'method' => 'post',
+                                        ],
+                                    ]) ?>
+                                <?php endif; ?>
+
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>

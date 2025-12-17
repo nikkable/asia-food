@@ -122,4 +122,36 @@ class ImportSession
     {
         $this->addUploadedFile($filename, $content);
     }
+    
+    /**
+     * Получает информацию о файле
+     */
+    public function getFile(string $filename): ?array
+    {
+        if (!isset($this->uploadedFiles[$filename])) {
+            return null;
+        }
+        
+        $fileData = $this->uploadedFiles[$filename];
+        
+        // Формируем путь к файлу
+        if (isset($fileData['file_path'])) {
+            return [
+                'path' => $fileData['file_path'],
+                'size' => $fileData['size'] ?? 0,
+                'uploaded_at' => $fileData['uploaded_at'] ?? null
+            ];
+        }
+        
+        // Если содержимое хранится в памяти (старая логика)
+        if (isset($fileData['content'])) {
+            return [
+                'content' => $fileData['content'],
+                'size' => $fileData['size'] ?? 0,
+                'uploaded_at' => $fileData['uploaded_at'] ?? null
+            ];
+        }
+        
+        return null;
+    }
 }

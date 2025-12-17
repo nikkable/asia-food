@@ -12,6 +12,8 @@ interface OrderRepositoryInterface
     
     public function findByUuid(string $uuid): ?Order;
     
+    public function findByExternalId(string $externalId): ?Order;
+    
     public function findByExportStatus(int $exportStatus): array;
 
     public function findForExport(): array;

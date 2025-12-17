@@ -34,6 +34,8 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
             ['sale', 'init'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->initialize($request)),
             ['sale', 'query'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->query($request)),
             ['sale', 'success'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->success($request)),
+            ['sale', 'file'] => $this->handleAuthenticatedRequest($request, fn() => $this->exportService->saveFile($request)),
+            ['sale', 'import'] => $this->handleOrdersImportRequest($request),
             default => CommerceResponse::failure('Request handler not implemented')
         };
     }
@@ -48,7 +50,9 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
             ['sale', 'checkauth'],
             ['sale', 'init'],
             ['sale', 'query'],
-            ['sale', 'success']
+            ['sale', 'success'],
+            ['sale', 'file'],
+            ['sale', 'import']
         ];
 
         return in_array([$request->getType()->value, $request->getMode()->value], $supportedRequests, true);
@@ -75,6 +79,13 @@ class CommerceProcessorService extends AbstractService implements CommerceProces
                 ImportFileTypeEnum::OFFERS->value => $this->importService->importOffers($request),
                 default => CommerceResponse::failure('Unknown file type for import')
             };
+        });
+    }
+
+    private function handleOrdersImportRequest(CommerceRequest $request): CommerceResponse
+    {
+        return $this->handleAuthenticatedRequest($request, function() use ($request) {
+            return $this->exportService->importOrders($request);
         });
     }
 }
