@@ -26,6 +26,7 @@ class SignupForm extends Model
             ['full_name', 'trim'],
             ['full_name', 'required', 'message' => '{attribute} обязательно для заполнения.'],
             ['full_name', 'string', 'min' => 2, 'max' => 255, 'tooShort' => '{attribute} должно содержать минимум {min} символа.', 'tooLong' => '{attribute} не может содержать более {max} символов.'],
+            ['full_name', 'validateFullName'],
 
             ['username', 'trim'],
             ['username', 'required', 'message' => '{attribute} обязательно для заполнения.'],
@@ -54,6 +55,15 @@ class SignupForm extends Model
             'email' => 'Email',
             'password' => 'Пароль',
         ];
+    }
+
+    public function validateFullName($attribute, $params = [])
+    {
+        $value = trim((string)$this->$attribute);
+        // Должно быть минимум два слова, разделённых пробелом
+        if ($value === '' || !preg_match('/^\S+\s+\S+/u', $value)) {
+            $this->addError($attribute, 'Введите, пожалуйста, фамилию и имя через пробел.');
+        }
     }
 
     /**
